@@ -1,0 +1,20 @@
+{
+  "name": "bibi",
+  "version": "1.0.0",
+  "description": "Summarize videos, audio, and podcasts via BibiGPT CLI directly in the terminal",
+  "author": {
+    "name": "JimmyLv"
+  },
+  "repository": "https://github.com/JimmyLv/bibigpt-skill",
+  "license": "MIT",
+  "keywords": [
+    "video",
+    "audio",
+    "podcast",
+    "summarize",
+    "bilibili",
+    "youtube",
+    "bibigpt"
+  ],
+  "platforms": ["macos", "windows"]
+}
