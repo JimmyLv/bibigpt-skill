@@ -50,21 +50,23 @@ $env:BIBI_API_TOKEN="<token>"
 
 ### Summarize a URL
 
+**Important**: URLs containing `?` or `&` must be quoted to avoid shell glob errors.
+
 ```bash
 # Basic summary (Markdown output to stdout)
-bibi summarize <URL>
+bibi summarize "<URL>"
 
 # Async mode — recommended for long videos (>30min)
-bibi summarize <URL> --async
+bibi summarize "<URL>" --async
 
 # Chapter-by-chapter summary
-bibi summarize <URL> --chapter
+bibi summarize "<URL>" --chapter
 
 # Full JSON response
-bibi summarize <URL> --json
+bibi summarize "<URL>" --json
 
 # Combine flags
-bibi summarize <URL> --chapter --json
+bibi summarize "<URL>" --chapter --json
 ```
 
 **Supported URL types**: YouTube, Bilibili, podcasts, audio files, and any URL supported by BibiGPT.
@@ -89,8 +91,8 @@ bibi auth set-token <TOKEN>
 
 This means you can pipe the output:
 ```bash
-bibi summarize <URL> > summary.md
-bibi summarize <URL> --json | jq '.summary'
+bibi summarize "<URL>" > summary.md
+bibi summarize "<URL>" --json | jq '.summary'
 ```
 
 ## Error Handling
