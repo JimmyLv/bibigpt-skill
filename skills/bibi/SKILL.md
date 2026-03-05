@@ -62,11 +62,14 @@ bibi summarize "<URL>" --async
 # Chapter-by-chapter summary
 bibi summarize "<URL>" --chapter
 
+# Fetch subtitles/transcript only (no AI summary)
+bibi summarize "<URL>" --subtitle
+
 # Full JSON response
 bibi summarize "<URL>" --json
 
 # Combine flags
-bibi summarize "<URL>" --chapter --json
+bibi summarize "<URL>" --subtitle --json
 ```
 
 **Supported URL types**: YouTube, Bilibili, podcasts, audio files, and any URL supported by BibiGPT.
@@ -111,6 +114,7 @@ bibi summarize "<URL>" --json | jq '.summary'
 ## Usage Tips
 
 - For very long videos, use `--async` to avoid HTTP timeout.
+- Use `--subtitle` to get raw subtitles/transcript without AI summarization.
 - Use `--json` when you need structured data (e.g., `sourceUrl`, `htmlUrl`, `detail`).
 - The `--chapter` flag provides section-by-section summaries, useful for lectures or tutorials.
 - The CLI does NOT open any GUI window — all output goes to the terminal.

@@ -34,6 +34,7 @@ The skill will call `bibi summarize <URL>` and return the result.
 | `bibi summarize "<URL>"` | Summarize a video/audio URL |
 | `bibi summarize "<URL>" --async` | Async mode (long videos) |
 | `bibi summarize "<URL>" --chapter` | Chapter-by-chapter summary |
+| `bibi summarize "<URL>" --subtitle` | Fetch subtitles/transcript only |
 | `bibi summarize "<URL>" --json` | Full JSON output |
 | `bibi auth check` | Check auth status |
 | `bibi auth login` | Open browser to log in |
