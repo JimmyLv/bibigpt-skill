@@ -5,7 +5,7 @@ Claude Code skill for summarizing videos, audio, and podcasts via the [BibiGPT](
 ## Install
 
 ```bash
-claude skill add --from JimmyLv/bibigpt-skill
+npx skills add JimmyLv/bibigpt-skill
 ```
 
 ## Prerequisites
