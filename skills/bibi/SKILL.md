@@ -87,6 +87,16 @@ bibi auth login
 bibi auth set-token <TOKEN>
 ```
 
+### Updates
+
+```bash
+# Check if a new version is available
+bibi check-update
+
+# Download and install the latest version
+bibi self-update
+```
+
 ## Output Format
 
 - **Default**: Markdown summary text sent to stdout. Progress info goes to stderr.
@@ -118,3 +128,4 @@ bibi summarize "<URL>" --json | jq '.summary'
 - Use `--json` when you need structured data (e.g., `sourceUrl`, `htmlUrl`, `detail`).
 - The `--chapter` flag provides section-by-section summaries, useful for lectures or tutorials.
 - The CLI does NOT open any GUI window — all output goes to the terminal.
+- Run `bibi check-update` periodically to get new features and bug fixes.

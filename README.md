@@ -38,6 +38,8 @@ The skill will call `bibi summarize <URL>` and return the result.
 | `bibi summarize "<URL>" --json` | Full JSON output |
 | `bibi auth check` | Check auth status |
 | `bibi auth login` | Open browser to log in |
+| `bibi check-update` | Check for new version |
+| `bibi self-update` | Download and install latest version |
 
 ## License
 
