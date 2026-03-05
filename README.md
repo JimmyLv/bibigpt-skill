@@ -12,8 +12,8 @@ npx skills add JimmyLv/bibigpt-skill
 
 Install the BibiGPT Desktop app:
 
-- **macOS**: `brew install --cask jimmylv/bibigpt/bibigpt`
-- **Windows**: Download from [bibigpt.co/download/desktop](https://bibigpt.co/download/desktop)
+- **macOS**: `brew install --cask jimmylv/bibigpt/bibigpt` ([Homebrew tap](https://github.com/JimmyLv/homebrew-bibigpt))
+- **Windows**: Download from [bibigpt.co/download/desktop](https://bibigpt.co/download/desktop) or via winget: `winget install JimmyLv.BibiGPT` (coming soon)
 
 Then log in via the desktop app. The CLI reads your session automatically.
 
