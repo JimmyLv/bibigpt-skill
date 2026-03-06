@@ -4,9 +4,28 @@ Claude Code skill for summarizing videos, audio, and podcasts via the [BibiGPT](
 
 ## Install
 
+### Claude Code
+
 ```bash
 npx skills add JimmyLv/bibigpt-skill
 ```
+
+### OpenClaw
+
+OpenClaw also supports this skill! Install with:
+
+```bash
+npx skills add JimmyLv/bibigpt-skill --agents OpenClaw --yes
+```
+
+Or interactively:
+
+```bash
+npx skills add JimmyLv/bibigpt-skill
+# Select "OpenClaw" when prompted
+```
+
+After installation, askClaw to summarize Open videos or check auth status just like with Claude Code.
 
 ## Prerequisites
 
@@ -19,6 +38,8 @@ Then log in via the desktop app. The CLI reads your session automatically.
 
 ## Usage
 
+### Claude Code
+
 Once the skill is installed, ask Claude Code to summarize any video or audio URL:
 
 ```
@@ -26,6 +47,20 @@ Once the skill is installed, ask Claude Code to summarize any video or audio URL
 ```
 
 The skill will call `bibi summarize <URL>` and return the result.
+
+### OpenClaw
+
+Same experience! Just askClaw in your favorite channel (Feishu, Discord, Telegram, etc.):
+
+```
+@Claw 帮我总结这个视频 https://www.youtube.com/watch?v=xxxxx
+```
+
+Or check your BibiGPT auth status:
+
+```
+@Claw 检查一下 bibi 登录状态
+```
 
 ## Commands
 
