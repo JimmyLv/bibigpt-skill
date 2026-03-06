@@ -1,6 +1,6 @@
 # bibigpt-skill
 
-Claude Code / OpenClaw / Codex skill for summarizing videos, audio, and podcasts via the [BibiGPT](https://bibigpt.co) CLI (`bibi`).
+Claude Code / OpenClaw / Codex AI Agent skill for summarizing videos, audio, and podcasts via the [BibiGPT](https://bibigpt.co) CLI (`bibi`).
 
 ## Install
 
