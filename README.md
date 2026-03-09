@@ -32,7 +32,7 @@ After installation, askClaw to summarize Open videos or check auth status just l
 Install the BibiGPT Desktop app:
 
 - **macOS**: `brew install --cask jimmylv/bibigpt/bibigpt` ([Homebrew tap](https://github.com/JimmyLv/homebrew-bibigpt))
-- **Windows**: `winget install BibiGPT` or download from [bibigpt.co/download/desktop](https://bibigpt.co/download/desktop)
+- **Windows**: `winget install BibiGPT --source winget` or download from [bibigpt.co/download/desktop](https://bibigpt.co/download/desktop)
 
 Then log in via the desktop app. The CLI reads your session automatically.
 

@@ -24,7 +24,7 @@ brew install --cask jimmylv/bibigpt/bibigpt
 
 Download the installer from: **https://bibigpt.co/download/desktop**
 
-> `winget install BibiGPT` is pending review and not yet available.
+`winget install BibiGPT --source winget`
 
 ### Verify installation
 
