@@ -1,11 +1,14 @@
 ---
 name: bibi
 description: >
-  BibiGPT CLI for summarizing videos, audio, and podcasts directly in the terminal.
-  Use when the user wants to summarize a URL (YouTube, Bilibili, podcast, etc.)
-  or check their BibiGPT authentication status.
-  Requires the BibiGPT desktop app installed with an active login session,
-  or a BIBI_API_TOKEN environment variable set.
+  AI video & audio summarizer. Summarize YouTube videos, Bilibili videos,
+  podcasts, TikTok, Twitter/X, Xiaohongshu, and any online video or audio.
+  Use when the user wants to summarize a video, extract transcripts/subtitles,
+  get chapter-by-chapter summaries, or understand video content quickly.
+  Triggers: "summarize this video", "what's this video about", "extract subtitles",
+  "总结这个视频", "帮我看看这个视频讲了什么", "video summary", "podcast notes",
+  "YouTube summary", "B站总结", "get transcript", "video to notes".
+  Requires the BibiGPT desktop app (bibi CLI) or a BIBI_API_TOKEN env var.
 ---
 
 # BibiGPT CLI (`bibi`)
