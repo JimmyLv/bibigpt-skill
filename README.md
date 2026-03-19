@@ -93,6 +93,23 @@ Or via CLI:
 claude mcp add --transport http bibigpt https://bibigpt.co/api/mcp
 ```
 
+### OpenAI Codex
+
+Edit `~/.codex/config.toml` (or `.codex/config.toml` in project root):
+
+```toml
+[mcp_servers.bibigpt]
+url = "https://bibigpt.co/api/mcp"
+```
+
+With API key authentication:
+
+```toml
+[mcp_servers.bibigpt]
+url = "https://bibigpt.co/api/mcp"
+bearer_token_env_var = "BIBIGPT_API_KEY"
+```
+
 ### Claude Desktop
 
 **Option A** — UI (recommended): Settings → Connectors → Add Connector → paste `https://bibigpt.co/api/mcp`
