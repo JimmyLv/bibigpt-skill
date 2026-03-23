@@ -16,6 +16,7 @@ The most powerful way — install the BibiGPT desktop app and use the `bibi` CLI
 
 - **macOS**: `brew install --cask jimmylv/bibigpt/bibigpt` ([Homebrew tap](https://github.com/JimmyLv/homebrew-bibigpt))
 - **Windows**: `winget install BibiGPT --source winget` or download from [bibigpt.co/download/desktop](https://bibigpt.co/download/desktop)
+- **Linux**: Download `.deb` or `.AppImage` from [bibigpt.co/download/desktop](https://bibigpt.co/download/desktop)
 
 Then log in via the desktop app. The CLI reads your session automatically.
 
@@ -54,6 +55,33 @@ Ask your agent to summarize any video or audio URL:
 | `bibi auth login` | Open browser to log in |
 | `bibi check-update` | Check for new version |
 | `bibi self-update` | Download and install latest version |
+
+---
+
+### Updating
+
+#### Update the Skill
+
+```bash
+npx skills update JimmyLv/bibigpt-skill
+```
+
+#### Update the Desktop App (CLI)
+
+The `bibi` CLI can self-update:
+
+```bash
+bibi check-update    # check if a new version is available
+bibi self-update     # download and install the latest version
+```
+
+Or reinstall via package manager:
+
+- **macOS**: `brew upgrade --cask bibigpt`
+- **Windows**: `winget upgrade BibiGPT --source winget`
+- **Linux**: Download the latest `.deb` / `.AppImage` from [bibigpt.co/download/desktop](https://bibigpt.co/download/desktop)
+
+> **Note**: The desktop app build is triggered via the `build-tauri-desktop-app` GitHub Actions workflow. After a successful build, artifacts are uploaded to OSS and the `latest.json` manifest is updated automatically — the client checks this manifest for update availability.
 
 ---
 
