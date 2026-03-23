@@ -31,7 +31,7 @@ case "$OS" in
     esac
     ;;
   MINGW*|MSYS*|CYGWIN*)
-    err "On Windows, use: winget install BibiGPT --source winget"
+    PLATFORM="windows-x86_64"
     ;;
   *) err "Unsupported OS: $OS" ;;
 esac
@@ -70,6 +70,48 @@ download() {
   fi
 }
 
+print_done() {
+  echo ""
+  echo "  bibi --version          # verify"
+  echo "  bibi summarize \"<URL>\"  # summarize a video"
+  echo ""
+  echo "First time? Log in or set your API token:"
+  echo "  export BIBI_API_TOKEN=<token>  # get one at https://bibigpt.co/settings"
+}
+
+# ── Windows (Git Bash / MSYS / Cygwin) ───────────────────────────────
+if [[ "$OS" == MINGW* || "$OS" == MSYS* || "$OS" == CYGWIN* ]]; then
+  # Prefer winget if available
+  if command -v winget &>/dev/null; then
+    info "Installing via winget..."
+    winget install BibiGPT --source winget
+    ok "BibiGPT $VERSION installed via winget!"
+    print_done
+    exit 0
+  fi
+
+  # No winget — download .exe installer and run it
+  warn "winget not found, downloading installer..."
+  FILENAME="BibiGPT-${VERSION}-${PLATFORM}.exe"
+  INSTALLER="${WORK_DIR}/${FILENAME}"
+
+  [ -z "$DOWNLOAD_URL" ] && DOWNLOAD_URL="https://bibigpt-apps.oss-cn-beijing.aliyuncs.com/desktop-releases/${FILENAME}"
+
+  info "Downloading ${FILENAME}..."
+  download "$DOWNLOAD_URL" "$INSTALLER"
+
+  info "Launching installer..."
+  # Convert to Windows path for native execution
+  WIN_PATH="$(cygpath -w "$INSTALLER" 2>/dev/null || echo "$INSTALLER")"
+  cmd //c start "" "$WIN_PATH" || start "$WIN_PATH" 2>/dev/null || err "Failed to launch installer. Run manually: $WIN_PATH"
+
+  ok "Installer launched! Follow the setup wizard to complete installation."
+  echo ""
+  echo "After installation, open a new terminal and run:"
+  print_done
+  exit 0
+fi
+
 # ── macOS ─────────────────────────────────────────────────────────────
 if [[ "$OS" == "Darwin" ]]; then
   # Prefer Homebrew if available (manages updates, quarantine, cleanup)
@@ -82,9 +124,7 @@ if [[ "$OS" == "Darwin" ]]; then
       brew install --cask jimmylv/bibigpt/bibigpt --force
     fi
     ok "BibiGPT $VERSION installed via Homebrew!"
-    echo ""
-    echo "  bibi --version          # verify"
-    echo "  bibi summarize \"<URL>\"  # summarize a video"
+    print_done
     exit 0
   fi
 
@@ -112,17 +152,9 @@ if [[ "$OS" == "Darwin" ]]; then
   DEST="/Applications/BibiGPT.app"
   if [ -d "$DEST" ]; then
     warn "Replacing existing ${DEST}..."
-    if [ -w "$DEST" ]; then
-      rm -rf "$DEST"
-    else
-      sudo rm -rf "$DEST"
-    fi
+    if [ -w "$DEST" ]; then rm -rf "$DEST"; else sudo rm -rf "$DEST"; fi
   fi
-  if [ -w "/Applications" ]; then
-    mv "$APP_PATH" "$DEST"
-  else
-    sudo mv "$APP_PATH" "$DEST"
-  fi
+  if [ -w "/Applications" ]; then mv "$APP_PATH" "$DEST"; else sudo mv "$APP_PATH" "$DEST"; fi
 
   # Symlink CLI binary — same path Homebrew cask uses
   CLI_BIN="${DEST}/Contents/MacOS/BibiGPT"
@@ -138,14 +170,12 @@ if [[ "$OS" == "Darwin" ]]; then
 
   ok "BibiGPT $VERSION installed to /Applications/BibiGPT.app"
   echo ""
-  echo "  bibi --version          # verify CLI"
-  echo "  bibi summarize \"<URL>\"  # summarize a video"
-  echo ""
   echo "Tip: Install Homebrew (https://brew.sh) for automatic updates."
+  print_done
   exit 0
 fi
 
-# ── Linux: download AppImage ─────────────────────────────────────────
+# ── Linux ─────────────────────────────────────────────────────────────
 FILENAME="BibiGPT-${VERSION}-${PLATFORM}.AppImage"
 TMPFILE="${WORK_DIR}/${FILENAME}"
 
@@ -153,21 +183,33 @@ TMPFILE="${WORK_DIR}/${FILENAME}"
 
 info "Downloading ${FILENAME}..."
 download "$DOWNLOAD_URL" "$TMPFILE"
-
 chmod +x "$TMPFILE"
 
+# Install CLI binary
 info "Installing to ${BIN_DIR}/bibi ..."
-sudo mkdir -p "$BIN_DIR"
-if [ -w "$BIN_DIR" ]; then
+if [ -w "$BIN_DIR" ] || mkdir -p "$BIN_DIR" 2>/dev/null; then
   mv "$TMPFILE" "${BIN_DIR}/bibi"
 else
+  sudo mkdir -p "$BIN_DIR"
   sudo mv "$TMPFILE" "${BIN_DIR}/bibi"
 fi
 
+# Create .desktop entry for app launchers (freedesktop standard)
+DESKTOP_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/applications"
+mkdir -p "$DESKTOP_DIR"
+cat > "${DESKTOP_DIR}/bibigpt.desktop" <<DESKTOP
+[Desktop Entry]
+Name=BibiGPT
+Comment=AI Video & Audio Summarizer
+Exec=${BIN_DIR}/bibi %u
+Icon=bibigpt
+Terminal=false
+Type=Application
+Categories=Utility;AudioVideo;
+MimeType=x-scheme-handler/bibigpt;
+DESKTOP
+# Update desktop database if available
+command -v update-desktop-database &>/dev/null && update-desktop-database "$DESKTOP_DIR" 2>/dev/null || true
+
 ok "BibiGPT $VERSION installed successfully!"
-echo ""
-echo "  bibi --version          # verify"
-echo "  bibi summarize \"<URL>\"  # summarize a video"
-echo ""
-echo "First time? Log in or set your API token:"
-echo "  export BIBI_API_TOKEN=<token>  # get one at https://bibigpt.co/settings"
+print_done
