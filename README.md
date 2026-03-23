@@ -243,16 +243,18 @@ If you have a BibiGPT API key, skip OAuth and use Bearer token directly:
 curl -X POST https://bibigpt.co/api/mcp \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
 
 # Summarize a video
 curl -X POST https://bibigpt.co/api/mcp \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
   -d '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"summarize_video","arguments":{"url":"https://www.youtube.com/watch?v=xxxxx"}}}'
 ```
 
-Get your API key at [bibigpt.co/settings](https://bibigpt.co/settings).
+Get your API key at [bibigpt.co/user/integration](https://bibigpt.co/user/integration).
 
 ## License
 
