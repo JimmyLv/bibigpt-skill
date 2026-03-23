@@ -17,8 +17,8 @@ Two modes are available. **Pick the one that fits the environment:**
 
 | Mode | When to use | Auth |
 |------|-------------|------|
-| **CLI mode** (`bibi` command) | macOS / Windows with desktop app installed | Desktop login or `BIBI_API_TOKEN` |
-| **OpenAPI mode** (HTTP calls) | Linux, containers, CI, or any env without `bibi` CLI | `BIBI_API_TOKEN` only |
+| **CLI mode** (`bibi` command) | macOS / Windows / Linux with desktop app installed | Desktop login or `BIBI_API_TOKEN` |
+| **OpenAPI mode** (HTTP calls) | Containers, CI, or any env without `bibi` CLI | `BIBI_API_TOKEN` only |
 
 **Auto-detection**: Run the check script (`scripts/bibi-check.sh`). It will tell you which mode is available and print usage instructions.
 
@@ -37,6 +37,12 @@ brew install --cask jimmylv/bibigpt/bibigpt
 ```
 winget install BibiGPT --source winget
 ```
+
+**Linux**
+```bash
+curl -fsSL https://bibigpt.co/install.sh | bash
+```
+
 Or download from: **https://bibigpt.co/download/desktop**
 
 **Verify**

@@ -17,8 +17,10 @@ else
     echo "Option 1 (CLI): brew install --cask jimmylv/bibigpt/bibigpt"
   elif [[ "$OSTYPE" == "msys"* || "$OSTYPE" == "cygwin"* ]]; then
     echo "Option 1 (CLI): winget install BibiGPT --source winget"
+  elif [[ "$OSTYPE" == "linux"* ]]; then
+    echo "Option 1 (CLI): curl -fsSL https://bibigpt.co/install.sh | bash"
   else
-    echo "Option 1 (CLI): Not available on this platform."
+    echo "Option 1 (CLI): Visit https://bibigpt.co/download/desktop"
   fi
   echo "Option 2 (OpenAPI): export BIBI_API_TOKEN=<token>  # get token at https://bibigpt.co/user/integration"
   echo ""
