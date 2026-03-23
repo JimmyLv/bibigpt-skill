@@ -239,14 +239,13 @@ Settings → Plugin Settings → Custom Plugins → Quick Import JSON:
 If you have a BibiGPT API key, skip OAuth and use Bearer token directly:
 
 ```bash
-# List available tools
+# List available tools (no auth needed for discovery)
 curl -X POST https://bibigpt.co/api/mcp \
-  -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -H "Accept: application/json, text/event-stream" \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
 
-# Summarize a video
+# Summarize a video (requires auth)
 curl -X POST https://bibigpt.co/api/mcp \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
