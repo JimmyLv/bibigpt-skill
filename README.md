@@ -14,9 +14,16 @@ The most powerful way — install the BibiGPT desktop app and use the `bibi` CLI
 
 ### 1. Install Desktop App
 
+```bash
+curl -fsSL https://bibigpt.co/install.sh | bash
+```
+
+Works on **macOS** (auto-uses Homebrew), **Linux** (downloads AppImage), and detects Windows (prompts to use winget).
+
+Or install manually per platform:
 - **macOS**: `brew install --cask jimmylv/bibigpt/bibigpt` ([Homebrew tap](https://github.com/JimmyLv/homebrew-bibigpt))
 - **Windows**: `winget install BibiGPT --source winget` or download from [bibigpt.co/download/desktop](https://bibigpt.co/download/desktop)
-- **Linux**: `curl -fsSL https://bibigpt.co/install.sh | bash`
+- **Linux**: Download `.deb` / `.AppImage` from [bibigpt.co/download/desktop](https://bibigpt.co/download/desktop)
 
 Then log in via the desktop app. The CLI reads your session automatically.
 
