@@ -1,13 +1,27 @@
 #!/usr/bin/env bash
-# Quick check: is the bibi CLI available?
+# Detect available BibiGPT mode: CLI or OpenAPI
+
 if command -v bibi &>/dev/null; then
-  bibi --version
+  echo "✓ bibi CLI found: $(bibi --version 2>/dev/null || echo 'unknown version')"
+  echo "Mode: CLI — use 'bibi summarize <URL>' commands."
+elif [ -n "$BIBI_API_TOKEN" ]; then
+  echo "✓ BIBI_API_TOKEN is set (CLI not installed)."
+  echo "Mode: OpenAPI — call https://api.bibigpt.co/api/v1/ endpoints with curl."
+  echo ""
+  echo "Quick test:"
+  echo '  curl -sf "https://api.bibigpt.co/api/version" -H "Authorization: Bearer $BIBI_API_TOKEN"'
 else
-  echo "bibi not found."
+  echo "bibi CLI not found and BIBI_API_TOKEN is not set."
+  echo ""
   if [[ "$OSTYPE" == "darwin"* ]]; then
-    echo "Install via Homebrew: brew install --cask jimmylv/bibigpt/bibigpt"
+    echo "Option 1 (CLI): brew install --cask jimmylv/bibigpt/bibigpt"
+  elif [[ "$OSTYPE" == "msys"* || "$OSTYPE" == "cygwin"* ]]; then
+    echo "Option 1 (CLI): winget install BibiGPT --source winget"
   else
-    echo "Download from: https://bibigpt.co/download/desktop"
+    echo "Option 1 (CLI): Not available on this platform."
   fi
+  echo "Option 2 (OpenAPI): export BIBI_API_TOKEN=<token>  # get token at https://bibigpt.co/settings"
+  echo ""
+  echo "See SKILL.md for full usage instructions."
   exit 1
 fi

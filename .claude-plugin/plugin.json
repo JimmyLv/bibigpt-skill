@@ -16,5 +16,5 @@
     "youtube",
     "bibigpt"
   ],
-  "platforms": ["macos", "windows"]
+  "platforms": ["macos", "windows", "linux"]
 }
