@@ -103,7 +103,7 @@ bibi summarize "<URL>" --json | jq '.summary'
 
 ## Mode B: OpenAPI (HTTP)
 
-Use this mode on Linux, in containers, in CI pipelines, or anywhere the `bibi` CLI is not installed. All calls go to the BibiGPT REST API directly.
+Use this mode on Linux, in containers, in CI pipelines, or anywhere the `bibi` CLI is not installed. These endpoints mirror exactly what the CLI does internally.
 
 **Base URL**: `https://api.bibigpt.co/api`
 **Full OpenAPI spec**: `https://bibigpt.co/api/openapi.json`
@@ -120,9 +120,7 @@ Get your token at **https://bibigpt.co/user/integration** (API Token section), t
 export BIBI_API_TOKEN="<your-token>"
 ```
 
-Every request needs `Authorization: Bearer $BIBI_API_TOKEN`.
-
-**Option 2 — OAuth 2.0 (for MCP clients, ChatGPT Actions, etc.)**
+**Option 2 — OAuth 2.0**
 
 BibiGPT supports the standard OAuth 2.0 authorization code flow:
 
@@ -131,20 +129,30 @@ BibiGPT supports the standard OAuth 2.0 authorization code flow:
 | Authorization | `https://bibigpt.co/api/auth/authorize` |
 | Token exchange | `https://bibigpt.co/api/auth/token` |
 
-Registered client IDs: `bibigpt-mcp` (for Claude/Cursor/VS Code MCP), `bibigpt-chatgpt-action` (ChatGPT), `bibigpt-extension` (browser extension).
+Use `bibigpt-skill` as `client_id` with redirect URI `http://localhost` or `http://127.0.0.1`.
 
-For MCP clients, use `bibigpt-mcp` as `client_id` with redirect URI `http://localhost` or `http://127.0.0.1`.
+### Required headers
+
+Every request **MUST** include both headers:
+
+```
+Authorization: Bearer $BIBI_API_TOKEN
+x-client-type: bibi-cli
+```
+
+The `x-client-type: bibi-cli` header identifies the call as `agent-skill` channel, which gives members 100 free calls/day before normal billing kicks in.
 
 ### Endpoints
 
-#### 1. Summarize a URL
+#### 1. Summarize a URL — `GET /v1/summarize`
 
 ```bash
-curl -s "https://api.bibigpt.co/api/v1/summarize?url=$(python3 -c 'import urllib.parse; print(urllib.parse.quote("VIDEO_URL", safe=""))')" \
-  -H "Authorization: Bearer $BIBI_API_TOKEN"
+curl -s "https://api.bibigpt.co/api/v1/summarize?url=VIDEO_URL_ENCODED" \
+  -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "x-client-type: bibi-cli"
 ```
 
-Response (JSON):
+Response:
 ```json
 {
   "success": true,
@@ -160,119 +168,65 @@ Response (JSON):
 
 Add `&includeDetail=true` to get full subtitle data in the `detail` field.
 
-#### 2. Summarize with custom config (POST)
-
-```bash
-curl -s -X POST "https://api.bibigpt.co/api/v1/summarizeWithConfig" \
-  -H "Authorization: Bearer $BIBI_API_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "url": "VIDEO_URL",
-    "includeDetail": true,
-    "promptConfig": {
-      "outputLanguage": "en"
-    }
-  }'
-```
-
-Supports `promptConfig` with: `customPrompt`, `outputLanguage`, `detailLevel`, etc.
-
-#### 3. Chapter-by-chapter summary
+#### 2. Chapter-by-chapter summary — `GET /v1/summarizeByChapter`
 
 ```bash
 curl -s "https://api.bibigpt.co/api/v1/summarizeByChapter?url=VIDEO_URL_ENCODED" \
-  -H "Authorization: Bearer $BIBI_API_TOKEN"
+  -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "x-client-type: bibi-cli"
 ```
 
-Optional params: `includeDetail`, `outputLanguage`.
-
 Returns `chapters` array with `start`, `end`, `content`, and `summary` for each chapter.
+
+#### 3. Get subtitles only — `GET /v1/getSubtitle`
+
+```bash
+curl -s "https://api.bibigpt.co/api/v1/getSubtitle?url=VIDEO_URL_ENCODED" \
+  -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "x-client-type: bibi-cli"
+```
+
+Returns subtitles in `detail.subtitlesArray`. Optional params: `audioLanguage`, `enabledSpeaker`.
 
 #### 4. Async task (for long videos >30min)
 
 ```bash
-# Step 1: Create task
+# Step 1: Create task — GET /v1/createSummaryTask
 curl -s "https://api.bibigpt.co/api/v1/createSummaryTask?url=VIDEO_URL_ENCODED" \
-  -H "Authorization: Bearer $BIBI_API_TOKEN"
+  -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "x-client-type: bibi-cli"
 # → { "success": true, "taskId": "abc-123", "status": "processing" }
 
-# Step 2: Poll until done (check every 3s, max ~6min)
+# Step 2: Poll until done (every 3s, max ~6min) — GET /v1/getSummaryTaskStatus
 curl -s "https://api.bibigpt.co/api/v1/getSummaryTaskStatus?taskId=abc-123" \
-  -H "Authorization: Bearer $BIBI_API_TOKEN"
+  -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "x-client-type: bibi-cli"
 # → status: "processing" | "completed" | "failed"
-```
-
-#### 5. Get subtitles only
-
-```bash
-curl -s "https://api.bibigpt.co/api/v1/getSubtitle?url=VIDEO_URL_ENCODED" \
-  -H "Authorization: Bearer $BIBI_API_TOKEN"
-```
-
-Optional params: `audioLanguage`, `enabledSpeaker` (boolean).
-
-#### 6. Polish subtitles into readable segments
-
-```bash
-curl -s "https://api.bibigpt.co/api/v1/getPolishedText?url=VIDEO_URL_ENCODED" \
-  -H "Authorization: Bearer $BIBI_API_TOKEN"
-```
-
-Optional params: `includeDetail`, `keywords`.
-
-Returns `segments[]` with polished text blocks.
-
-#### 7. Rewrite as full article
-
-```bash
-curl -s "https://api.bibigpt.co/api/v1/express?url=VIDEO_URL_ENCODED" \
-  -H "Authorization: Bearer $BIBI_API_TOKEN"
-```
-
-Optional params: `includeDetail`, `outputLanguage`, `model`.
-
-Returns `article` (string) — a polished, readable article.
-
-#### 8. Expand shortened URL
-
-```bash
-curl -s "https://api.bibigpt.co/api/v1/expandUrl?url=SHORT_URL_ENCODED" \
-  -H "Authorization: Bearer $BIBI_API_TOKEN"
-```
-
-#### 9. Check API version
-
-```bash
-curl -s "https://api.bibigpt.co/api/version" \
-  -H "Authorization: Bearer $BIBI_API_TOKEN"
-# → { "version": "1.x.x" }
 ```
 
 ### URL encoding
 
-URLs must be percent-encoded when passed as query params. Use one of:
+URLs must be percent-encoded when passed as query params:
 
 ```bash
 # Python
-python3 -c 'import urllib.parse; print(urllib.parse.quote("https://youtube.com/watch?v=xxx", safe=""))'
+python3 -c 'import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1], safe=""))' "$VIDEO_URL"
 
 # Node.js
-node -e 'console.log(encodeURIComponent("https://youtube.com/watch?v=xxx"))'
-
-# jq
-echo '"https://youtube.com/watch?v=xxx"' | jq -r '@uri'
+node -e 'console.log(encodeURIComponent(process.argv[1]))' "$VIDEO_URL"
 ```
 
-### Typical agent workflow (OpenAPI mode)
+### Typical agent workflow
 
 ```bash
-# 1. Check token is set
+# 1. Check token
 test -n "$BIBI_API_TOKEN" || { echo "Set BIBI_API_TOKEN first"; exit 1; }
 
 # 2. Summarize
 ENCODED=$(python3 -c 'import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1], safe=""))' "$VIDEO_URL")
 RESULT=$(curl -sf "https://api.bibigpt.co/api/v1/summarize?url=$ENCODED" \
-  -H "Authorization: Bearer $BIBI_API_TOKEN")
+  -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "x-client-type: bibi-cli")
 
 # 3. Extract summary
 echo "$RESULT" | jq -r '.summary'
