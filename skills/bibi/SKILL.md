@@ -110,12 +110,30 @@ Use this mode on Linux, in containers, in CI pipelines, or anywhere the `bibi` C
 
 ### Authentication
 
-Every request requires a Bearer token in the `Authorization` header:
+Two options:
+
+**Option 1 — API Token (simplest)**
+
+Get your token at **https://bibigpt.co/user/integration** (API Token section), then:
 
 ```bash
 export BIBI_API_TOKEN="<your-token>"
-# Get a token at https://bibigpt.co/settings (API Token section)
 ```
+
+Every request needs `Authorization: Bearer $BIBI_API_TOKEN`.
+
+**Option 2 — OAuth 2.0 (for MCP clients, ChatGPT Actions, etc.)**
+
+BibiGPT supports the standard OAuth 2.0 authorization code flow:
+
+| Endpoint | URL |
+|----------|-----|
+| Authorization | `https://bibigpt.co/api/auth/authorize` |
+| Token exchange | `https://bibigpt.co/api/auth/token` |
+
+Registered client IDs: `bibigpt-mcp` (for Claude/Cursor/VS Code MCP), `bibigpt-chatgpt-action` (ChatGPT), `bibigpt-extension` (browser extension).
+
+For MCP clients, use `bibigpt-mcp` as `client_id` with redirect URI `http://localhost` or `http://127.0.0.1`.
 
 ### Endpoints
 

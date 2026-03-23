@@ -20,7 +20,7 @@ else
   else
     echo "Option 1 (CLI): Not available on this platform."
   fi
-  echo "Option 2 (OpenAPI): export BIBI_API_TOKEN=<token>  # get token at https://bibigpt.co/settings"
+  echo "Option 2 (OpenAPI): export BIBI_API_TOKEN=<token>  # get token at https://bibigpt.co/user/integration"
   echo ""
   echo "See SKILL.md for full usage instructions."
   exit 1
