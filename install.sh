@@ -5,6 +5,7 @@ set -euo pipefail
 
 LATEST_JSON_CN="https://bibigpt-apps.oss-cn-beijing.aliyuncs.com/desktop-releases/latest.json"
 LATEST_JSON_INTL="https://bibigpt-apps.chatvid.ai/desktop-releases/latest.json"
+BIN_DIR="${BIBI_INSTALL_DIR:-/usr/local/bin}"
 
 info()  { printf '\033[1;34m%s\033[0m\n' "$*"; }
 ok()    { printf '\033[1;32m%s\033[0m\n' "$*"; }
@@ -46,7 +47,6 @@ for json_url in "$LATEST_JSON_CN" "$LATEST_JSON_INTL"; do
   JSON="$(curl -sf --connect-timeout 5 "$json_url" 2>/dev/null || true)"
   if [ -n "$JSON" ]; then
     VERSION="$(echo "$JSON" | grep -oE '"version"\s*:\s*"[^"]*"' | head -1 | cut -d'"' -f4)"
-    # Extract platform block (handles pretty-printed JSON by collapsing whitespace)
     PLATFORM_BLOCK="$(echo "$JSON" | tr -d '\n' | grep -oE "\"$PLATFORM\"\s*:\s*\{[^}]*\}" || true)"
     DOWNLOAD_URL="$(echo "$PLATFORM_BLOCK" | grep -oE '"url"\s*:\s*"[^"]*"' | head -1 | cut -d'"' -f4)"
     [ -n "$VERSION" ] && break
@@ -56,8 +56,23 @@ done
 [ -z "$VERSION" ] && err "Failed to fetch version info. Check your network connection."
 info "Latest version: $VERSION"
 
-# ── macOS: install via Homebrew ───────────────────────────────────────
+# ── Temp dir & cleanup ───────────────────────────────────────────────
+WORK_DIR="$(mktemp -d)"
+cleanup() { rm -rf "$WORK_DIR"; }
+trap cleanup EXIT
+
+download() {
+  local url="$1" dest="$2"
+  if [ -n "$url" ]; then
+    curl -fL --progress-bar "$url" -o "$dest" || err "Download failed: $url"
+  else
+    err "No download URL available for $PLATFORM"
+  fi
+}
+
+# ── macOS ─────────────────────────────────────────────────────────────
 if [[ "$OS" == "Darwin" ]]; then
+  # Prefer Homebrew if available (manages updates, quarantine, cleanup)
   if command -v brew &>/dev/null; then
     if brew list --cask jimmylv/bibigpt/bibigpt &>/dev/null; then
       info "Upgrading via Homebrew..."
@@ -66,46 +81,92 @@ if [[ "$OS" == "Darwin" ]]; then
       info "Installing via Homebrew..."
       brew install --cask jimmylv/bibigpt/bibigpt --force
     fi
-    ok "BibiGPT installed via Homebrew!"
+    ok "BibiGPT $VERSION installed via Homebrew!"
     echo ""
-    echo "  bibi --version          # verify installation"
+    echo "  bibi --version          # verify"
     echo "  bibi summarize \"<URL>\"  # summarize a video"
     exit 0
-  else
-    err "Homebrew not found. Install it first: https://brew.sh"
   fi
+
+  # No Homebrew — direct .app install (like Deno, Bun, rustup)
+  warn "Homebrew not found, installing directly..."
+
+  FILENAME="BibiGPT-${VERSION}-${PLATFORM}.app.tar.gz"
+  TARBALL="${WORK_DIR}/${FILENAME}"
+
+  [ -z "$DOWNLOAD_URL" ] && DOWNLOAD_URL="https://bibigpt-apps.oss-cn-beijing.aliyuncs.com/desktop-releases/${FILENAME}"
+
+  info "Downloading ${FILENAME}..."
+  download "$DOWNLOAD_URL" "$TARBALL"
+
+  info "Extracting..."
+  tar -xzf "$TARBALL" -C "$WORK_DIR"
+
+  APP_PATH="${WORK_DIR}/BibiGPT.app"
+  [ -d "$APP_PATH" ] || err "Extraction failed: BibiGPT.app not found in archive"
+
+  # Remove quarantine flag (download from internet triggers Gatekeeper)
+  xattr -rd com.apple.quarantine "$APP_PATH" 2>/dev/null || true
+
+  # Move to /Applications (overwrite if exists)
+  DEST="/Applications/BibiGPT.app"
+  if [ -d "$DEST" ]; then
+    warn "Replacing existing ${DEST}..."
+    if [ -w "$DEST" ]; then
+      rm -rf "$DEST"
+    else
+      sudo rm -rf "$DEST"
+    fi
+  fi
+  if [ -w "/Applications" ]; then
+    mv "$APP_PATH" "$DEST"
+  else
+    sudo mv "$APP_PATH" "$DEST"
+  fi
+
+  # Symlink CLI binary — same path Homebrew cask uses
+  CLI_BIN="${DEST}/Contents/MacOS/BibiGPT"
+  if [ -x "$CLI_BIN" ]; then
+    info "Creating CLI symlink: ${BIN_DIR}/bibi"
+    if [ -w "$BIN_DIR" ] || mkdir -p "$BIN_DIR" 2>/dev/null; then
+      ln -sf "$CLI_BIN" "${BIN_DIR}/bibi"
+    else
+      sudo mkdir -p "$BIN_DIR"
+      sudo ln -sf "$CLI_BIN" "${BIN_DIR}/bibi"
+    fi
+  fi
+
+  ok "BibiGPT $VERSION installed to /Applications/BibiGPT.app"
+  echo ""
+  echo "  bibi --version          # verify CLI"
+  echo "  bibi summarize \"<URL>\"  # summarize a video"
+  echo ""
+  echo "Tip: Install Homebrew (https://brew.sh) for automatic updates."
+  exit 0
 fi
 
 # ── Linux: download AppImage ─────────────────────────────────────────
-INSTALL_DIR="${BIBI_INSTALL_DIR:-/usr/local/bin}"
 FILENAME="BibiGPT-${VERSION}-${PLATFORM}.AppImage"
-TMPDIR="$(mktemp -d)"
-TMPFILE="${TMPDIR}/${FILENAME}"
+TMPFILE="${WORK_DIR}/${FILENAME}"
 
-cleanup() { rm -rf "$TMPDIR"; }
-trap cleanup EXIT
+[ -z "$DOWNLOAD_URL" ] && DOWNLOAD_URL="https://bibigpt-apps.oss-cn-beijing.aliyuncs.com/desktop-releases/${FILENAME}"
 
-if [ -n "$DOWNLOAD_URL" ]; then
-  info "Downloading ${FILENAME}..."
-  curl -fL --progress-bar "$DOWNLOAD_URL" -o "$TMPFILE" || err "Download failed from: $DOWNLOAD_URL"
-else
-  FALLBACK_URL="https://bibigpt-apps.oss-cn-beijing.aliyuncs.com/desktop-releases/${FILENAME}"
-  info "Downloading ${FILENAME}..."
-  curl -fL --progress-bar "$FALLBACK_URL" -o "$TMPFILE" || err "Download failed from: $FALLBACK_URL"
-fi
+info "Downloading ${FILENAME}..."
+download "$DOWNLOAD_URL" "$TMPFILE"
 
 chmod +x "$TMPFILE"
 
-info "Installing to ${INSTALL_DIR}/bibi ..."
-if [ -w "$INSTALL_DIR" ]; then
-  mv "$TMPFILE" "${INSTALL_DIR}/bibi"
+info "Installing to ${BIN_DIR}/bibi ..."
+sudo mkdir -p "$BIN_DIR"
+if [ -w "$BIN_DIR" ]; then
+  mv "$TMPFILE" "${BIN_DIR}/bibi"
 else
-  sudo mv "$TMPFILE" "${INSTALL_DIR}/bibi"
+  sudo mv "$TMPFILE" "${BIN_DIR}/bibi"
 fi
 
 ok "BibiGPT $VERSION installed successfully!"
 echo ""
-echo "  bibi --version          # verify installation"
+echo "  bibi --version          # verify"
 echo "  bibi summarize \"<URL>\"  # summarize a video"
 echo ""
 echo "First time? Log in or set your API token:"
