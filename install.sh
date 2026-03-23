@@ -45,8 +45,10 @@ DOWNLOAD_URL=""
 for json_url in "$LATEST_JSON_CN" "$LATEST_JSON_INTL"; do
   JSON="$(curl -sf --connect-timeout 5 "$json_url" 2>/dev/null || true)"
   if [ -n "$JSON" ]; then
-    VERSION="$(echo "$JSON" | grep -o '"version":"[^"]*"' | head -1 | cut -d'"' -f4)"
-    DOWNLOAD_URL="$(echo "$JSON" | grep -o "\"$PLATFORM\":{[^}]*}" | grep -o '"url":"[^"]*"' | head -1 | cut -d'"' -f4)"
+    VERSION="$(echo "$JSON" | grep -oE '"version"\s*:\s*"[^"]*"' | head -1 | cut -d'"' -f4)"
+    # Extract platform block (handles pretty-printed JSON by collapsing whitespace)
+    PLATFORM_BLOCK="$(echo "$JSON" | tr -d '\n' | grep -oE "\"$PLATFORM\"\s*:\s*\{[^}]*\}" || true)"
+    DOWNLOAD_URL="$(echo "$PLATFORM_BLOCK" | grep -oE '"url"\s*:\s*"[^"]*"' | head -1 | cut -d'"' -f4)"
     [ -n "$VERSION" ] && break
   fi
 done
@@ -57,9 +59,14 @@ info "Latest version: $VERSION"
 # ── macOS: install via Homebrew ───────────────────────────────────────
 if [[ "$OS" == "Darwin" ]]; then
   if command -v brew &>/dev/null; then
-    info "Installing via Homebrew..."
-    brew install --cask jimmylv/bibigpt/bibigpt
-    ok "BibiGPT $VERSION installed via Homebrew!"
+    if brew list --cask jimmylv/bibigpt/bibigpt &>/dev/null; then
+      info "Upgrading via Homebrew..."
+      brew upgrade --cask jimmylv/bibigpt/bibigpt
+    else
+      info "Installing via Homebrew..."
+      brew install --cask jimmylv/bibigpt/bibigpt --force
+    fi
+    ok "BibiGPT installed via Homebrew!"
     echo ""
     echo "  bibi --version          # verify installation"
     echo "  bibi summarize \"<URL>\"  # summarize a video"
