@@ -58,6 +58,8 @@ For API mode (no CLI), guide the user to upload the file to a publicly accessibl
 
 ## Direct CLI Operations
 
+Use progressive help to discover options: `bibi --help` → `bibi summarize --help` → run.
+
 For simple, single-command requests that don't need a full workflow:
 
 ```bash

@@ -2,6 +2,18 @@
 
 The `bibi` command is available after installing the BibiGPT desktop app.
 
+## Help Discovery
+
+The CLI supports progressive help — discover subcommands step by step:
+
+```bash
+bibi --help                # Global help: list all subcommands
+bibi summarize --help      # Summarize-specific options, examples, output format
+bibi auth --help           # Auth actions and environment variables
+```
+
+Each `--help` includes **examples** — pattern-match off those for fastest results.
+
 ## Commands
 
 ### Summarize
