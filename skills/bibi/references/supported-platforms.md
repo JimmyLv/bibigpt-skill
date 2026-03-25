@@ -30,13 +30,38 @@ Async mode creates a background task. Poll `getSummaryTaskStatus` every 3 second
 - **Output language**: Configurable via `outputLanguage` param (e.g., `zh-CN`, `en-US`, `ja`, `ko`)
 - **Speaker identification**: Enable with `enabledSpeaker=true` (API) for multi-speaker content
 
-## File Upload
+## Local Files
 
-The BibiGPT desktop app supports local file upload:
+### CLI Mode (Recommended)
+
+The `bibi` CLI directly accepts local file paths — no upload needed:
+
+```bash
+bibi summarize "/path/to/video.mp4"
+bibi summarize "/path/to/podcast.mp3" --chapter
+```
+
+Supported formats:
 - Audio: `.mp3`, `.wav`, `.m4a`, `.flac`, `.ogg`
 - Video: `.mp4`, `.mkv`, `.avi`, `.mov`, `.webm`
 
-File upload is only available through the desktop app UI, not via CLI or API.
+### API Mode (No Direct File Upload)
+
+The OpenAPI endpoints only accept URLs, not local files. To summarize a local file via API:
+
+1. Upload the file to any publicly accessible storage (e.g., OSS, S3, Cloudflare R2, or any file hosting)
+2. Get the public URL
+3. Pass the public URL to the API:
+
+```bash
+curl -s "https://api.bibigpt.co/api/v1/summarize?url=ENCODED_PUBLIC_URL" \
+  -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "x-client-type: bibi-cli"
+```
+
+If the user has a local file and no CLI installed, guide them to:
+- Upload to a cloud storage service first
+- Or install the BibiGPT desktop app to use CLI mode directly
 
 ## Platform-Specific Notes
 

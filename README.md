@@ -80,10 +80,11 @@ npx skills add JimmyLv/bibigpt-skill --agents OpenClaw --yes
 
 ### 3. Usage
 
-Ask your agent to summarize any video or audio URL:
+Ask your agent to summarize any video, audio URL, or **local file**:
 
 ```
 > Summarize this video: https://www.youtube.com/watch?v=xxxxx
+> Summarize this local file: /path/to/meeting-recording.mp4
 ```
 
 The agent will automatically detect the best mode and route to the right workflow.
@@ -93,10 +94,11 @@ The agent will automatically detect the best mode and route to the right workflo
 | Command | Description |
 |---------|-------------|
 | `bibi summarize "<URL>"` | Summarize a video/audio URL |
-| `bibi summarize "<URL>" --async` | Async mode (long videos) |
-| `bibi summarize "<URL>" --chapter` | Chapter-by-chapter summary |
-| `bibi summarize "<URL>" --subtitle` | Fetch subtitles/transcript only |
-| `bibi summarize "<URL>" --json` | Full JSON output |
+| `bibi summarize "/path/to/file.mp4"` | Summarize a local audio/video file |
+| `bibi summarize "<INPUT>" --async` | Async mode (long videos) |
+| `bibi summarize "<INPUT>" --chapter` | Chapter-by-chapter summary |
+| `bibi summarize "<INPUT>" --subtitle` | Fetch subtitles/transcript only |
+| `bibi summarize "<INPUT>" --json` | Full JSON output |
 | `bibi auth check` | Check auth status |
 | `bibi auth login` | Open browser to log in |
 | `bibi check-update` | Check for new version |

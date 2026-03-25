@@ -6,28 +6,36 @@ The `bibi` command is available after installing the BibiGPT desktop app.
 
 ### Summarize
 
+`bibi summarize` accepts both **URLs** and **local file paths**.
+
 **Important**: URLs containing `?` or `&` must be quoted to avoid shell glob errors.
 
 ```bash
 # Basic summary (Markdown to stdout, progress to stderr)
 bibi summarize "<URL>"
 
+# Local file — audio or video on disk
+bibi summarize "/path/to/video.mp4"
+bibi summarize "/path/to/podcast.mp3"
+
 # Async mode — recommended for long videos (>30 min)
-bibi summarize "<URL>" --async
+bibi summarize "<INPUT>" --async
 
 # Chapter-by-chapter summary
-bibi summarize "<URL>" --chapter
+bibi summarize "<INPUT>" --chapter
 
 # Subtitles/transcript only (no AI summary)
-bibi summarize "<URL>" --subtitle
+bibi summarize "<INPUT>" --subtitle
 
 # Full JSON response
-bibi summarize "<URL>" --json
+bibi summarize "<INPUT>" --json
 
 # Combine flags
-bibi summarize "<URL>" --chapter --json
-bibi summarize "<URL>" --subtitle --json
+bibi summarize "<INPUT>" --chapter --json
+bibi summarize "<INPUT>" --subtitle --json
 ```
+
+Supported local formats: `.mp4`, `.mkv`, `.avi`, `.mov`, `.webm`, `.mp3`, `.wav`, `.m4a`, `.flac`, `.ogg`
 
 ### Auth
 

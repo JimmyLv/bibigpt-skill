@@ -15,9 +15,10 @@ If neither mode is available, follow the setup instructions in `references/insta
 
 ### 2. Validate Input
 
-- Extract the URL from the user's message
-- Confirm it looks like a supported platform (see `references/supported-platforms.md`)
-- If no URL is provided, ask the user to paste one
+- Extract the URL **or local file path** from the user's message
+- If it's a URL: confirm it looks like a supported platform (see `references/supported-platforms.md`)
+- If it's a local file path: confirm the file exists and is a supported format (`.mp4`, `.mp3`, `.wav`, `.mkv`, `.mov`, `.webm`, `.m4a`, `.flac`, `.ogg`, `.avi`)
+- If no URL or file is provided, ask the user to paste one
 - If the URL looks shortened (b23.tv, xhslink.com), it will be auto-expanded
 
 ### 3. Estimate Duration
@@ -27,23 +28,27 @@ If neither mode is available, follow the setup instructions in `references/insta
 
 ### 4. Execute Summary
 
-**CLI mode:**
+**CLI mode** (supports both URLs and local files):
 ```bash
-bibi summarize "<URL>"
+bibi summarize "<URL_OR_FILE_PATH>"
 ```
 
 For long videos (>30 min):
 ```bash
-bibi summarize "<URL>" --async
+bibi summarize "<URL_OR_FILE_PATH>" --async
 ```
 
-**API mode:**
+**API mode** (URLs only — no direct file upload):
 ```bash
 ENCODED=$(python3 -c 'import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1], safe=""))' "$URL")
 curl -s "https://api.bibigpt.co/api/v1/summarize?url=$ENCODED" \
   -H "Authorization: Bearer $BIBI_API_TOKEN" \
   -H "x-client-type: bibi-cli"
 ```
+
+**API mode with local file**: The API does not accept file uploads directly. Guide the user to:
+1. Upload the file to a publicly accessible URL (OSS, S3, Cloudflare R2, etc.)
+2. Pass the public URL to the API
 
 For long videos, use async:
 ```bash

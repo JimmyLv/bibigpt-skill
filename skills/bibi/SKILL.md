@@ -45,12 +45,23 @@ Route the user's request to the appropriate workflow:
 - If it matches **none**, ask what they are trying to accomplish. **Do not guess.**
 - If the user just pastes a URL with no context, default to `workflows/quick-summary.md`.
 
+## Local File Support
+
+The `bibi` CLI directly accepts local file paths (no upload needed):
+
+```bash
+bibi summarize "/path/to/video.mp4"
+bibi summarize "/path/to/podcast.mp3"
+```
+
+For API mode (no CLI), guide the user to upload the file to a publicly accessible URL (OSS, S3, etc.) first, then pass that URL to the API. See `references/supported-platforms.md` for details.
+
 ## Direct CLI Operations
 
 For simple, single-command requests that don't need a full workflow:
 
 ```bash
-bibi summarize "<URL>"              # Quick summary
+bibi summarize "<URL>"              # Quick summary (URL or local file path)
 bibi summarize "<URL>" --chapter    # Chapter summary
 bibi summarize "<URL>" --subtitle   # Transcript only
 bibi summarize "<URL>" --json       # Full JSON response
