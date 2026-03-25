@@ -2,15 +2,52 @@
 
 AI Agent skill for summarizing videos, audio, and podcasts via [BibiGPT](https://bibigpt.co).
 
-Two ways to use:
+Three ways to use:
 1. **BibiGPT Desktop + CLI Skill** — install `bibi` CLI, works with Claude Code / OpenClaw / Codex
 2. **Remote MCP Server** — zero install, works with any MCP client (Claude, ChatGPT, Cursor, etc.)
+3. **OpenAPI** — direct HTTP calls for containers, CI, or custom integrations
 
 ---
 
-## BibiGPT Desktop + CLI Skill (Recommended)
+## Skill Structure
 
-The most powerful way — install the BibiGPT desktop app and use the `bibi` CLI skill.
+```
+skills/bibi/
+├── SKILL.md                        # Intent router — dispatches to workflows
+├── scripts/
+│   └── bibi-check.sh              # Auto-detect CLI vs API mode
+├── references/
+│   ├── cli.md                     # CLI command reference
+│   ├── api.md                     # OpenAPI endpoint reference (10 endpoints)
+│   ├── installation.md            # Setup & auth guide
+│   └── supported-platforms.md     # URL types & platform limits
+└── workflows/
+    ├── quick-summary.md           # Paste URL → get AI summary
+    ├── deep-dive.md               # Chapter breakdown + follow-up Q&A
+    ├── transcript-extract.md      # Subtitle/transcript extraction
+    ├── article-rewrite.md         # Video → blog/公众号图文/小红书
+    ├── batch-process.md           # Multi-URL batch processing
+    ├── research-compile.md        # Multi-source topic synthesis
+    ├── export-notes.md            # Save to Notion/Obsidian/local
+    └── visual-analysis.md         # Video frame visual analysis
+```
+
+## Workflows
+
+| Workflow | What it does | Trigger examples |
+|----------|-------------|-----------------|
+| **Quick Summary** | One URL → AI summary | "summarize this video", "总结" |
+| **Deep Dive** | Chapter-by-chapter + Q&A | "chapter summary", "分章节总结" |
+| **Transcript Extract** | Raw subtitles with timestamps | "get subtitles", "获取字幕" |
+| **Article Rewrite** | Video → polished article | "turn into article", "AI改写" |
+| **Batch Process** | Multiple URLs at once | "batch summarize", "批量总结" |
+| **Research Compile** | Cross-source synthesis | "compare these videos", "综合分析" |
+| **Export Notes** | Save to Notion/Obsidian/file | "save to Notion", "导出笔记" |
+| **Visual Analysis** | Analyze slides & on-screen content | "画面分析", "what's on screen" |
+
+---
+
+## Quick Start
 
 ### 1. Install Desktop App
 
@@ -48,6 +85,8 @@ Ask your agent to summarize any video or audio URL:
 ```
 > Summarize this video: https://www.youtube.com/watch?v=xxxxx
 ```
+
+The agent will automatically detect the best mode and route to the right workflow.
 
 ### Commands
 

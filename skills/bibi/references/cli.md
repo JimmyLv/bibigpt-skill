@@ -1,0 +1,80 @@
+# BibiGPT CLI Reference
+
+The `bibi` command is available after installing the BibiGPT desktop app.
+
+## Commands
+
+### Summarize
+
+**Important**: URLs containing `?` or `&` must be quoted to avoid shell glob errors.
+
+```bash
+# Basic summary (Markdown to stdout, progress to stderr)
+bibi summarize "<URL>"
+
+# Async mode — recommended for long videos (>30 min)
+bibi summarize "<URL>" --async
+
+# Chapter-by-chapter summary
+bibi summarize "<URL>" --chapter
+
+# Subtitles/transcript only (no AI summary)
+bibi summarize "<URL>" --subtitle
+
+# Full JSON response
+bibi summarize "<URL>" --json
+
+# Combine flags
+bibi summarize "<URL>" --chapter --json
+bibi summarize "<URL>" --subtitle --json
+```
+
+### Auth
+
+```bash
+bibi auth check         # Check login status
+bibi auth login         # Open browser to log in
+bibi auth set-token <TOKEN>  # Set API token directly
+```
+
+### Updates
+
+```bash
+bibi check-update       # Check for new version
+bibi self-update        # Download and install latest
+```
+
+### Version
+
+```bash
+bibi --version          # Print CLI version
+```
+
+## Output
+
+| Flag | stdout | stderr |
+|------|--------|--------|
+| (none) | Markdown summary | Progress messages |
+| `--json` | Full JSON response | Progress messages |
+| `--subtitle` | Subtitle text | Progress messages |
+
+Pipe-friendly:
+
+```bash
+bibi summarize "<URL>" > summary.md
+bibi summarize "<URL>" --json | jq '.summary'
+bibi summarize "<URL>" --subtitle > transcript.txt
+```
+
+## Exit Codes
+
+| Code | Meaning |
+|------|---------|
+| `0` | Success |
+| `1` | Error (auth failure, network error, quota exceeded, etc.) |
+
+## Environment Variables
+
+| Variable | Purpose |
+|----------|---------|
+| `BIBI_API_TOKEN` | API token (alternative to desktop login) |
