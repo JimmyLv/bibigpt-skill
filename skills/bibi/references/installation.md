@@ -46,11 +46,19 @@ bibi --version
 
 ## 3. Authentication
 
-### Option A — Desktop Login (simplest)
+### Option A — CLI Login (recommended)
 
-Log in via the BibiGPT desktop app once. The CLI reads the saved session automatically.
+```bash
+bibi auth login
+```
 
-### Option B — API Token
+Opens your browser for OAuth login, then automatically saves the API token to the CLI. No manual copy-paste needed.
+
+### Option B — Desktop App Login
+
+Log in via the BibiGPT desktop app GUI. The CLI reads the saved session automatically.
+
+### Option C — API Token (manual)
 
 1. Visit **https://bibigpt.co/user/integration** (API Token section)
 2. Copy your token
@@ -60,16 +68,16 @@ Log in via the BibiGPT desktop app once. The CLI reads the saved session automat
 export BIBI_API_TOKEN="<your-token>"
 ```
 
-### Option C — OAuth 2.0
+### Option D — OAuth 2.0 (programmatic)
 
-For programmatic auth flows:
+For custom integrations:
 
 | Endpoint | URL |
 |----------|-----|
 | Authorization | `https://bibigpt.co/api/auth/authorize` |
 | Token exchange | `https://bibigpt.co/api/auth/token` |
 
-Use `bibigpt-skill` as `client_id` with redirect URI `http://localhost`.
+Use `bibigpt-skill` or `bibigpt-desktop` as `client_id` with redirect URI `http://localhost`.
 
 ## 4. Verify Setup
 

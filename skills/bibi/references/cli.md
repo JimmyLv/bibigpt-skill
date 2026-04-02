@@ -53,7 +53,7 @@ Supported local formats: `.mp4`, `.mkv`, `.avi`, `.mov`, `.webm`, `.mp3`, `.wav`
 
 ```bash
 bibi auth check         # Check login status
-bibi auth login         # Open browser to log in
+bibi auth login         # OAuth login via browser (saves token automatically)
 bibi auth set-token <TOKEN>  # Set API token directly
 ```
 

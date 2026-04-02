@@ -62,7 +62,7 @@ Or install manually per platform:
 - **Windows**: `winget install BibiGPT --source winget` or download from [bibigpt.co/download/desktop](https://bibigpt.co/download/desktop)
 - **Linux**: Download `.deb` / `.AppImage` from [bibigpt.co/download/desktop](https://bibigpt.co/download/desktop)
 
-Then log in via the desktop app. The CLI reads your session automatically.
+Then log in: `bibi auth login` (opens browser for OAuth, saves token automatically).
 
 ### 2. Install Skill
 
@@ -100,7 +100,7 @@ The agent will automatically detect the best mode and route to the right workflo
 | `bibi summarize "<INPUT>" --subtitle` | Fetch subtitles/transcript only |
 | `bibi summarize "<INPUT>" --json` | Full JSON output |
 | `bibi auth check` | Check auth status |
-| `bibi auth login` | Open browser to log in |
+| `bibi auth login` | OAuth login via browser (saves token automatically) |
 | `bibi check-update` | Check for new version |
 | `bibi self-update` | Download and install latest version |
 
