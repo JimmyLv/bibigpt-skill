@@ -299,3 +299,7 @@ Get your API key at [bibigpt.co/user/integration](https://bibigpt.co/user/integr
 ## License
 
 MIT
+
+## Download History
+
+[![Download History](https://skill-history.com/chart/jimmylv/bibigpt-skill.svg)](https://skill-history.com/jimmylv/bibigpt-skill)
