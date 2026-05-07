@@ -124,6 +124,20 @@ bibi call notes.get --contentId <contentId> --json
 bibi call notes.update --contentId <contentId> --text "..." --json   # write scope
 ```
 
+### Advanced Tools (Phase 2.7-2.11)
+
+```bash
+# Working today
+bibi call notion.status --json                                       # check Notion connection
+bibi call collections.chatHistory --collectionId <id> --json         # cached chat history
+
+# Declared schemas; fall through to legacy tRPC procs (returns NOT_IMPLEMENTED with hint)
+bibi call video.mindmap --contentId <id> --summary "..." --json      # Phase 2.11.x
+bibi call video.visuals --videoUrl "https://..." --json              # Phase 2.7.x
+bibi call summary.byPrompt --contentId <id> --customPrompt "..." --json  # Phase 2.9.x
+bibi call notion.exportNote --contentId <id> --json                  # pre-flight ✅, page push 2.10.x
+```
+
 `subscribe`/`unsubscribe` are mutations (write scope); `list`/`videos` are read-only.
 
 ### Generic dispatch (manifest-driven)

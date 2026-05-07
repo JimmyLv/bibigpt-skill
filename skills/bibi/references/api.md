@@ -289,6 +289,29 @@ curl -s "https://api.bibigpt.co/api/v1/library/search?keyword=AI%20agents&limit=
 
 MCP tool: `search_saved_videos`. MVP searches title + note (ILIKE); full-text subtitle search is planned.
 
+### Agent-native (Phase 2.7-2.11) — advanced tools
+
+| Endpoint | Method | MCP tool | Status |
+|---|---|---|---|
+| `/v1/video/mindmap` | POST | `generate_video_mindmap` | declared (NOT_IMPLEMENTED → 2.11.x); fall back to `vision.xmind` |
+| `/v1/video/visuals` | POST | `extract_video_visuals` | declared (NOT_IMPLEMENTED → 2.7.x); fall back to `vision.createVideoProcessingTask` |
+| `/v1/summary/byPrompt` | POST | `generate_summary_by_prompt` | declared (NOT_IMPLEMENTED → 2.9.x); fall back to `/v1/summarizeWithConfig` |
+| `/v1/notion/status` | GET | `get_notion_status` | ✅ working |
+| `/v1/notion/exportNote` | POST | `export_to_notion` | pre-flight ✅ + push deferred → 2.10.x |
+| `/v1/collections/chatHistory` | GET | `get_collection_chat_history` | ✅ working |
+
+The schemas are stable — when each Phase 2.x.x lands, the response of these endpoints changes from NOT_IMPLEMENTED error to actual execution with the same I/O shape.
+
+```bash
+# Notion connection status (works today)
+curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  "https://api.bibigpt.co/api/v1/notion/status"
+
+# Collection chat history
+curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  "https://api.bibigpt.co/api/v1/collections/chatHistory?collectionId=..."
+```
+
 ### Agent-native (Phase 2 +) — notes
 
 | Endpoint | Method | MCP tool | Purpose |

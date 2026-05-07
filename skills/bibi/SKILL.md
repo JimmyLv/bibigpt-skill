@@ -44,6 +44,7 @@ Route the user's request to the appropriate workflow:
 | What's new across my subscriptions, latest feed, daily digest | → `workflows/feed-latest.md` |
 | Manage collections, list/create/share saved videos as a set | → `workflows/collections-manage.md` |
 | Manage personal notes on saved videos, edit summaries | → `workflows/notes-manage.md` |
+| Generate mindmap, visual analysis, custom-prompt summary, Notion export, collection chat | → `workflows/advanced-tools.md` |
 
 ## Disambiguation
 
