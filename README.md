@@ -108,26 +108,42 @@ The agent will automatically detect the best mode and route to the right workflo
 
 ### Updating
 
-#### Update the Skill
+BibiGPT ships **three independently updateable layers**. Pick the one that matches what you want refreshed.
+
+| Layer | Updates | Command | When to run |
+|---|---|---|---|
+| **Skill content** (workflows, references, intent router) | npm-distributed, manual | `npx skills update JimmyLv/bibigpt-skill` | Weekly, or when changelog adds a new MCP tool / workflow |
+| **`bibi` desktop CLI** (binary + embedded SKILL.md + manifest dispatcher) | Self-update or package manager | `bibi self-update` *(or `brew upgrade --cask bibigpt` / `winget upgrade BibiGPT`)* | When the changelog mentions CLI changes |
+| **Remote MCP server** (`https://bibigpt.co/api/mcp`) | Always latest, server-side | *automatic* — restart your MCP client to pick up new tools | Never manually; happens server-side |
+
+#### Update the skill
 
 ```bash
 npx skills update JimmyLv/bibigpt-skill
 ```
 
-#### Update the Desktop App (CLI)
-
-The `bibi` CLI can self-update:
+The skill **does not auto-update** — Agents read whatever was last fetched. Re-run when you want new BibiGPT capabilities, fixed workflows, or new MCP tools surfaced. For a clean reinstall:
 
 ```bash
-bibi check-update    # check if a new version is available
-bibi self-update     # download and install the latest version
+npx skills remove JimmyLv/bibigpt-skill && npx skills add JimmyLv/bibigpt-skill
 ```
 
-Or reinstall via package manager:
+The [GitHub Releases page](https://github.com/JimmyLv/bibigpt-skill/releases) tracks what each version changed.
 
-- **macOS**: `brew upgrade --cask bibigpt`
-- **Windows**: `winget upgrade BibiGPT --source winget`
-- **Linux**: Download the latest `.deb` / `.AppImage` from [bibigpt.co/download/desktop](https://bibigpt.co/download/desktop)
+#### Update the bibi CLI
+
+```bash
+bibi check-update    # peek at the latest published version
+bibi self-update     # download and install (uses brew on macOS, installer on Windows)
+```
+
+Or via package manager: `brew upgrade --cask bibigpt` / `winget upgrade BibiGPT --source winget` / fresh download from [bibigpt.co/download/desktop](https://bibigpt.co/download/desktop).
+
+> **Manifest is hot-cached, not embedded.** Even without `bibi self-update`, the CLI dispatcher fetches `https://bibigpt.co/api/cli-manifest.json` on first call (24h TTL) — newly-released agent procedures show up the next day. `bibi self-update` only matters when the dispatcher itself or the embedded `SKILL.md` changes.
+
+#### Update the MCP server
+
+Nothing to do — the remote MCP endpoint always serves the latest `meta.mcp.enabled` tool list. **Restart your MCP client** (Claude Desktop, Cursor, etc.) if you don't see a newly-released tool — that refreshes its `tools/list` cache.
 
 > **Note**: The desktop app build is triggered via the `build-tauri-desktop-app` GitHub Actions workflow. After a successful build, artifacts are uploaded to OSS and the `latest.json` manifest is updated automatically — the client checks this manifest for update availability.
 
