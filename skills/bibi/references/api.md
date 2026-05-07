@@ -299,14 +299,14 @@ MCP tool: `search_saved_videos`. MVP searches title + note (ILIKE); full-text su
 
 | Endpoint | Method | MCP tool | Status |
 |---|---|---|---|
-| `/v1/video/mindmap` | POST | `generate_video_mindmap` | declared (NOT_IMPLEMENTED → 2.11.x); fall back to `vision.xmind` |
-| `/v1/video/visuals` | POST | `extract_video_visuals` | declared (NOT_IMPLEMENTED → 2.7.x); fall back to `vision.createVideoProcessingTask` |
-| `/v1/summary/byPrompt` | POST | `generate_summary_by_prompt` | declared (NOT_IMPLEMENTED → 2.9.x); fall back to `/v1/summarizeWithConfig` |
+| `/v1/video/mindmap` | POST | `generate_video_mindmap` | ✅ working (markdown → .xmind via shared `generateMindmap` service) |
+| `/v1/video/visuals` | POST | `extract_video_visuals` | ✅ working (Pro-only; shared `createVideoProcessingTaskCore`) |
+| `/v1/summary/byPrompt` | POST | `generate_summary_by_prompt` | ✅ working (always regenerates; overwrites user note) |
 | `/v1/notion/status` | GET | `get_notion_status` | ✅ working |
-| `/v1/notion/exportNote` | POST | `export_to_notion` | pre-flight ✅ + push deferred → 2.10.x |
+| `/v1/notion/exportNote` | POST | `export_to_notion` | ✅ working (full Notion API page upsert) |
 | `/v1/collections/chatHistory` | GET | `get_collection_chat_history` | ✅ working |
 
-The schemas are stable — when each Phase 2.x.x lands, the response of these endpoints changes from NOT_IMPLEMENTED error to actual execution with the same I/O shape.
+All five mutations require write scope (Phase 1.6.x). All shared service helpers live in `server/api/services/vision/` so legacy `vision.*` procedures and agent surface can't drift.
 
 ```bash
 # Notion connection status (works today)

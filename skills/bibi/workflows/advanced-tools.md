@@ -4,13 +4,13 @@ Bridges high-value but lower-frequency capabilities. Most are MVP-staged — sch
 
 ## Triggers and routing
 
-| Intent | Phase | Today |
+| Intent | Status | Notes |
 |---|---|---|
-| "Make a mindmap from this summary" | 2.11 → 2.11.x | NOT_IMPLEMENTED — fall back to `vision.xmind` via tRPC client |
-| "Analyze the visuals / slides / on-screen text" | 2.7 → 2.7.x | NOT_IMPLEMENTED — fall back to `vision.createVideoProcessingTask` |
-| "Re-summarize with my own prompt" | 2.9 → 2.9.x | NOT_IMPLEMENTED — fall back to `/v1/summarizeWithConfig` with `promptConfig.customPrompt` |
-| "Push this video summary to Notion" | 2.10 → 2.10.x | Pre-flight checks pass (note + connection); page upsert deferred to 2.10.x. Today, call `notion.sendToNotion` via tRPC |
-| "Show me the chat history for collection X" | 2.8 | ✅ Working — `bibi call collections.chatHistory --collectionId <id>` |
+| "Make a mindmap from this summary" | ✅ Working — `bibi call video.mindmap --contentId <id> --summary "..."` | Returns `.xmind` file URL; cached per (user, contentId) |
+| "Analyze the visuals / slides / on-screen text" | ✅ Working — `bibi call video.visuals --videoUrl "https://..."` | Pro-only; rate-limited; returns taskId — poll `vision.getVideoProcessingTask` for completion |
+| "Re-summarize with my own prompt" | ✅ Working — `bibi call summary.byPrompt --contentId <id> --customPrompt "..."` | Always regenerates (customPrompt is uncacheable in MVP); overwrites the user's saved note |
+| "Push this video summary to Notion" | ✅ Working — `bibi call notion.exportNote --contentId <id>` | Requires prior Notion OAuth (check via `notion.status`); creates a new page in the bound database |
+| "Show me the chat history for collection X" | ✅ Working — `bibi call collections.chatHistory --collectionId <id>` | Returns prior messages + AI-suggested questions |
 
 ## Steps — what works today
 
@@ -41,41 +41,53 @@ bibi call notion.exportNote --contentId <id> --json
 
 The agent endpoint **validates** that the note exists and Notion is connected, then returns NOT_IMPLEMENTED with a fallback hint. Use for "can I push this to Notion?" checks before doing the actual push via the legacy `notion.sendToNotion` tRPC procedure.
 
-## Steps — graceful fallbacks for deferred items
+## Working examples (all fully functional)
 
-### Mindmap (Phase 2.11.x pending)
+### Mindmap
 
 ```bash
-# Today, via tRPC client:
-curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"json":{"summary":"...","contentId":"...","isRefresh":false}}' \
-  "https://bibigpt.co/api/trpc/vision.xmind"
+bibi call video.mindmap --contentId <contentId> --summary "$(bibi call notes.get --contentId <contentId> --json | jq -r .note)" --json
+# → { "fileUrl": "https://...storage.../<userId>/<contentId>.xmind" }
 ```
 
-### Visual analysis (Phase 2.7.x pending)
+Cached per (user, contentId). Pass `--isRefresh true` to regenerate.
+
+### Visual analysis
 
 ```bash
-curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"json":{"videoUrl":"https://...","speed":1,"force":false}}' \
-  "https://bibigpt.co/api/trpc/vision.createVideoProcessingTask"
+# 1. Create the task (Pro-only; rate-limited)
+bibi call video.visuals --videoUrl "https://..." --json
+# → { "taskId":..., "status": "pending"|"processing"|"completed"|... , "isFromCache": ... }
+
+# 2. Poll for completion via the legacy procedure (Phase 2.x.x will add a wrapper)
+curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  "https://bibigpt.co/api/trpc/vision.getVideoProcessingTask?input=$(printf %s '{"json":{"taskId":"..."}}' | jq -sRr @uri)"
 ```
 
-Then poll `vision.getVideoProcessingTask` with the returned `taskId` until status is `completed`.
-
-### Custom-prompt summary (Phase 2.9.x pending)
-
-Use the existing `/v1/summarizeWithConfig` endpoint (already exposed):
+### Custom-prompt summary
 
 ```bash
-curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"url":"https://...","promptConfig":{"customPrompt":"Top 3 actionable insights"}}' \
-  "https://bibigpt.co/api/v1/summarizeWithConfig"
+bibi call summary.byPrompt \
+  --contentId <contentId> \
+  --customPrompt "Top 3 actionable insights" \
+  --outputLanguage zh-CN --json
+# → { "summary": "...", "fromCache": false }
+```
+
+**Side effect**: overwrites the user's saved note for this video. Use `/v1/summarizeWithConfig` directly if you don't want the note clobbered.
+
+### Notion export
+
+```bash
+# 1. Confirm Notion is connected
+bibi call notion.status --json
+# 2. Push
+bibi call notion.exportNote --contentId <contentId> --json
+# → { "success": true, "pageUrl": "https://www.notion.so/..." }
 ```
 
 ## Notes
 
-- These tools are mostly **mutations** with `agent.scope = 'write'`; require a token with write scope (Phase 1.6.x runtime check).
-- Schemas are stable — once Phase 2.x.x extracts the helpers, the agent endpoint behavior changes from NOT_IMPLEMENTED to actual execution **without changing the input/output contract**. So your agent code written today won't break.
+- All five tools are **mutations** with `agent.scope = 'write'`; require a token with write scope (Phase 1.6.x runtime check enforced via tRPC middleware).
+- Phase 2.7.x / 2.9.x / 2.10.x / 2.11.x all landed simultaneously after Phase 1.6.x scope migration was applied — no more NOT_IMPLEMENTED stubs in this section.
+- Custom-prompt summary clobbers `user_contents_note`; use `/v1/summarizeWithConfig` directly when you need a one-shot generation that doesn't touch the saved note.
