@@ -40,6 +40,7 @@ Route the user's request to the appropriate workflow:
 | Analyze visual content, slides, on-screen text | → `workflows/visual-analysis.md` |
 | Check current account, plan, or remaining minutes | → `workflows/account-check.md` |
 | Browse / search saved videos, "what have I summarized" | → `workflows/library-browse.md` |
+| Manage channel subscriptions, list/sub/unsub, RSS preview | → `workflows/channels-manage.md` |
 
 ## Disambiguation
 

@@ -289,6 +289,33 @@ curl -s "https://api.bibigpt.co/api/v1/library/search?keyword=AI%20agents&limit=
 
 MCP tool: `search_saved_videos`. MVP searches title + note (ILIKE); full-text subtitle search is planned.
 
+### Agent-native (Phase 2 +) — channel subscriptions
+
+| Endpoint | Method | MCP tool | Purpose |
+|---|---|---|---|
+| `/v1/channels/list` | GET | `list_channels` | List subscribed channels |
+| `/v1/channels/subscribe` | POST | `subscribe_channel` | Subscribe by URL (write scope) |
+| `/v1/channels/unsubscribe` | POST | `unsubscribe_channel` | Unsubscribe by URL (write scope) |
+| `/v1/channels/videos` | GET | `get_channel_videos` | Latest videos via RSS |
+
+```bash
+# List
+curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  "https://api.bibigpt.co/api/v1/channels/list"
+
+# Subscribe (POST JSON)
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"channelUrl":"https://www.youtube.com/@VeritasiumZH"}' \
+  "https://api.bibigpt.co/api/v1/channels/subscribe"
+
+# Channel preview videos
+curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  "https://api.bibigpt.co/api/v1/channels/videos?channelUrl=https%3A%2F%2Fwww.youtube.com%2F%40VeritasiumZH&limit=10"
+```
+
+Subscribe/unsubscribe respect plan quota — 403 returned when exceeded, with upgrade-link message.
+
 ### 11. Account / Quota — `GET /v1/me`
 
 Get the current authenticated user's account, plan, and remaining minutes. **Auth required.**

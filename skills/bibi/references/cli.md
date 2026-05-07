@@ -88,6 +88,17 @@ bibi call library.get --id <contentId> --json          # full detail incl. note
 bibi call library.search --keyword "AI agents"         # ILIKE on title + note (MVP)
 ```
 
+### Channel Subscriptions (Phase 2)
+
+```bash
+bibi call channels.list --json
+bibi call channels.subscribe --channelUrl "https://www.youtube.com/@..." --json
+bibi call channels.unsubscribe --channelUrl "https://www.youtube.com/@..." --json
+bibi call channels.videos --channelUrl "https://..." --limit 10 --json
+```
+
+`subscribe`/`unsubscribe` are mutations (write scope); `list`/`videos` are read-only.
+
 ### Generic dispatch (manifest-driven)
 
 ```bash
