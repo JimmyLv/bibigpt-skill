@@ -1,5 +1,11 @@
 # BibiGPT OpenAPI Reference
 
+> **Auto-generated companion**: `references/endpoints.md` is regenerated
+> from the live OpenAPI spec via `bun packages/bibigpt-skill/scripts/sync-from-openapi.ts --write`.
+> This file (`api.md`) is hand-curated for auth, decision matrices, and
+> agent-friendly explanations. Use both together.
+
+
 Use these HTTP endpoints when the `bibi` CLI is not installed (Linux, containers, CI).
 
 **Base URL**: `https://api.bibigpt.co/api`
