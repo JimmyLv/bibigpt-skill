@@ -21,7 +21,7 @@ Run `scripts/bibi-check.sh` to confirm CLI or API mode is available. Authenticat
 ### CLI mode (preferred)
 
 ```bash
-bibi call me --json
+bibi me --json
 ```
 
 Output (example):

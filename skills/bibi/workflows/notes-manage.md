@@ -16,9 +16,9 @@ Use when the user wants to read, edit, or list their personal notes on saved vid
 ### 1. List notes (paginated)
 
 ```bash
-bibi call notes.list --limit 20 --json                       # default
-bibi call notes.list --limit 50 --json
-bibi call notes.list --cursor "2026-05-04T12:00:00Z" --json  # paginate
+bibi notes list --limit 20 --json                       # default
+bibi notes list --limit 50 --json
+bibi notes list --cursor "2026-05-04T12:00:00Z" --json  # paginate
 ```
 
 Returns `{ notes: [{ contentId, title, sourceUrl, excerpt, updatedAt }], nextCursor }`.
@@ -28,7 +28,7 @@ Returns `{ notes: [{ contentId, title, sourceUrl, excerpt, updatedAt }], nextCur
 ### 2. Get a single note
 
 ```bash
-bibi call notes.get --contentId <contentId> --json
+bibi notes get --contentId <contentId> --json
 # → { "contentId":..., "note":..., "updatedAt":... }
 ```
 
@@ -37,7 +37,7 @@ If the user has never saved a note for that contentId, `note` is `null` (valid s
 ### 3. Update a note
 
 ```bash
-bibi call notes.update --contentId <contentId> --text "My polished summary..." --json
+bibi notes update --contentId <contentId> --text "My polished summary..." --json
 # → { "success": true }
 ```
 
@@ -51,7 +51,7 @@ For lists: render a Markdown list with title (linked to sourceUrl) + relative-ti
 
 - "Edit this note to focus on X" → fetch with `notes.get`, agent rewrites, then `notes.update`
 - "Find videos where I noted Y" → use `library.search --keyword Y` (which searches notes by ILIKE)
-- "Export note to Notion" → call `bibi call notion.exportNote --contentId <id>` (the user's configured global webhook still fires on `notes.update` automatically)
+- "Export note to Notion" → call `bibi notion export-note --contentId <id>` (the user's configured global webhook still fires on `notes.update` automatically)
 
 ## Notes
 

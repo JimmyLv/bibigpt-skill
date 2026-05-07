@@ -16,10 +16,10 @@ Use when the user wants to organize saved videos into collections — think Pint
 ### 1. List collections
 
 ```bash
-bibi call collections.list --json                   # default: scope=all (owned + purchased)
-bibi call collections.list --scope owned --json
-bibi call collections.list --scope purchased --json
-bibi call collections.list --limit 50 --json
+bibi collections list --json                   # default: scope=all (owned + purchased)
+bibi collections list --scope owned --json
+bibi collections list --scope purchased --json
+bibi collections list --limit 50 --json
 ```
 
 Returns `{ collections: [{ id, name, slug, isPublic, videoCount, coverUrl, ownership }], nextCursor }`. `ownership` is `"owned"` or `"purchased"`.
@@ -27,7 +27,7 @@ Returns `{ collections: [{ id, name, slug, isPublic, videoCount, coverUrl, owner
 ### 2. Get collection details (with items)
 
 ```bash
-bibi call collections.get --id <collectionId> --json
+bibi collections get --id <collectionId> --json
 ```
 
 Returns `{ id, name, description, isPublic, ownership, items: [<savedVideoSummary>], aggregatedSummary }`. Authorization: owner can always view; non-owner needs an active purchase OR the collection must be public.
@@ -35,7 +35,7 @@ Returns `{ id, name, description, isPublic, ownership, items: [<savedVideoSummar
 ### 3. Create a collection
 
 ```bash
-bibi call collections.create --name "AI Agents 2026" --description "Best videos this year" --isPublic false --json
+bibi collections create --name "AI Agents 2026" --description "Best videos this year" --isPublic false --json
 # → { "id": "..." }
 ```
 
@@ -45,10 +45,10 @@ Mutation; requires write scope.
 
 ```bash
 # By contentId (preferred — already in your library)
-bibi call collections.add-item --collectionId <id> --contentId <contentId> --json
+bibi collections add-item --collectionId <id> --contentId <contentId> --json
 
 # By sourceUrl (must already be in your library; will return 404 if you haven't summarized it)
-bibi call collections.add-item --collectionId <id> --sourceUrl "https://..." --json
+bibi collections add-item --collectionId <id> --sourceUrl "https://..." --json
 ```
 
 Adding the same video twice is idempotent (returns `{ success: true }`). To import a video first, run `bibi summarize <URL>` then add by contentId.

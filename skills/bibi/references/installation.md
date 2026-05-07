@@ -161,7 +161,7 @@ The [BibiGPT changelog on GitHub Releases](https://github.com/JimmyLv/bibigpt-sk
 
 ### B. Bibi desktop CLI binary — `bibi self-update`
 
-The CLI binary embeds a snapshot of `SKILL.md` (used by `bibi skill --print/--install`) and ships the manifest dispatcher (`bibi call`, `bibi commands`, `bibi skill`). Update both at once:
+The CLI binary embeds a snapshot of `SKILL.md` (used by `bibi skill --print/--install`) and ships the manifest dispatcher (`bibi <resource> <action>`, `bibi commands`, `bibi skill`). Update both at once:
 
 ```bash
 bibi check-update    # peek at the latest published version

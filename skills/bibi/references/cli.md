@@ -73,82 +73,85 @@ bibi --version          # Print CLI version
 ### Account & Quota
 
 ```bash
-bibi call me                  # Returns account, plan tier, remaining minutes (raw JSON)
-bibi call me --json           # Same but pretty-printed
+bibi me                  # Returns account, plan tier, remaining minutes (raw JSON)
+bibi me --json           # Same but pretty-printed
 ```
 
 ### Saved Library
 
 ```bash
-bibi call library.list                                 # 20 most-recently updated saved videos
-bibi call library.list --limit 50 --json
-bibi call library.list --channelId <authorId>          # filter by channel
-bibi call library.list --cursor "2"                    # next page
-bibi call library.get --id <contentId> --json          # full detail incl. note + chapters + subtitles
-bibi call library.search --keyword "AI agents"         # title/note ILIKE + subtitle full-text
+bibi library list                                 # 20 most-recently updated saved videos
+bibi library list --limit 50 --json
+bibi library list --channelId <authorId>          # filter by channel
+bibi library list --cursor "2"                    # next page
+bibi library get --id <contentId> --json          # full detail incl. note + chapters + subtitles
+bibi library search --keyword "AI agents"         # title/note ILIKE + subtitle full-text
 ```
 
 ### Channel Subscriptions
 
 ```bash
-bibi call channels.list --json
-bibi call channels.subscribe --channelUrl "https://www.youtube.com/@..." --json
-bibi call channels.unsubscribe --channelUrl "https://www.youtube.com/@..." --json
-bibi call channels.videos --channelUrl "https://..." --limit 10 --json
+bibi channels list --json
+bibi channels subscribe --channelUrl "https://www.youtube.com/@..." --json
+bibi channels unsubscribe --channelUrl "https://www.youtube.com/@..." --json
+bibi channels videos --channelUrl "https://..." --limit 10 --json
 ```
+
+`subscribe` / `unsubscribe` are mutations (write scope); `list` / `videos` are read-only.
 
 ### Feed
 
 ```bash
-bibi call feed --json                          # since last_seen_at (default), up to 20 items
-bibi call feed --since 2026-05-01 --limit 50   # explicit window
-bibi call feed --cursor "2026-05-04T12:00:00Z" # paginate via prior nextCursor
-bibi call feedMarkSeen --json                  # bump last_seen_at on all subscribed channels
-bibi call feedMarkSeen --channelUrl "https://..." --json  # bump just one channel
+bibi feed --json                          # since last_seen_at (default), up to 20 items
+bibi feed --since 2026-05-01 --limit 50   # explicit window
+bibi feed --cursor "2026-05-04T12:00:00Z" # paginate via prior nextCursor
+bibi feed-mark-seen --json                # bump last_seen_at on all subscribed channels
+bibi feed-mark-seen --channelUrl "https://..." --json  # bump just one channel
 ```
 
 ### Collections
 
 ```bash
-bibi call collections.list --scope all --json                                     # owned + purchased
-bibi call collections.get --id <collectionId> --json
-bibi call collections.create --name "AI Agents 2026" --isPublic false --json     # write scope
-bibi call collections.add-item --collectionId <id> --contentId <contentId> --json # write scope
-bibi call collections.add-item --collectionId <id> --sourceUrl "https://..." --json
+bibi collections list --scope all --json                                     # owned + purchased
+bibi collections get --id <collectionId> --json
+bibi collections create --name "AI Agents 2026" --isPublic false --json     # write scope
+bibi collections add-item --collectionId <id> --contentId <contentId> --json # write scope
+bibi collections add-item --collectionId <id> --sourceUrl "https://..." --json
 ```
 
 ### Notes
 
 ```bash
-bibi call notes.list --limit 20 --json                       # cursor by updated_at desc
-bibi call notes.list --cursor "2026-05-04T12:00:00Z" --json
-bibi call notes.get --contentId <contentId> --json
-bibi call notes.update --contentId <contentId> --text "..." --json   # write scope
+bibi notes list --limit 20 --json                       # cursor by updated_at desc
+bibi notes list --cursor "2026-05-04T12:00:00Z" --json
+bibi notes get --contentId <contentId> --json
+bibi notes update --contentId <contentId> --text "..." --json   # write scope
 ```
 
 ### Advanced Tools
 
 ```bash
-bibi call video.mindmap --contentId <id> --summary "..." --json          # generate XMind file
-bibi call video.visuals --videoUrl "https://..." --json                  # PPT + OCR + slides task (Pro)
-bibi call summary.byPrompt --contentId <id> --customPrompt "..." --json  # re-summarize with custom prompt
-bibi call notion.status --json                                           # check Notion connection
-bibi call notion.exportNote --contentId <id> --json                      # push saved note to Notion
-bibi call collections.chatHistory --collectionId <id> --json             # cached chat history
+bibi video mindmap --contentId <id> --summary "..." --json          # generate XMind file
+bibi video visuals --videoUrl "https://..." --json                  # PPT + OCR + slides task (Pro)
+bibi summary by-prompt --contentId <id> --customPrompt "..." --json # re-summarize with custom prompt
+bibi notion status --json                                           # check Notion connection
+bibi notion export-note --contentId <id> --json                     # push saved note to Notion
+bibi collections chat-history --collectionId <id> --json            # cached chat history
 ```
 
-`subscribe`/`unsubscribe` are mutations (write scope); `list`/`videos` are read-only.
-
-### Generic dispatch (manifest-driven)
+### Discovery and escape hatch
 
 ```bash
-bibi commands                              # List all server-defined CLI commands
-bibi call <PROCEDURE> [--key value ...]    # Invoke any procedure by dotted name
-bibi call --help                           # Detailed dispatcher help
+bibi --help                                # Static help + cached manifest commands
+bibi commands                              # Re-fetch manifest and list all server-defined commands
+bibi call <PROCEDURE> [--key value ...]    # Escape hatch — invoke by dotted procedure name
+bibi call --help                           # When you need it
 ```
 
-The CLI fetches `/api/cli-manifest.json` and caches it 24h, so new server-side
-procedures are usable without `bibi self-update`.
+`bibi --help` reads the local manifest cache; if no commands are listed yet,
+run `bibi commands` once after `bibi auth login` to populate it. The CLI
+auto-refreshes the manifest every 24 h, so new server-side procedures are
+usable without `bibi self-update`.
 
 ### Skill installation
 

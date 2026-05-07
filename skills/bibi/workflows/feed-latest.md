@@ -16,8 +16,8 @@ Use this when the user wants a digest of new content across all their subscribed
 ### 1. Pull latest items
 
 ```bash
-bibi call feed --json                                  # default: items from last 7 days, up to 20
-bibi call feed --since 2026-05-01 --limit 50 --json    # explicit since (ISO date)
+bibi feed --json                                  # default: items from last 7 days, up to 20
+bibi feed --since 2026-05-01 --limit 50 --json    # explicit since (ISO date)
 ```
 
 API mode:
@@ -53,7 +53,7 @@ Response:
 For each interesting item, the agent can:
 - Summarize: `bibi summarize <sourceUrl>`
 - Get transcript: `bibi summarize <sourceUrl> --subtitle`
-- Save user note: `bibi call notes.update --contentId <contentId> --text "..."`
+- Save user note: `bibi notes update --contentId <contentId> --text "..."`
 
 ## Output formatting
 

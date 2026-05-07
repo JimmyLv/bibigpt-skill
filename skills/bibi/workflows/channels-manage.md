@@ -17,7 +17,7 @@ Use this when the user wants to manage which YouTube/Bilibili/podcast channels t
 ### 1. List subscribed channels
 
 ```bash
-bibi call channels.list --json
+bibi channels list --json
 ```
 
 Returns `{ channels: [{ id, title, url, platform, logoUrl, description, lastSummarizedAt }] }`. The `platform` field is best-effort (`youtube` / `bilibili` / `xiaoyuzhou` / etc.) derived from the URL host.
@@ -25,7 +25,7 @@ Returns `{ channels: [{ id, title, url, platform, logoUrl, description, lastSumm
 ### 2. Subscribe to a channel
 
 ```bash
-bibi call channels.subscribe --channelUrl "https://www.youtube.com/@VeritasiumZH" --json
+bibi channels subscribe --channelUrl "https://www.youtube.com/@VeritasiumZH" --json
 # → { "channelId": "..." }
 ```
 
@@ -36,14 +36,14 @@ Optional `--author "Name"` if the channel needs a manual author label.
 ### 3. Unsubscribe
 
 ```bash
-bibi call channels.unsubscribe --channelUrl "https://www.youtube.com/@..." --json
+bibi channels unsubscribe --channelUrl "https://www.youtube.com/@..." --json
 # → { "success": true }
 ```
 
 ### 4. Preview channel videos (RSS)
 
 ```bash
-bibi call channels.videos --channelUrl "https://www.youtube.com/@VeritasiumZH" --limit 10 --json
+bibi channels videos --channelUrl "https://www.youtube.com/@VeritasiumZH" --limit 10 --json
 ```
 
 Returns `{ title, description, videos: [{ id, title, url, publishedAt, coverUrl }] }` from the RSSHub feed. Use this to preview before subscribing, or to inspect what's new on a channel without it being in the user's library yet.

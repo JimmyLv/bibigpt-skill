@@ -16,10 +16,10 @@ Use this when the user asks about videos they've already summarized — listing,
 ### 1. List saved videos (paginated)
 
 ```bash
-bibi call library.list --json                          # default: 20 items, sorted by updatedAt desc
-bibi call library.list --limit 50 --json
-bibi call library.list --channelId "<authorId>" --json # filter by channel
-bibi call library.list --cursor "2" --json             # next page (cursor is page number)
+bibi library list --json                          # default: 20 items, sorted by updatedAt desc
+bibi library list --limit 50 --json
+bibi library list --channelId "<authorId>" --json # filter by channel
+bibi library list --cursor "2" --json             # next page (cursor is page number)
 ```
 
 Or via API:
@@ -51,7 +51,7 @@ Response:
 ### 2. Get a single saved video with note
 
 ```bash
-bibi call library.get --id "<contentId>" --json
+bibi library get --id "<contentId>" --json
 ```
 
 Returns the user's saved note (their personalized summary), chapters (when generated), and subtitles (when stored). For fresh transcripts of unstored videos, call `get_subtitle` (`bibi summarize <URL> --subtitle`).
@@ -59,7 +59,7 @@ Returns the user's saved note (their personalized summary), chapters (when gener
 ### 3. Search saved videos
 
 ```bash
-bibi call library.search --keyword "AI agents" --limit 10 --json
+bibi library search --keyword "AI agents" --limit 10 --json
 ```
 
 Searches title and note (ILIKE) in parallel with subtitle full-text (Postgres `websearch_to_tsquery`). Subtitle hits include the matched segment's `timestamp` so you can deep-link into a specific moment. Each result has a snippet excerpt around the match and `matchType` ∈ `title | subtitle | note | summary`.
@@ -73,7 +73,7 @@ Render results as a Markdown table or list, using `title` as the link text and `
 Library is sorted by `updatedAt desc` by default. Use `nextCursor` (string, treat as opaque) to fetch the next page:
 
 ```bash
-bibi call library.list --cursor <nextCursor> --json
+bibi library list --cursor <nextCursor> --json
 ```
 
 Stop when `nextCursor` is `null`.

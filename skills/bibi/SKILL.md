@@ -75,7 +75,7 @@ bibi summarize "<URL>" --chapter    # Chapter summary
 bibi summarize "<URL>" --subtitle   # Transcript only
 bibi summarize "<URL>" --json       # Full JSON response
 bibi auth check                     # Check auth status
-bibi call me                        # Get account, plan, remaining minutes
+bibi me                             # Get account, plan, remaining minutes
 bibi commands                       # List all manifest-driven commands
 ```
 
