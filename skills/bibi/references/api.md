@@ -255,6 +255,28 @@ curl -s "https://api.bibigpt.co/api/version"
 # → { "version": "1.0.0" }
 ```
 
+### 11. Account / Quota — `GET /v1/me`
+
+Get the current authenticated user's account, plan, and remaining minutes. **Auth required.**
+
+```bash
+curl -s "https://api.bibigpt.co/api/v1/me" \
+  -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "x-client-type: bibi-cli"
+# → {
+#     "userId": "...",
+#     "email": "user@example.com",
+#     "plan": {
+#       "tier": "pro",        // free | plus | pro | lifetime
+#       "isPaidMember": true,
+#       "expiresAt": "2027-01-15T00:00:00.000Z"
+#     },
+#     "remainingMinutes": 1280
+#   }
+```
+
+MCP tool name: `get_account_info`. Use it to inform the user before they queue heavy work, or to suggest upgrading when minutes are low.
+
 ---
 
 ## Error Handling

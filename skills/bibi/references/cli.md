@@ -70,6 +70,35 @@ bibi self-update        # Download and install latest
 bibi --version          # Print CLI version
 ```
 
+### Account & Quota
+
+```bash
+bibi call me                  # Returns account, plan tier, remaining minutes (raw JSON)
+bibi call me --json           # Same but pretty-printed
+```
+
+### Generic dispatch (manifest-driven)
+
+```bash
+bibi commands                              # List all server-defined CLI commands
+bibi call <PROCEDURE> [--key value ...]    # Invoke any procedure by dotted name
+bibi call --help                           # Detailed dispatcher help
+```
+
+The CLI fetches `/api/cli-manifest.json` and caches it 24h, so new server-side
+procedures are usable without `bibi self-update`.
+
+### Skill installation
+
+```bash
+bibi skill                       # Print bundled SKILL.md to stdout
+bibi skill mcp-config            # Print MCP client config snippet (JSON)
+bibi skill --install             # Install to ~/.claude/skills/bibi/SKILL.md
+bibi skill --install --target claude   # Explicit target
+```
+
+For the full skill (references + workflows): `npx skills add JimmyLv/bibigpt-skill`.
+
 ## Output
 
 | Flag | stdout | stderr |
