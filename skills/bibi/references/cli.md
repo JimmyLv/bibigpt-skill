@@ -77,6 +77,17 @@ bibi call me                  # Returns account, plan tier, remaining minutes (r
 bibi call me --json           # Same but pretty-printed
 ```
 
+### Saved Library (Phase 2)
+
+```bash
+bibi call library.list                                 # 20 most-recently updated saved videos
+bibi call library.list --limit 50 --json
+bibi call library.list --channelId <authorId>          # filter by channel
+bibi call library.list --cursor "2"                    # next page
+bibi call library.get --id <contentId> --json          # full detail incl. note
+bibi call library.search --keyword "AI agents"         # ILIKE on title + note (MVP)
+```
+
 ### Generic dispatch (manifest-driven)
 
 ```bash

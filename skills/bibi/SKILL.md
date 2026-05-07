@@ -39,6 +39,7 @@ Route the user's request to the appropriate workflow:
 | Save to Notion, Obsidian, export notes | → `workflows/export-notes.md` |
 | Analyze visual content, slides, on-screen text | → `workflows/visual-analysis.md` |
 | Check current account, plan, or remaining minutes | → `workflows/account-check.md` |
+| Browse / search saved videos, "what have I summarized" | → `workflows/library-browse.md` |
 
 ## Disambiguation
 

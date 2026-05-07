@@ -255,6 +255,40 @@ curl -s "https://api.bibigpt.co/api/version"
 # → { "version": "1.0.0" }
 ```
 
+### Agent-native (Phase 2 +) — saved library
+
+#### List saved videos — `GET /v1/library/list`
+
+Query params: `limit` (1–100, default 20), `cursor` (page number string), `channelId`, `sortBy` (`createdAt` | `updatedAt`), `sortOrder` (`asc` | `desc`).
+
+```bash
+curl -s "https://api.bibigpt.co/api/v1/library/list?limit=20" \
+  -H "Authorization: Bearer $BIBI_API_TOKEN"
+# → { "videos": [...], "nextCursor": "2", "total": 87 }
+```
+
+MCP tool: `list_saved_videos`.
+
+#### Get saved video — `GET /v1/library/get`
+
+```bash
+curl -s "https://api.bibigpt.co/api/v1/library/get?id=CONTENT_ID" \
+  -H "Authorization: Bearer $BIBI_API_TOKEN"
+# → { "id":..., "title":..., "note":..., "summary":..., "chapters":null, "subtitles":null, ... }
+```
+
+MCP tool: `get_saved_video`. Note: chapters/subtitles are `null` in MVP — call `get_subtitle` for fresh transcripts.
+
+#### Search saved videos — `GET /v1/library/search`
+
+```bash
+curl -s "https://api.bibigpt.co/api/v1/library/search?keyword=AI%20agents&limit=10" \
+  -H "Authorization: Bearer $BIBI_API_TOKEN"
+# → { "results": [{ "contentId":..., "title":..., "snippet":..., "matchType":"note" }], "count": 7 }
+```
+
+MCP tool: `search_saved_videos`. MVP searches title + note (ILIKE); full-text subtitle search is planned.
+
 ### 11. Account / Quota — `GET /v1/me`
 
 Get the current authenticated user's account, plan, and remaining minutes. **Auth required.**
