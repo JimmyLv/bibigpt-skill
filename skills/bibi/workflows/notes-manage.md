@@ -51,7 +51,7 @@ For lists: render a Markdown list with title (linked to sourceUrl) + relative-ti
 
 - "Edit this note to focus on X" → fetch with `notes.get`, agent rewrites, then `notes.update`
 - "Find videos where I noted Y" → use `library.search --keyword Y` (which searches notes by ILIKE)
-- "Export note to Notion" → if user has Notion bound, server's webhook fires automatically on update; otherwise call notion-related endpoints (planned Phase 2.x)
+- "Export note to Notion" → call `bibi call notion.exportNote --contentId <id>` (the user's configured global webhook still fires on `notes.update` automatically)
 
 ## Notes
 

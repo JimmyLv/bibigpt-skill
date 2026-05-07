@@ -65,5 +65,6 @@ If the user doesn't specify a date range, the API defaults to the **last 7 days*
 
 ## Notes
 
-- Feed items are videos that already have `user_contents` rows (i.e., have been seen by some user, not necessarily this user). Phase 2.4.x will add `user_channel_subscriptions.last_seen_at` for "show me only what I haven't seen" semantics.
+- Feed items are videos that already have `user_contents` rows (i.e., have been seen by some user, not necessarily this user).
+- The default `since` resolves to `MIN(user_channel_subscriptions.last_seen_at)` — call `feedMarkSeen` after presenting items so the next call returns only newer ones.
 - `feed` is read-only and free of minute-cost — agents can poll without burning quota (still respects per-IP rate limits).

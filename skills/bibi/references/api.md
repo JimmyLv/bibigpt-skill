@@ -1,12 +1,12 @@
 # BibiGPT OpenAPI Reference
 
-> **Auto-generated companion**: `references/endpoints.md` is regenerated
-> from the live OpenAPI spec via `bun packages/bibigpt-skill/scripts/sync-from-openapi.ts --write`.
-> This file (`api.md`) is hand-curated for auth, decision matrices, and
-> agent-friendly explanations. Use both together.
-
-
 Use these HTTP endpoints when the `bibi` CLI is not installed (Linux, containers, CI).
+
+> An auto-generated companion (`references/endpoints.md`) lists every
+> endpoint with curl examples — derived from the live OpenAPI spec
+> ([https://bibigpt.co/api/openapi.json](https://bibigpt.co/api/openapi.json)).
+> This file (`api.md`) is hand-curated for auth, decision tables, and
+> agent-friendly explanations. Use both together.
 
 **Base URL**: `https://api.bibigpt.co/api`
 **OpenAPI spec**: `https://bibigpt.co/api/openapi.json`
@@ -261,7 +261,7 @@ curl -s "https://api.bibigpt.co/api/version"
 # → { "version": "1.0.0" }
 ```
 
-### Agent-native (Phase 2 +) — saved library
+### Saved library
 
 #### List saved videos — `GET /v1/library/list`
 
@@ -283,7 +283,7 @@ curl -s "https://api.bibigpt.co/api/v1/library/get?id=CONTENT_ID" \
 # → { "id":..., "title":..., "note":..., "summary":..., "chapters":null, "subtitles":null, ... }
 ```
 
-MCP tool: `get_saved_video`. Note: chapters/subtitles are `null` in MVP — call `get_subtitle` for fresh transcripts.
+MCP tool: `get_saved_video`. Returns chapters (when generated) and subtitles (when stored). For fresh transcripts of unstored videos, call `get_subtitle`.
 
 #### Search saved videos — `GET /v1/library/search`
 
@@ -293,20 +293,20 @@ curl -s "https://api.bibigpt.co/api/v1/library/search?keyword=AI%20agents&limit=
 # → { "results": [{ "contentId":..., "title":..., "snippet":..., "matchType":"note" }], "count": 7 }
 ```
 
-MCP tool: `search_saved_videos`. MVP searches title + note (ILIKE); full-text subtitle search is planned.
+MCP tool: `search_saved_videos`. Searches title + note (ILIKE) in parallel with subtitle full-text (Postgres `websearch_to_tsquery`). Subtitle hits include the matched segment's `timestamp` so the agent can deep-link into the moment.
 
-### Agent-native (Phase 2.7-2.11) — advanced tools
+### Advanced tools
 
-| Endpoint | Method | MCP tool | Status |
+| Endpoint | Method | MCP tool | Notes |
 |---|---|---|---|
-| `/v1/video/mindmap` | POST | `generate_video_mindmap` | ✅ working (markdown → .xmind via shared `generateMindmap` service) |
-| `/v1/video/visuals` | POST | `extract_video_visuals` | ✅ working (Pro-only; shared `createVideoProcessingTaskCore`) |
-| `/v1/summary/byPrompt` | POST | `generate_summary_by_prompt` | ✅ working (always regenerates; overwrites user note) |
-| `/v1/notion/status` | GET | `get_notion_status` | ✅ working |
-| `/v1/notion/exportNote` | POST | `export_to_notion` | ✅ working (full Notion API page upsert) |
-| `/v1/collections/chatHistory` | GET | `get_collection_chat_history` | ✅ working |
+| `/v1/video/mindmap` | POST | `generate_video_mindmap` | Markdown → `.xmind`; cached per (user, contentId) |
+| `/v1/video/visuals` | POST | `extract_video_visuals` | Pro-only; rate-limited; returns taskId — poll `vision.getVideoProcessingTask` |
+| `/v1/summary/byPrompt` | POST | `generate_summary_by_prompt` | Always regenerates; overwrites the user's saved note |
+| `/v1/notion/status` | GET | `get_notion_status` | Read-only; check before `export_to_notion` |
+| `/v1/notion/exportNote` | POST | `export_to_notion` | Creates a new page in the bound Notion database |
+| `/v1/collections/chatHistory` | GET | `get_collection_chat_history` | Returns prior messages + AI-suggested questions |
 
-All five mutations require write scope (Phase 1.6.x). All shared service helpers live in `server/api/services/vision/` so legacy `vision.*` procedures and agent surface can't drift.
+All five mutations require **write** scope. Read-only tokens (`scopes: ['read']`) get 403 from the agent middleware.
 
 ```bash
 # Notion connection status (works today)
@@ -318,7 +318,7 @@ curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
   "https://api.bibigpt.co/api/v1/collections/chatHistory?collectionId=..."
 ```
 
-### Agent-native (Phase 2 +) — notes
+### User notes
 
 | Endpoint | Method | MCP tool | Purpose |
 |---|---|---|---|
@@ -338,7 +338,7 @@ curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
   "https://api.bibigpt.co/api/v1/notes/update"
 ```
 
-### Agent-native (Phase 2 +) — collections
+### Collections
 
 | Endpoint | Method | MCP tool | Purpose |
 |---|---|---|---|
@@ -360,7 +360,7 @@ curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
 # → { "id": "..." }
 ```
 
-### Agent-native (Phase 2 +) — feed
+### Feed
 
 `GET /v1/feed` — latest items from all subscribed channels.
 
@@ -372,7 +372,7 @@ curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
 
 Query params: `since` (ISO 8601, default 7 days ago), `limit` (1–100, default 20), `cursor` (use `nextCursor` from prior response). MCP tool: `get_latest_feed`.
 
-### Agent-native (Phase 2 +) — channel subscriptions
+### Channel subscriptions
 
 | Endpoint | Method | MCP tool | Purpose |
 |---|---|---|---|

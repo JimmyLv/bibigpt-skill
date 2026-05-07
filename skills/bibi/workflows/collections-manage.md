@@ -66,5 +66,5 @@ For lists, render a Markdown table with name + videoCount + ownership badge. For
 ## Notes
 
 - `collections.create` and `collections.add-item` are **mutations** (write scope).
-- Cursor pagination on `list` is Phase 2.5.x (MVP returns one batch up to `limit`).
+- `list` is cursor-paginated by effective-created-at across owned + purchased collections.
 - `aggregatedSummary` is populated by a background job; `null` for newly-created collections.

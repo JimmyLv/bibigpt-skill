@@ -54,7 +54,7 @@ Response:
 bibi call library.get --id "<contentId>" --json
 ```
 
-Returns the user's saved note (their personalized summary) plus core metadata. Chapters and subtitles arrays are `null` in MVP — for transcripts, call `get_subtitle` (`bibi summarize <URL> --subtitle`).
+Returns the user's saved note (their personalized summary), chapters (when generated), and subtitles (when stored). For fresh transcripts of unstored videos, call `get_subtitle` (`bibi summarize <URL> --subtitle`).
 
 ### 3. Search saved videos
 
@@ -62,7 +62,7 @@ Returns the user's saved note (their personalized summary) plus core metadata. C
 bibi call library.search --keyword "AI agents" --limit 10 --json
 ```
 
-MVP: keyword ILIKE on title and note. Subtitle full-text search is planned. Each result includes a snippet excerpt around the match.
+Searches title and note (ILIKE) in parallel with subtitle full-text (Postgres `websearch_to_tsquery`). Subtitle hits include the matched segment's `timestamp` so you can deep-link into a specific moment. Each result has a snippet excerpt around the match and `matchType` ∈ `title | subtitle | note | summary`.
 
 ## Output formatting
 

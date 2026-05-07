@@ -1,18 +1,18 @@
 # Workflow: Advanced Tools (Mindmap / Visuals / By-Prompt / Notion / Chat)
 
-Bridges high-value but lower-frequency capabilities. Most are MVP-staged — schemas and routing exist, full implementation lands in later sub-phases. The procedures emit **clear NOT_IMPLEMENTED messages** with the exact fallback when not yet ready, so the agent can degrade gracefully.
+Higher-value but lower-frequency capabilities. Each maps to a single CLI invocation or MCP tool call; pick by intent.
 
 ## Triggers and routing
 
-| Intent | Status | Notes |
-|---|---|---|
-| "Make a mindmap from this summary" | ✅ Working — `bibi call video.mindmap --contentId <id> --summary "..."` | Returns `.xmind` file URL; cached per (user, contentId) |
-| "Analyze the visuals / slides / on-screen text" | ✅ Working — `bibi call video.visuals --videoUrl "https://..."` | Pro-only; rate-limited; returns taskId — poll `vision.getVideoProcessingTask` for completion |
-| "Re-summarize with my own prompt" | ✅ Working — `bibi call summary.byPrompt --contentId <id> --customPrompt "..."` | Always regenerates (customPrompt is uncacheable in MVP); overwrites the user's saved note |
-| "Push this video summary to Notion" | ✅ Working — `bibi call notion.exportNote --contentId <id>` | Requires prior Notion OAuth (check via `notion.status`); creates a new page in the bound database |
-| "Show me the chat history for collection X" | ✅ Working — `bibi call collections.chatHistory --collectionId <id>` | Returns prior messages + AI-suggested questions |
+| Intent | Command |
+|---|---|
+| "Make a mindmap from this summary" | `bibi call video.mindmap --contentId <id> --summary "..."` — returns `.xmind` file URL; cached per (user, contentId) |
+| "Analyze the visuals / slides / on-screen text" | `bibi call video.visuals --videoUrl "https://..."` — Pro-only; rate-limited; returns taskId, poll `vision.getVideoProcessingTask` for completion |
+| "Re-summarize with my own prompt" | `bibi call summary.byPrompt --contentId <id> --customPrompt "..."` — always regenerates; overwrites the user's saved note |
+| "Push this video summary to Notion" | `bibi call notion.exportNote --contentId <id>` — requires prior Notion OAuth (check via `notion.status`); creates a new page in the bound database |
+| "Show me the chat history for collection X" | `bibi call collections.chatHistory --collectionId <id>` — returns prior messages + AI-suggested questions |
 
-## Steps — what works today
+## Steps
 
 ### 1. Notion connection status
 
@@ -33,20 +33,23 @@ bibi call collections.chatHistory --collectionId <id> --json
 
 Returns prior chat messages and AI-suggested questions. Use this to summarize what the user has already discussed about a collection before generating new questions or extending the conversation.
 
-### 3. Notion export pre-flight
+### 3. Notion export
 
 ```bash
 bibi call notion.exportNote --contentId <id> --json
+# → { "success": true, "pageUrl": "https://www.notion.so/..." }
 ```
 
-The agent endpoint **validates** that the note exists and Notion is connected, then returns NOT_IMPLEMENTED with a fallback hint. Use for "can I push this to Notion?" checks before doing the actual push via the legacy `notion.sendToNotion` tRPC procedure.
+Validates that the note exists and Notion is connected, then creates a new Notion page in the bound database. Returns the page URL on success.
 
-## Working examples (all fully functional)
+## Working examples
 
 ### Mindmap
 
 ```bash
-bibi call video.mindmap --contentId <contentId> --summary "$(bibi call notes.get --contentId <contentId> --json | jq -r .note)" --json
+bibi call video.mindmap \
+  --contentId <contentId> \
+  --summary "$(bibi call notes.get --contentId <contentId> --json | jq -r .note)" --json
 # → { "fileUrl": "https://...storage.../<userId>/<contentId>.xmind" }
 ```
 
@@ -57,9 +60,9 @@ Cached per (user, contentId). Pass `--isRefresh true` to regenerate.
 ```bash
 # 1. Create the task (Pro-only; rate-limited)
 bibi call video.visuals --videoUrl "https://..." --json
-# → { "taskId":..., "status": "pending"|"processing"|"completed"|... , "isFromCache": ... }
+# → { "taskId":..., "status": "pending"|"processing"|"completed"|... }
 
-# 2. Poll for completion via the legacy procedure (Phase 2.x.x will add a wrapper)
+# 2. Poll for completion (legacy procedure — agent wrapper coming)
 curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
   "https://bibigpt.co/api/trpc/vision.getVideoProcessingTask?input=$(printf %s '{"json":{"taskId":"..."}}' | jq -sRr @uri)"
 ```
@@ -79,15 +82,12 @@ bibi call summary.byPrompt \
 ### Notion export
 
 ```bash
-# 1. Confirm Notion is connected
-bibi call notion.status --json
-# 2. Push
+bibi call notion.status --json                  # confirm connection
 bibi call notion.exportNote --contentId <contentId> --json
 # → { "success": true, "pageUrl": "https://www.notion.so/..." }
 ```
 
 ## Notes
 
-- All five tools are **mutations** with `agent.scope = 'write'`; require a token with write scope (Phase 1.6.x runtime check enforced via tRPC middleware).
-- Phase 2.7.x / 2.9.x / 2.10.x / 2.11.x all landed simultaneously after Phase 1.6.x scope migration was applied — no more NOT_IMPLEMENTED stubs in this section.
+- All five tools are **mutations** with `agent.scope = 'write'`; require a token with write scope. Read-only tokens get 403.
 - Custom-prompt summary clobbers `user_contents_note`; use `/v1/summarizeWithConfig` directly when you need a one-shot generation that doesn't touch the saved note.

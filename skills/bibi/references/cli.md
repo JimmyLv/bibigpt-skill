@@ -77,18 +77,18 @@ bibi call me                  # Returns account, plan tier, remaining minutes (r
 bibi call me --json           # Same but pretty-printed
 ```
 
-### Saved Library (Phase 2)
+### Saved Library
 
 ```bash
 bibi call library.list                                 # 20 most-recently updated saved videos
 bibi call library.list --limit 50 --json
 bibi call library.list --channelId <authorId>          # filter by channel
 bibi call library.list --cursor "2"                    # next page
-bibi call library.get --id <contentId> --json          # full detail incl. note
-bibi call library.search --keyword "AI agents"         # ILIKE on title + note (MVP)
+bibi call library.get --id <contentId> --json          # full detail incl. note + chapters + subtitles
+bibi call library.search --keyword "AI agents"         # title/note ILIKE + subtitle full-text
 ```
 
-### Channel Subscriptions (Phase 2)
+### Channel Subscriptions
 
 ```bash
 bibi call channels.list --json
@@ -97,15 +97,17 @@ bibi call channels.unsubscribe --channelUrl "https://www.youtube.com/@..." --jso
 bibi call channels.videos --channelUrl "https://..." --limit 10 --json
 ```
 
-### Feed (Phase 2)
+### Feed
 
 ```bash
-bibi call feed --json                          # last 7 days, up to 20 items
+bibi call feed --json                          # since last_seen_at (default), up to 20 items
 bibi call feed --since 2026-05-01 --limit 50   # explicit window
 bibi call feed --cursor "2026-05-04T12:00:00Z" # paginate via prior nextCursor
+bibi call feedMarkSeen --json                  # bump last_seen_at on all subscribed channels
+bibi call feedMarkSeen --channelUrl "https://..." --json  # bump just one channel
 ```
 
-### Collections (Phase 2)
+### Collections
 
 ```bash
 bibi call collections.list --scope all --json                                     # owned + purchased
@@ -115,7 +117,7 @@ bibi call collections.add-item --collectionId <id> --contentId <contentId> --jso
 bibi call collections.add-item --collectionId <id> --sourceUrl "https://..." --json
 ```
 
-### Notes (Phase 2)
+### Notes
 
 ```bash
 bibi call notes.list --limit 20 --json                       # cursor by updated_at desc
@@ -124,18 +126,15 @@ bibi call notes.get --contentId <contentId> --json
 bibi call notes.update --contentId <contentId> --text "..." --json   # write scope
 ```
 
-### Advanced Tools (Phase 2.7-2.11)
+### Advanced Tools
 
 ```bash
-# Working today
-bibi call notion.status --json                                       # check Notion connection
-bibi call collections.chatHistory --collectionId <id> --json         # cached chat history
-
-# Declared schemas; fall through to legacy tRPC procs (returns NOT_IMPLEMENTED with hint)
-bibi call video.mindmap --contentId <id> --summary "..." --json      # Phase 2.11.x
-bibi call video.visuals --videoUrl "https://..." --json              # Phase 2.7.x
-bibi call summary.byPrompt --contentId <id> --customPrompt "..." --json  # Phase 2.9.x
-bibi call notion.exportNote --contentId <id> --json                  # pre-flight ✅, page push 2.10.x
+bibi call video.mindmap --contentId <id> --summary "..." --json          # generate XMind file
+bibi call video.visuals --videoUrl "https://..." --json                  # PPT + OCR + slides task (Pro)
+bibi call summary.byPrompt --contentId <id> --customPrompt "..." --json  # re-summarize with custom prompt
+bibi call notion.status --json                                           # check Notion connection
+bibi call notion.exportNote --contentId <id> --json                      # push saved note to Notion
+bibi call collections.chatHistory --collectionId <id> --json             # cached chat history
 ```
 
 `subscribe`/`unsubscribe` are mutations (write scope); `list`/`videos` are read-only.

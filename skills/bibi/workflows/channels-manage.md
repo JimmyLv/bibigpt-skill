@@ -54,10 +54,10 @@ For lists, render a Markdown table or compact list with title + platform + lastS
 
 ## Common follow-ups
 
-- "Which channel hasn't I summarized recently" → call `channels.list` → sort by `lastSummarizedAt` (when populated; currently `null` in MVP, falling back to subscription order)
-- "What's new in my feed" → use `get_latest_feed` (Phase 2.4) instead, which aggregates across all subscribed channels
+- "Which channel haven't I summarized recently" → call `channels.list` and sort by `lastSummarizedAt` (when populated)
+- "What's new in my feed" → use `get_latest_feed` instead, which aggregates across all subscribed channels
 
 ## Notes
 
-- `channels.subscribe` and `channels.unsubscribe` are **mutations** and require write scope (Phase 1.6.x runtime check). Read-only API tokens cannot subscribe/unsubscribe.
-- `lastSummarizedAt` is `null` in MVP — Phase 2.3.x will populate it from `user_contents.created_at MAX` per channel.
+- `channels.subscribe` and `channels.unsubscribe` are **mutations** and require write scope. Read-only API tokens cannot subscribe/unsubscribe.
+- `lastSummarizedAt` may be `null` for newly subscribed channels with no summarized videos yet.
