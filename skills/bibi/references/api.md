@@ -289,6 +289,18 @@ curl -s "https://api.bibigpt.co/api/v1/library/search?keyword=AI%20agents&limit=
 
 MCP tool: `search_saved_videos`. MVP searches title + note (ILIKE); full-text subtitle search is planned.
 
+### Agent-native (Phase 2 +) — feed
+
+`GET /v1/feed` — latest items from all subscribed channels.
+
+```bash
+curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  "https://api.bibigpt.co/api/v1/feed?limit=20"
+# → { "items": [{ "contentId", "channelId", "channelTitle", "title", "sourceUrl", "coverUrl", "publishedAt" }], "nextCursor": "..." }
+```
+
+Query params: `since` (ISO 8601, default 7 days ago), `limit` (1–100, default 20), `cursor` (use `nextCursor` from prior response). MCP tool: `get_latest_feed`.
+
 ### Agent-native (Phase 2 +) — channel subscriptions
 
 | Endpoint | Method | MCP tool | Purpose |

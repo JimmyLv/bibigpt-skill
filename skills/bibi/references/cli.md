@@ -97,6 +97,14 @@ bibi call channels.unsubscribe --channelUrl "https://www.youtube.com/@..." --jso
 bibi call channels.videos --channelUrl "https://..." --limit 10 --json
 ```
 
+### Feed (Phase 2)
+
+```bash
+bibi call feed --json                          # last 7 days, up to 20 items
+bibi call feed --since 2026-05-01 --limit 50   # explicit window
+bibi call feed --cursor "2026-05-04T12:00:00Z" # paginate via prior nextCursor
+```
+
 `subscribe`/`unsubscribe` are mutations (write scope); `list`/`videos` are read-only.
 
 ### Generic dispatch (manifest-driven)
