@@ -115,6 +115,15 @@ bibi call collections.add-item --collectionId <id> --contentId <contentId> --jso
 bibi call collections.add-item --collectionId <id> --sourceUrl "https://..." --json
 ```
 
+### Notes (Phase 2)
+
+```bash
+bibi call notes.list --limit 20 --json                       # cursor by updated_at desc
+bibi call notes.list --cursor "2026-05-04T12:00:00Z" --json
+bibi call notes.get --contentId <contentId> --json
+bibi call notes.update --contentId <contentId> --text "..." --json   # write scope
+```
+
 `subscribe`/`unsubscribe` are mutations (write scope); `list`/`videos` are read-only.
 
 ### Generic dispatch (manifest-driven)

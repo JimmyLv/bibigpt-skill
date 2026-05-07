@@ -43,6 +43,7 @@ Route the user's request to the appropriate workflow:
 | Manage channel subscriptions, list/sub/unsub, RSS preview | → `workflows/channels-manage.md` |
 | What's new across my subscriptions, latest feed, daily digest | → `workflows/feed-latest.md` |
 | Manage collections, list/create/share saved videos as a set | → `workflows/collections-manage.md` |
+| Manage personal notes on saved videos, edit summaries | → `workflows/notes-manage.md` |
 
 ## Disambiguation
 

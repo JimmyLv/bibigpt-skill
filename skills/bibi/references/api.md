@@ -289,6 +289,26 @@ curl -s "https://api.bibigpt.co/api/v1/library/search?keyword=AI%20agents&limit=
 
 MCP tool: `search_saved_videos`. MVP searches title + note (ILIKE); full-text subtitle search is planned.
 
+### Agent-native (Phase 2 +) — notes
+
+| Endpoint | Method | MCP tool | Purpose |
+|---|---|---|---|
+| `/v1/notes/list` | GET | `list_notes` | List user notes (cursor-paginated) |
+| `/v1/notes/get` | GET | `get_note` | Get note by contentId |
+| `/v1/notes/update` | POST | `update_note` | Save / update note (write scope) |
+
+```bash
+# List
+curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  "https://api.bibigpt.co/api/v1/notes/list?limit=20"
+
+# Update
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"contentId":"...","text":"My polished summary"}' \
+  "https://api.bibigpt.co/api/v1/notes/update"
+```
+
 ### Agent-native (Phase 2 +) — collections
 
 | Endpoint | Method | MCP tool | Purpose |
