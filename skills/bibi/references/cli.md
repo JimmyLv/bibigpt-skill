@@ -105,6 +105,16 @@ bibi call feed --since 2026-05-01 --limit 50   # explicit window
 bibi call feed --cursor "2026-05-04T12:00:00Z" # paginate via prior nextCursor
 ```
 
+### Collections (Phase 2)
+
+```bash
+bibi call collections.list --scope all --json                                     # owned + purchased
+bibi call collections.get --id <collectionId> --json
+bibi call collections.create --name "AI Agents 2026" --isPublic false --json     # write scope
+bibi call collections.add-item --collectionId <id> --contentId <contentId> --json # write scope
+bibi call collections.add-item --collectionId <id> --sourceUrl "https://..." --json
+```
+
 `subscribe`/`unsubscribe` are mutations (write scope); `list`/`videos` are read-only.
 
 ### Generic dispatch (manifest-driven)
