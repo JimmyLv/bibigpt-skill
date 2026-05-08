@@ -12,6 +12,15 @@ Spec: **BibiGPT OpenAPI 规范** (v1.1.0)
 
 ## agent
 
+### `GET /v1/channel/health`
+
+> Probe RSS health for every subscribed channel
+
+```bash
+curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  "https://api.bibigpt.co/api/v1/channel/health"
+```
+
 ### `GET /v1/channels/list`
 
 > List subscribed channels
