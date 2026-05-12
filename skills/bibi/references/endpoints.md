@@ -401,6 +401,17 @@ curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
   "https://api.bibigpt.co/api/v1/summarize?url=<url>&includeDetail=<includeDetail>"
 ```
 
+### `POST /v1/summarize`
+
+> Generate video or audio summary from url (POST variant for agent payment)
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ ... }' \
+  "https://api.bibigpt.co/api/v1/summarize"
+```
+
 ### `GET /v1/summarizeByChapter`
 
 > Generate chapter summary for url
