@@ -17,7 +17,8 @@ and no 402 is emitted.
 | First go-live service | `BibiGPT 音视频总结` (¥1.00 / call) |
 | Endpoint | `POST /v1/summarize` body `{"url":"..."}` |
 | Service ID (internal) | `API_57E675B65F624916` |
-| Gray-release status | Code shipped; paymentGuard wiring to live route is the next step |
+| Server-side config | Smoke-tested against real Alipay endpoint — signature accepted, `alipay.aipay.agent.payment.verify` reaches business layer (returns `TRADE_NOT_FOUND` for fake trade, confirming keypair + APPID + Alipay public key all wired correctly) |
+| Gray-release status | Code shipped + verified; paymentGuard wiring to live route is the next step |
 
 ## When 402 happens
 
