@@ -9,17 +9,6 @@ This is a **fallback channel** — if `BIBI_API_TOKEN` is set or the user is
 a BibiGPT member, calls go through the existing subscription / quota path
 and no 402 is emitted.
 
-## Status (as of 2026-05-12)
-
-| Item | Value |
-|---|---|
-| BibiGPT 智能收 APPID | `2021006155606141` |
-| First go-live service | `BibiGPT 音视频总结` (¥1.00 / call) |
-| Endpoint | `POST /v1/summarize` body `{"url":"..."}` |
-| Service ID (internal) | `API_57E675B65F624916` |
-| Server-side config | Smoke-tested against real Alipay endpoint — signature accepted, `alipay.aipay.agent.payment.verify` reaches business layer (returns `TRADE_NOT_FOUND` for fake trade, confirming keypair + APPID + Alipay public key all wired correctly) |
-| Gray-release status | Code shipped + verified; paymentGuard wiring to live route is the next step |
-
 ## When 402 happens
 
 A call returns HTTP `402 Payment Required` only if **all** of these are true:
