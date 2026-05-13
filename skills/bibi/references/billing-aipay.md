@@ -13,14 +13,17 @@ and no 402 is emitted.
 
 A call returns HTTP `402 Payment Required` only if **all** of these are true:
 
-1. The route has paymentGuard wired (currently rolled out per-endpoint)
+1. The route opted in to AI 收 (currently `POST /v1/summarize`; more endpoints
+   roll out one at a time)
 2. The call came in via the `agent-skill` channel (i.e., `x-client-type: bibi-cli`
    or the MCP server)
-3. The user has no active subscription / API token / free-quota credit
+3. The caller has no active subscription / API token / free-quota credit
 
 The response includes a `Payment-Needed` HTTP header (base64url-encoded JSON)
 that names the price, the resource being charged for, and the seller's
-signed challenge.
+signed challenge. The bibi CLI prints `[HTTP/402 Payment Required]` to stderr
+before the human-readable prompt — agent skills can grep for it to detect 402
+deterministically.
 
 ## What the agent should do
 
@@ -55,6 +58,19 @@ If `@alipay/agent-payment` is not installed, the bibi CLI prints a prompt:
 Guide the user to:
 - Visit `https://bibigpt.co/shop?onDemand=true` for a one-off purchase, **or**
 - Install `@alipay/agent-payment` and retry
+
+## Detecting 402 from CLI output
+
+The bibi CLI emits a stable marker line to stderr ahead of any human prompt:
+
+```
+[HTTP/402 Payment Required]
+```
+
+If an agent skill sees this line on stderr (or HTTP 402 from a direct API
+call), it should switch to the Alipay-AI-钱包 flow above. The marker appears
+on every code path that yields 402 — direct summarize, chapter, subtitle,
+async, and the generic `bibi call` dispatcher.
 
 ## Caveats
 
