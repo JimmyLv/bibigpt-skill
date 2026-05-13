@@ -26,10 +26,16 @@ If neither mode is available, see `references/installation.md` for setup instruc
 
 **Payment fallback (China)**: if neither auth is set but the user has an Alipay
 account, BibiGPT may emit HTTP `402 Payment Required` with a `Payment-Needed`
-header (AI收 protocol). The agent can resolve this automatically by installing
+header (AI 收 protocol). The agent can resolve this automatically by installing
 [`@alipay/agent-payment`](https://www.npmjs.com/package/@alipay/agent-payment),
 or manually by directing the user to a one-off QR purchase. See
 `references/billing-aipay.md`.
+
+**Detect 402 deterministically**: the bibi CLI prints a stable marker line
+`[HTTP/402 Payment Required]` to stderr before any human-readable prompt; direct
+HTTP callers get status `402` + `Payment-Needed` header. When either signal
+appears, route to `references/billing-aipay.md` instead of treating the call
+as failed.
 
 ## Intent Routing
 
@@ -52,6 +58,7 @@ Route the user's request to the appropriate workflow:
 | Manage collections, list/create/share saved videos as a set | → `workflows/collections-manage.md` |
 | Manage personal notes on saved videos, edit summaries | → `workflows/notes-manage.md` |
 | Generate mindmap, visual analysis, custom-prompt summary, Notion export, collection chat | → `workflows/advanced-tools.md` |
+| **HTTP 402 / "需要付款" / Alipay AI 钱包 / no token + China user** | → `references/billing-aipay.md` |
 
 ## Disambiguation
 

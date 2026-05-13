@@ -136,6 +136,15 @@ Agent 会自动检测当前环境（CLI 还是 API），并路由到对应的工
 - API / MCP 调用按账户配额计费，长视频建议走异步接口
 - 高并发场景（CI / 批量任务）建议预先购买 Pro 套餐或按需充值
 
+**无 BIBI_API_TOKEN？支付宝 AI 钱包按次支付**
+
+如果 Agent 端没有配置 `BIBI_API_TOKEN`，且用户位于中国大陆有支付宝账号，BibiGPT 会返回 HTTP `402 Payment Required` + `Payment-Needed` 响应头（智能收 / AI 收协议）。Agent 有两种处理方式：
+
+1. **自动**（推荐）：装上支付宝官方的 [`@alipay/agent-payment`](https://www.npmjs.com/package/@alipay/agent-payment) skill，Agent 收到 402 后会自动弹起付款授权（一笔约 ¥1，每次调用一次授权）
+2. **手动**：引导用户去 [bibigpt.co/shop](https://bibigpt.co/shop?onDemand=true) 一次性购买后再调用
+
+`bibi` CLI 会在 stderr 输出固定标识 `[HTTP/402 Payment Required]`，Agent 抓到这一行就触发上述自动流。协议字段、错误码细节见 `skills/bibi/references/billing-aipay.md`。
+
 **隐私与安全**
 
 - 本地文件经过 BibiGPT 的字幕引擎处理，处理结果默认仅本人可见
