@@ -1,13 +1,16 @@
 ---
 name: bibi
 description: >
-  AI video & audio summarizer. Summarize YouTube videos, Bilibili videos,
-  podcasts, TikTok, Twitter/X, Xiaohongshu, and any online video or audio.
+  AI video & audio summarizer + repackager. Summarize YouTube, Bilibili,
+  podcasts, TikTok, Twitter/X, Xiaohongshu, and any online video or audio,
+  then optionally turn the takeaway into a TikTok-style vertical music video.
   Use when the user wants to summarize a video, extract transcripts/subtitles,
-  get chapter-by-chapter summaries, or understand video content quickly.
+  get chapter-by-chapter summaries, understand video content quickly, or
+  remix a long-form video into a short vertical MV.
   Triggers: "summarize this video", "what's this video about", "extract subtitles",
   "总结这个视频", "帮我看看这个视频讲了什么", "video summary", "podcast notes",
-  "YouTube summary", "B站总结", "get transcript", "video to notes".
+  "YouTube summary", "B站总结", "get transcript", "video to notes",
+  "video to TikTok MV", "把视频变成 TikTok", "video to song", "做一个 TikTok 视频".
   Works via bibi CLI (macOS/Windows) or OpenAPI (Linux / any platform without CLI).
 ---
 
@@ -47,6 +50,7 @@ Route the user's request to the appropriate workflow:
 | Chapter-by-chapter breakdown, detailed analysis | → `workflows/deep-dive.md` |
 | Get subtitles, extract transcript, raw text | → `workflows/transcript-extract.md` |
 | Turn into article, blog post, 公众号图文, 小红书 | → `workflows/article-rewrite.md` |
+| Turn into TikTok / Reels / Shorts-style music video | → `workflows/video-to-tiktok-mv.md` |
 | Process multiple URLs, batch summarize | → `workflows/batch-process.md` |
 | Research a topic across multiple videos | → `workflows/research-compile.md` |
 | Save to Notion, Obsidian, export notes | → `workflows/export-notes.md` |
