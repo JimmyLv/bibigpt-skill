@@ -366,11 +366,14 @@ curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
 |---|---|---|---|
 | `url` | string | yes | The URL to the video (e.g., ?url=https://www.bilibili.com/video/BV1Sk4y1x7r2) |
 | `audioLanguage` | string | no |  |
+| `transcribeProvider` | string | no |  |
+| `whisperPrompt` | string | no |  |
+| `apiKey` | string | no |  |
 | `enabledSpeaker` | boolean | no |  |
 
 ```bash
 curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
-  "https://api.bibigpt.co/api/v1/getSubtitle?url=<url>&audioLanguage=<audioLanguage>&enabledSpeaker=<enabledSpeaker>"
+  "https://api.bibigpt.co/api/v1/getSubtitle?url=<url>&audioLanguage=<audioLanguage>&transcribeProvider=<transcribeProvider>&whisperPrompt=<whisperPrompt>&apiKey=<apiKey>&enabledSpeaker=<enabledSpeaker>"
 ```
 
 ### `GET /v1/getSummaryTaskStatus`
