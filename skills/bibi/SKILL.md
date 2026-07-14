@@ -16,33 +16,62 @@ description: >
 
 # BibiGPT — AI Video & Audio Summarizer
 
-## Environment Check
+This file is a **discovery stub, not the usage guide**. It tells you which
+mode you are in and where the live docs are. The live sources always match
+the current product; anything copied into this file would go stale.
 
-Run `scripts/bibi-check.sh` first. It detects which mode is available:
+## 1. Detect Mode
 
-| Mode | When to use | Auth |
-|------|-------------|------|
-| **CLI** (`bibi` command) | macOS / Windows / Linux with desktop app | Desktop login or `BIBI_API_TOKEN` |
-| **OpenAPI** (HTTP calls) | Containers, CI, or any env without CLI | `BIBI_API_TOKEN` only |
+Run `scripts/bibi-check.sh` if present, or check in order:
 
-If neither mode is available, see `references/installation.md` for setup instructions.
+| Check | Mode | Notes |
+|-------|------|-------|
+| `command -v bibi` | **CLI** — best: local files, desktop login | macOS / Windows / Linux desktop app |
+| `$BIBI_API_TOKEN` set | **API** — HTTP calls, works anywhere | token: https://bibigpt.co/user/integration |
+| MCP client available | **MCP** — zero install | connect `https://bibigpt.co/api/mcp` (OAuth 2.1) |
 
-**Payment fallback (China)**: if neither auth is set but the user has an Alipay
-account, BibiGPT may emit HTTP `402 Payment Required` with a `Payment-Needed`
-header (AI 收 protocol). The agent can resolve this automatically by installing
-[`@alipay/agent-payment`](https://www.npmjs.com/package/@alipay/agent-payment),
-or manually by directing the user to a one-off QR purchase. See
-`references/billing-aipay.md`.
+Neither available → install the desktop app (`brew install --cask jimmylv/bibigpt/bibigpt`
+on macOS, `winget install BibiGPT` on Windows, `curl -fsSL https://bibigpt.co/install.sh | bash`
+on Linux) or get an API token. Details: `references/installation.md`.
 
-**Detect 402 deterministically**: the bibi CLI prints a stable marker line
-`[HTTP/402 Payment Required]` to stderr before any human-readable prompt; direct
-HTTP callers get status `402` + `Payment-Needed` header. When either signal
-appears, route to `references/billing-aipay.md` instead of treating the call
-as failed.
+## 2. Load Live Docs (per mode)
 
-## Intent Routing
+**CLI mode** — the CLI is the always-current doc source:
 
-Route the user's request to the appropriate workflow:
+```bash
+bibi check-update            # once per session; run `bibi upgrade` if outdated
+bibi --help                  # full command surface, grouped, with examples
+bibi <command> --help        # progressive help — every --help includes examples
+bibi commands                # re-fetch server-defined commands (new capabilities
+                             # appear here without a binary update)
+```
+
+**API mode** — the machine-readable spec is the source of truth:
+
+```
+https://bibigpt.co/api/openapi.json      # all endpoints, schemas, auth
+```
+
+`references/api.md` has curl examples but the spec wins on conflict.
+
+**MCP mode** — connect and list tools; they are self-describing:
+
+```
+https://bibigpt.co/api/mcp               # Streamable HTTP, OAuth 2.1
+```
+
+**Latest docs without reinstalling** — this repo is served raw from GitHub:
+
+```
+https://raw.githubusercontent.com/JimmyLv/bibigpt-skill/main/skills/bibi/SKILL.md
+https://raw.githubusercontent.com/JimmyLv/bibigpt-skill/main/skills/bibi/references/<name>.md
+https://raw.githubusercontent.com/JimmyLv/bibigpt-skill/main/skills/bibi/workflows/<name>.md
+```
+
+If a local `workflows/` or `references/` path below is missing (embedded-only
+install via `bibi skill`), fetch it from the raw URL above instead.
+
+## 3. Intent Routing
 
 | User Intent | Workflow |
 |------------|---------|
@@ -64,47 +93,32 @@ Route the user's request to the appropriate workflow:
 | Generate mindmap, visual analysis, custom-prompt summary, Notion export, collection chat | → `workflows/advanced-tools.md` |
 | **HTTP 402 / "需要付款" / Alipay AI 钱包 / no token + China user** | → `references/billing-aipay.md` |
 
-## Disambiguation
+Disambiguation: intent matches more than one workflow → ask **one** clarifying
+question first. Matches none → ask what they want; **do not guess**. Bare URL
+with no context → default to `workflows/quick-summary.md`.
 
-- If the user's intent matches **more than one** workflow, ask **one** clarifying question before routing.
-- If it matches **none**, ask what they are trying to accomplish. **Do not guess.**
-- If the user just pastes a URL with no context, default to `workflows/quick-summary.md`.
+## 4. Quick One-Liners (CLI mode)
 
-## Local File Support
-
-The `bibi` CLI directly accepts local file paths (no upload needed):
-
-```bash
-bibi summarize "/path/to/video.mp4"
-bibi summarize "/path/to/podcast.mp3"
-```
-
-For API mode (no CLI), guide the user to upload the file to a publicly accessible URL (OSS, S3, etc.) first, then pass that URL to the API. See `references/supported-platforms.md` for details.
-
-## Direct CLI Operations
-
-Use progressive help to discover options: `bibi --help` → `bibi summarize --help` → run.
-
-For simple, single-command requests that don't need a full workflow:
+For single-command requests that don't need a full workflow — discover the
+rest via `bibi --help`:
 
 ```bash
-bibi summarize "<URL>"              # Quick summary (URL or local file path)
-bibi summarize "<URL>" --chapter    # Chapter summary
-bibi summarize "<URL>" --subtitle   # Transcript only
-bibi summarize "<URL>" --json       # Full JSON response
-bibi auth check                     # Check auth status
-bibi me                             # Get account, plan, remaining minutes
-bibi commands                       # List all manifest-driven commands
+bibi summarize "<URL-or-local-file>"     # quick summary (local: .mp4 .mp3 .m4a ...)
+bibi summarize "<INPUT>" --chapter       # chapter summary
+bibi summarize "<INPUT>" --subtitle      # transcript only
+bibi me                                  # account, plan, remaining minutes
 ```
 
-See `references/cli.md` for all commands and flags.
+URLs containing `?` or `&` must be quoted. API mode has no local-file upload —
+guide the user to a public URL (OSS/S3) first, see `references/supported-platforms.md`.
 
-## References
+## 5. Payment Fallback (HTTP 402)
 
-| Document | Contents |
-|----------|----------|
-| `references/cli.md` | All CLI commands, flags, output formats |
-| `references/api.md` | OpenAPI endpoints, curl examples, response schemas |
-| `references/installation.md` | Desktop app install, skill install, auth setup, MCP config |
-| `references/supported-platforms.md` | Supported URL types, platform notes, duration limits |
-| `references/billing-aipay.md` | Alipay AI收 (HTTP 402) per-call payment fallback for China users |
+If no auth is set and the user has an Alipay account, BibiGPT may respond
+with HTTP `402 Payment Required` + `Payment-Needed` header (AI 收 protocol).
+The bibi CLI prints a stable marker line `[HTTP/402 Payment Required]` to
+stderr before any human-readable prompt. When either signal appears, route to
+`references/billing-aipay.md` instead of treating the call as failed — the
+agent can resolve payment automatically via
+[`@alipay/agent-payment`](https://www.npmjs.com/package/@alipay/agent-payment)
+or a one-off QR purchase.

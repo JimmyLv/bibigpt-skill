@@ -2,10 +2,23 @@
 
 AI Agent skill for summarizing videos, audio, and podcasts via [BibiGPT](https://bibigpt.co).
 
-Three ways to use:
+Four ways to use:
 1. **BibiGPT Desktop + CLI Skill** — install `bibi` CLI, works with Claude Code / OpenClaw / Codex
 2. **Remote MCP Server** — zero install, works with any MCP client (Claude, ChatGPT, Cursor, etc.)
 3. **OpenAPI** — direct HTTP calls for containers, CI, or custom integrations
+4. **Codex Plugin** — this repo doubles as a Codex plugin (`.codex-plugin/` manifest + MCP + skills)
+
+### Install as a Codex plugin
+
+In Codex CLI (or the plugin browser via `/plugins`):
+
+```
+/plugin marketplace add JimmyLv/bibigpt-skill
+```
+
+Then install `bibi` from the marketplace tab. Also works in the Codex IDE
+extension (Settings → Plugins) and the ChatGPT desktop app (Work / Codex).
+Authentication happens on first use via OAuth — no API keys to manage.
 
 ---
 

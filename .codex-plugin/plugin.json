@@ -1,0 +1,47 @@
+{
+  "name": "bibi",
+  "version": "2.11.0",
+  "description": "BibiGPT Codex plugin for summarizing videos, audio, and podcasts, extracting transcripts, and repackaging AV content into articles and short videos.",
+  "author": {
+    "name": "BibiGPT",
+    "email": "hi@bibigpt.co",
+    "url": "https://bibigpt.co"
+  },
+  "homepage": "https://bibigpt.co",
+  "repository": "https://github.com/JimmyLv/bibigpt-skill.git",
+  "license": "MIT",
+  "keywords": [
+    "bibigpt",
+    "video",
+    "audio",
+    "podcast",
+    "summarize",
+    "transcript",
+    "subtitles",
+    "youtube",
+    "bilibili",
+    "tiktok",
+    "codex",
+    "mcp"
+  ],
+  "mcpServers": "./.mcp.json",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "BibiGPT",
+    "shortDescription": "Summarize videos, audio, and podcasts from Codex",
+    "longDescription": "Workflow skills and MCP server configuration for routing video/audio understanding work to BibiGPT: summarizing YouTube, Bilibili, TikTok, Twitter/X, Xiaohongshu, podcasts, and local media files; extracting transcripts and subtitles with timestamps; chapter-by-chapter breakdowns; turning long-form videos into articles, social posts, or TikTok-style vertical music videos; batch processing and multi-source research; managing a personal AV library with channels, feeds, collections, and notes; and exporting results to Notion, Obsidian, or local files.",
+    "developerName": "BibiGPT",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "websiteURL": "https://bibigpt.co",
+    "defaultPrompt": [
+      "Summarize this video: <URL>",
+      "Extract the transcript with timestamps from this podcast",
+      "Turn this video into a blog article",
+      "What's new across my subscribed channels?"
+    ],
+    "brandColor": "#10b981",
+    "composerIcon": "./assets/logo.png",
+    "logo": "./assets/logo.png"
+  }
+}

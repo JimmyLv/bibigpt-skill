@@ -106,6 +106,18 @@ BibiGPT also provides a remote MCP server for any MCP-compatible client:
 
 **URL**: `https://bibigpt.co/api/mcp` (Streamable HTTP, OAuth 2.1)
 
+### Codex (plugin — recommended)
+
+This repo is also a Codex plugin bundling the MCP server + workflow skills:
+
+```
+/plugin marketplace add JimmyLv/bibigpt-skill
+```
+
+Then install `bibi` from the marketplace tab in `/plugins`. Works in Codex
+CLI, the Codex IDE extension (Settings → Plugins), and the ChatGPT desktop
+app (Work / Codex). OAuth login happens on first use.
+
 ### Claude Code
 ```bash
 claude mcp add --transport http bibigpt https://bibigpt.co/api/mcp
