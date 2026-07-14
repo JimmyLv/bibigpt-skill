@@ -10,15 +10,18 @@ Four ways to use:
 
 ### Install as a Codex plugin
 
-In Codex CLI (or the plugin browser via `/plugins`):
+From the terminal:
 
-```
-/plugin marketplace add JimmyLv/bibigpt-skill
+```bash
+codex plugin marketplace add JimmyLv/bibigpt-skill
+codex plugin add bibi@bibigpt
 ```
 
-Then install `bibi` from the marketplace tab. Also works in the Codex IDE
-extension (Settings → Plugins) and the ChatGPT desktop app (Work / Codex).
-Authentication happens on first use via OAuth — no API keys to manage.
+Or inside a Codex session: `/plugin marketplace add JimmyLv/bibigpt-skill`,
+then install `bibi` from the marketplace tab in `/plugins`. Also works in the
+Codex IDE extension (Settings → Plugins) and the ChatGPT desktop app
+(Work / Codex). Authentication happens on first use via OAuth — no API keys
+to manage.
 
 ---
 
