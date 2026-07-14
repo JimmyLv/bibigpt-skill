@@ -1,0 +1,20 @@
+{
+  "name": "bibigpt",
+  "interface": {
+    "displayName": "BibiGPT"
+  },
+  "plugins": [
+    {
+      "name": "bibi",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
