@@ -61,7 +61,7 @@ bibi auth set-token <TOKEN>  # Set API token directly
 
 ```bash
 bibi check-update       # Check for new version
-bibi self-update        # Download and install latest
+bibi upgrade            # Download and install latest (alias: self-update)
 ```
 
 ### Version
@@ -151,7 +151,7 @@ bibi call --help                           # When you need it
 `bibi --help` reads the local manifest cache; if no commands are listed yet,
 run `bibi commands` once after `bibi auth login` to populate it. The CLI
 auto-refreshes the manifest every 24 h, so new server-side procedures are
-usable without `bibi self-update`.
+usable without `bibi upgrade`.
 
 ### Skill installation
 

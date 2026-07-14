@@ -102,7 +102,7 @@ The agent will automatically detect the best mode and route to the right workflo
 | `bibi auth check` | Check auth status |
 | `bibi auth login` | OAuth login via browser (saves token automatically) |
 | `bibi check-update` | Check for new version |
-| `bibi self-update` | Download and install latest version |
+| `bibi upgrade` | Download and install latest version (alias: `self-update`) |
 
 ---
 
@@ -113,7 +113,7 @@ BibiGPT ships **three independently updateable layers**. Pick the one that match
 | Layer | Updates | Command | When to run |
 |---|---|---|---|
 | **Skill content** (workflows, references, intent router) | npm-distributed, manual | `npx skills update JimmyLv/bibigpt-skill` | Weekly, or when changelog adds a new MCP tool / workflow |
-| **`bibi` desktop CLI** (binary + embedded SKILL.md + manifest dispatcher) | Self-update or package manager | `bibi self-update` *(or `brew upgrade --cask bibigpt` / `winget upgrade BibiGPT`)* | When the changelog mentions CLI changes |
+| **`bibi` desktop CLI** (binary + embedded SKILL.md + manifest dispatcher) | Self-update or package manager | `bibi upgrade` *(or `brew upgrade --cask bibigpt` / `winget upgrade BibiGPT`)* | When the changelog mentions CLI changes |
 | **Remote MCP server** (`https://bibigpt.co/api/mcp`) | Always latest, server-side | *automatic* — restart your MCP client to pick up new tools | Never manually; happens server-side |
 
 #### Update the skill
@@ -134,12 +134,12 @@ The [GitHub Releases page](https://github.com/JimmyLv/bibigpt-skill/releases) tr
 
 ```bash
 bibi check-update    # peek at the latest published version
-bibi self-update     # download and install (uses brew on macOS, installer on Windows)
+bibi upgrade         # download and install (uses brew on macOS, installer on Windows)
 ```
 
 Or via package manager: `brew upgrade --cask bibigpt` / `winget upgrade BibiGPT --source winget` / fresh download from [bibigpt.co/download/desktop](https://bibigpt.co/download/desktop).
 
-> **Manifest is hot-cached, not embedded.** Even without `bibi self-update`, the CLI dispatcher fetches `https://bibigpt.co/api/cli-manifest.json` on first call (24h TTL) — newly-released agent procedures show up the next day. `bibi self-update` only matters when the dispatcher itself or the embedded `SKILL.md` changes.
+> **Manifest is hot-cached, not embedded.** Even without `bibi upgrade`, the CLI dispatcher fetches `https://bibigpt.co/api/cli-manifest.json` on first call (24h TTL) — newly-released agent procedures show up the next day. `bibi upgrade` only matters when the dispatcher itself or the embedded `SKILL.md` changes.
 
 #### Update the MCP server
 
