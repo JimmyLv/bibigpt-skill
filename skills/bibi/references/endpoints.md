@@ -343,6 +343,19 @@ curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
   "https://api.bibigpt.co/api/v1/express?url=<url>&includeDetail=<includeDetail>&outputLanguage=<outputLanguage>&model=<model>"
 ```
 
+### `POST /v1/generateImage`
+
+> Generate or edit an image with AI (chatimg.ai)
+
+Transform a source image with an AI model and prompt (e.g. style transfer, editing). Requires an API token (Authorization: Bearer <token>). Billing: charged from your chatimg.ai credits per image — openai: 25 credits, gpt-image-2: 50 credits, flux: 12 credits, gemini: 10 credits, nanobanana-pro: 30 credits, nanobanana-2-lite: 12 credits, nanobanana-2: 20 credits, grok: 30 credits, seedream: 15 credits, qwen: 8 credits, z-image-turbo: 5 credits, flux-2-flex: 25 credits. See GET /v1/imagePricing for machine-readable pricing. Generation is asynchronous: poll GET /v1/imageStatus with the same imageUrl until status is completed. Failed generations are automatically refunded.
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ ... }' \
+  "https://api.bibigpt.co/api/v1/generateImage"
+```
+
 ### `GET /v1/getPolishedText`
 
 > Polish video subtitles into readable article segments
@@ -388,6 +401,32 @@ curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
 ```bash
 curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
   "https://api.bibigpt.co/api/v1/getSummaryTaskStatus?taskId=<taskId>&includeDetail=<includeDetail>"
+```
+
+### `GET /v1/imagePricing`
+
+> List available image models and their credits pricing
+
+Machine-readable pricing for POST /v1/generateImage: per-image credits price of each model, plus one-time credits top-up packs. No authentication required.
+
+```bash
+curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  "https://api.bibigpt.co/api/v1/imagePricing"
+```
+
+### `GET /v1/imageStatus`
+
+> Get the status of an image generation task
+
+Poll the status of a generation started via POST /v1/generateImage, keyed by the source imageUrl. Read-only and free of charge. When completed, `generatedImageUrl` holds the result image.
+
+| Param | Type | Required | Description |
+|---|---|---|---|
+| `imageUrl` | string | yes | The source image URL passed to /v1/generateImage |
+
+```bash
+curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  "https://api.bibigpt.co/api/v1/imageStatus?imageUrl=<imageUrl>"
 ```
 
 ### `GET /v1/summarize`
