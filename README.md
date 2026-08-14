@@ -94,6 +94,15 @@ npx skills add JimmyLv/bibigpt-skill
 npx skills add JimmyLv/bibigpt-skill --agents OpenClaw --yes
 ```
 
+#### DeepSeek Harness
+
+```bash
+dsh plugin --profile web add @bibigpt/dsh-plugin
+```
+
+Restart the profile and `/bibi` shows up under **Skills**. Source and the
+disk-copy alternative live in [`dsh-plugin/`](./dsh-plugin).
+
 ### 3. Usage
 
 Ask your agent to summarize any video, audio URL, or **local file**:

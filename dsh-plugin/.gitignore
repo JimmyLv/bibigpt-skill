@@ -1,0 +1,5 @@
+# Build artifact: `scripts/sync-skill.mjs` copies ../skills/bibi in on prepack.
+# The repository copy at ../skills/bibi is the single source of truth.
+skills/
+*.tgz
+node_modules/

@@ -1,0 +1,11 @@
+# The layer this bundle contributes when a profile lists it.
+#
+# `dsh plugin add @bibigpt/dsh-plugin` appends this bundle to the profile's
+# `dsh.profile.bundles`, and the row below is applied after @deepseek-ai/dsh-base.
+#
+# The row carries no `config` — the plugin takes none. Overriding it from a
+# profile's own cordis.patch.yml means restating this id, since a patch replaces
+# a row's entire `config` rather than merging into it.
+- insert:
+    - id: bibigpt
+      name: '@bibigpt/dsh-plugin'

@@ -14,6 +14,19 @@ npx skills add JimmyLv/bibigpt-skill
 npx skills add JimmyLv/bibigpt-skill --agents <agent-name> --yes
 ```
 
+### DeepSeek Harness (dsh)
+
+```bash
+dsh plugin --profile web add @bibigpt/dsh-plugin
+```
+
+Restart the profile; `/bibi` then appears under **Skills** in the command
+palette. Swap `--profile web` for `tui` or `headless` to target those profiles.
+
+Without the plugin, dsh also discovers skills from disk — copying the bundle
+into `~/.agents/skills/bibi` works, and that root is shared with other
+SKILL.md-aware agents.
+
 ### Cursor (manual install)
 
 The bundled CLI can install the skill body directly:

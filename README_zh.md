@@ -80,7 +80,7 @@ curl -X POST https://bibigpt.co/api/open/summarize \
 
 ### 方式 C · BibiGPT Desktop + CLI Skill（本地）
 
-适合 Claude Code / OpenClaw / Codex 等本地 Agent。一行命令安装桌面版：
+适合 Claude Code / OpenClaw / Codex / DeepSeek Harness 等本地 Agent。一行命令安装桌面版：
 
 ```bash
 curl -fsSL https://bibigpt.co/install.sh | bash
@@ -91,6 +91,14 @@ curl -fsSL https://bibigpt.co/install.sh | bash
 ```bash
 npx skills add JimmyLv/bibigpt-skill
 ```
+
+DeepSeek Harness（dsh）走自己的插件系统：
+
+```bash
+dsh plugin --profile web add @bibigpt/dsh-plugin
+```
+
+重启 profile 后，`/bibi` 会出现在命令面板的 **Skills** 分组里。插件源码与拷贝目录的替代装法见 [`dsh-plugin/`](./dsh-plugin)。
 
 之后即可在对话中直接说：
 

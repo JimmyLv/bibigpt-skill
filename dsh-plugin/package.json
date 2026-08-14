@@ -1,0 +1,55 @@
+{
+  "name": "@bibigpt/dsh-plugin",
+  "version": "0.1.0",
+  "description": "Summarize YouTube, Bilibili, podcasts and any online video or audio inside DeepSeek Harness, powered by BibiGPT",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "cordis.patch.yml",
+    "skills"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "cordis",
+    "bibigpt",
+    "video-summary",
+    "transcript",
+    "youtube",
+    "bilibili"
+  ],
+  "homepage": "https://bibigpt.co",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JimmyLv/bibigpt-skill.git",
+    "directory": "dsh-plugin"
+  },
+  "bugs": {
+    "url": "https://github.com/JimmyLv/bibigpt-skill/issues"
+  },
+  "author": "JimmyLv",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "scripts": {
+    "sync-skill": "node scripts/sync-skill.mjs",
+    "prepack": "node scripts/sync-skill.mjs",
+    "test": "node scripts/sync-skill.mjs && node --test"
+  }
+}
