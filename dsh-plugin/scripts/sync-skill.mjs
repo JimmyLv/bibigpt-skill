@@ -1,10 +1,17 @@
 #!/usr/bin/env node
 /**
- * Copy the repository's `skills/bibi` bundle into this package so `npm pack`
- * can ship it. The repository copy stays the single source of truth — this
- * directory is a build artifact and is gitignored.
+ * Copy the repository's `skills/bibi` bundle into this package so the published
+ * artifact carries it. The repository copy stays the single source of truth —
+ * this directory is a build artifact and is gitignored.
  *
- * Runs automatically on `prepack`; run it by hand with `npm run sync-skill`.
+ * Runs on `prepare`, which covers every install path that matters:
+ * `npm pack`/`publish`, and installs straight from git (npm and pnpm both run
+ * `prepare` for git dependencies, including pnpm's `#path:` subdirectory form).
+ * Run it by hand with `npm run sync-skill`.
+ *
+ * Exits 0 when the source is missing but a bundle is already in place — that's
+ * the tarball case, where the copy shipped inside the package and there is no
+ * repository around it.
  */
 import { cp, rm, stat } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
@@ -14,10 +21,21 @@ const here = dirname(fileURLToPath(import.meta.url))
 const source = resolve(here, '../../skills/bibi')
 const target = resolve(here, '../skills/bibi')
 
-try {
-  if (!(await stat(source)).isDirectory()) throw new Error('not a directory')
-} catch {
-  console.error(`sync-skill: no skill bundle at ${source}`)
+/** @param {string} dir @returns {Promise<boolean>} whether dir holds a readable SKILL.md */
+async function hasBundle(dir) {
+  try {
+    return (await stat(join(dir, 'SKILL.md'))).isFile()
+  } catch {
+    return false
+  }
+}
+
+if (!(await hasBundle(source))) {
+  if (await hasBundle(target)) {
+    console.log('sync-skill: no repository source; keeping the packaged bundle')
+    process.exit(0)
+  }
+  console.error(`sync-skill: no skill bundle at ${source} and none packaged at ${target}`)
   process.exit(1)
 }
 

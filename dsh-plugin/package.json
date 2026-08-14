@@ -49,7 +49,7 @@
   },
   "scripts": {
     "sync-skill": "node scripts/sync-skill.mjs",
-    "prepack": "node scripts/sync-skill.mjs",
+    "prepare": "node scripts/sync-skill.mjs",
     "test": "node scripts/sync-skill.mjs && node --test"
   }
 }
