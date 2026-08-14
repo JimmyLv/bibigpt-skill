@@ -95,7 +95,7 @@ npx skills add JimmyLv/bibigpt-skill
 DeepSeek Harness（dsh）走自己的插件系统：
 
 ```bash
-dsh plugin --profile web add @bibigpt/dsh-plugin
+dsh plugin --profile web add "github:JimmyLv/bibigpt-skill#path:/dsh-plugin"
 ```
 
 重启 profile 后，`/bibi` 会出现在命令面板的 **Skills** 分组里。插件源码与拷贝目录的替代装法见 [`dsh-plugin/`](./dsh-plugin)。

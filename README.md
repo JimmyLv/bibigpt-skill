@@ -97,7 +97,7 @@ npx skills add JimmyLv/bibigpt-skill --agents OpenClaw --yes
 #### DeepSeek Harness
 
 ```bash
-dsh plugin --profile web add @bibigpt/dsh-plugin
+dsh plugin --profile web add "github:JimmyLv/bibigpt-skill#path:/dsh-plugin"
 ```
 
 Restart the profile and `/bibi` shows up under **Skills**. Source and the

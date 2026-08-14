@@ -7,10 +7,12 @@ Installing this bundle registers the `bibi` skill, so the agent can summarize Yo
 ## Install
 
 ```bash
-dsh plugin --profile web add @bibigpt/dsh-plugin
+dsh plugin --profile web add "github:JimmyLv/bibigpt-skill#path:/dsh-plugin"
 ```
 
 Use `--profile tui` or `--profile headless` to install it into those profiles instead. Restart the profile afterwards; `/bibi` then appears under **Skills** in the command palette.
+
+No npm publish is involved — `dsh plugin` forwards to pnpm, which can install a package straight from a subdirectory of a git repository. The `prepare` script pulls the skill bundle in during that install.
 
 ## Verify
 
