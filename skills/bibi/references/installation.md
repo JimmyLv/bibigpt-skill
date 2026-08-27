@@ -21,11 +21,41 @@ dsh plugin --profile web add "github:JimmyLv/bibigpt-skill#path:/dsh-plugin"
 ```
 
 Restart the profile; `/bibi` then appears under **Skills** in the command
-palette. Swap `--profile web` for `tui` or `headless` to target those profiles.
+palette. Keep the quotes — `#` starts a shell comment. Swap `--profile web`
+for `tui` or `headless` to target those profiles.
 
 Without the plugin, dsh also discovers skills from disk — copying the bundle
 into `~/.agents/skills/bibi` works, and that root is shared with other
 SKILL.md-aware agents.
+
+Host-by-host pages: https://bibigpt.co/agent
+
+### WorkBuddy (Tencent)
+
+Download: https://www.workbuddy.cn/
+
+```bash
+npx skills add JimmyLv/bibigpt-skill -g -y
+```
+
+Skills live in `~/.workbuddy/skills/`. Custom skills need `agent_created: true`
+in SKILL.md frontmatter (already in this repo). Then `/reload-skills` or restart.
+
+### 豆包工作 / Doubao Work
+
+Download desktop: https://www.doubao.com/download/desktop
+
+No public filesystem skill directory. In the desktop sidebar open
+**技能 · 连接器 · 伙伴**, create a skill named `bibi`, and paste
+https://raw.githubusercontent.com/JimmyLv/bibigpt-skill/main/skills/bibi/SKILL.md
+
+### 千问工作 / QwenWork
+
+App: https://qwenwork.cn/ — skill dir `~/.qwenworkcn/skills/`.
+
+Send https://github.com/JimmyLv/bibigpt-skill to QwenWork and ask it to install
+`skills/bibi` into `~/.qwenworkcn/skills/bibi`. Docs:
+https://help.aliyun.com/zh/qwenwork/skills
 
 ### Cursor (manual install)
 

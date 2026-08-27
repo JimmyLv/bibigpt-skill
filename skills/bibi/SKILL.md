@@ -12,6 +12,7 @@ description: >
   "YouTube summary", "B站总结", "get transcript", "video to notes",
   "video to TikTok MV", "把视频变成 TikTok", "video to song", "做一个 TikTok 视频".
   Works via bibi CLI (macOS/Windows) or OpenAPI (Linux / any platform without CLI).
+agent_created: true
 ---
 
 # BibiGPT — AI Video & Audio Summarizer
