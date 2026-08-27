@@ -2,8 +2,10 @@
 
 AI Agent skill for summarizing videos, audio, and podcasts via [BibiGPT](https://bibigpt.co).
 
+Hand-held per-host install pages: [bibigpt.co/agent](https://bibigpt.co/agent) (ChatGPT, Claude Code, OpenClaw, WorkBuddy, Doubao Work, QwenWork, DeepSeek Harness).
+
 Four ways to use:
-1. **BibiGPT Desktop + CLI Skill** — install `bibi` CLI, works with Claude Code / OpenClaw / Codex
+1. **BibiGPT Desktop + CLI Skill** — install `bibi` CLI, works with Claude Code / OpenClaw / Codex / WorkBuddy / QwenWork / Doubao Work / DeepSeek Harness
 2. **Remote MCP Server** — zero install, works with any MCP client (Claude, ChatGPT, Cursor, etc.)
 3. **OpenAPI** — direct HTTP calls for containers, CI, or custom integrations
 4. **Codex Plugin** — this repo doubles as a Codex plugin (`.codex-plugin/` manifest + MCP + skills)
@@ -100,8 +102,52 @@ npx skills add JimmyLv/bibigpt-skill --agents OpenClaw --yes
 dsh plugin --profile web add "github:JimmyLv/bibigpt-skill#path:/dsh-plugin"
 ```
 
-Restart the profile and `/bibi` shows up under **Skills**. Source and the
-disk-copy alternative live in [`dsh-plugin/`](./dsh-plugin).
+Restart the profile and `/bibi` shows up under **Skills**. Keep the quotes —
+`#` starts a shell comment. Source and the disk-copy alternative live in
+[`dsh-plugin/`](./dsh-plugin). Copying `skills/bibi` into `~/.agents/skills/bibi`
+also works (shared with Claude Code).
+
+#### WorkBuddy (Tencent)
+
+Download: [workbuddy.cn](https://www.workbuddy.cn/). Skills live in
+`~/.workbuddy/skills/<name>/SKILL.md`.
+
+```bash
+npx skills add JimmyLv/bibigpt-skill -g -y
+```
+
+WorkBuddy custom skills need `agent_created: true` in the SKILL.md frontmatter
+(this repo includes it). Then `/reload-skills` or restart the app.
+
+Fallback: copy `skills/bibi` to `~/.workbuddy/skills/bibi`.
+
+Step-by-step: https://bibigpt.co/agent/workbuddy
+
+#### 豆包工作 / Doubao Work
+
+Download desktop: [doubao.com/download/desktop](https://www.doubao.com/download/desktop).
+Doubao Work does **not** publish a filesystem skill directory — do not invent
+`~/.doubao/skills`.
+
+In the desktop sidebar open **技能 · 连接器 · 伙伴**, create a skill named `bibi`,
+and paste
+[skills/bibi/SKILL.md](https://raw.githubusercontent.com/JimmyLv/bibigpt-skill/main/skills/bibi/SKILL.md).
+
+Step-by-step: https://bibigpt.co/agent/doubao
+
+#### 千问工作 / QwenWork
+
+App: [qwenwork.cn](https://qwenwork.cn/). Skill dir: `~/.qwenworkcn/skills/`.
+Paste this into QwenWork:
+
+```text
+Please download https://github.com/JimmyLv/bibigpt-skill and copy skills/bibi to ~/.qwenworkcn/skills/bibi
+```
+
+QwenWork clones and loads the skill from chat. Docs:
+https://help.aliyun.com/zh/qwenwork/skills
+
+Step-by-step: https://bibigpt.co/agent/qwenwork
 
 ### 3. Usage
 
