@@ -131,7 +131,7 @@ curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
 
 ### `GET /v1/feed`
 
-> Latest videos across all subscribed channels (live RSS)
+> Latest videos across all subscribed channels
 
 | Param | Type | Required | Description |
 |---|---|---|---|
