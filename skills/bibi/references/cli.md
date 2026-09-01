@@ -20,6 +20,10 @@ Each `--help` includes **examples** — pattern-match off those for fastest resu
 
 `bibi summarize` accepts both **URLs** and **local file paths**.
 
+**YouTube / Bilibili**: the CLI prefers the same local extraction path as the desktop task queue (`yt-dlp` + the user's saved cookies). Official subtitles first, then local audio + ASR. If the desktop app is already running, the job appears in the GUI queue and this command waits for that same result on stdout. If the app is not running, the CLI still uses local yt-dlp — it does not only call the cloud API. Other platforms keep the existing cloud API behavior.
+
+If local extraction needs login (members-only / 充电 / missing cookies), the CLI prints an authorization hint and may fall back to the server; it never pretends success.
+
 **Important**: URLs containing `?` or `&` must be quoted to avoid shell glob errors.
 
 ```bash
