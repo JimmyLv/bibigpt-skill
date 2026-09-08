@@ -29,7 +29,14 @@
 
 ## 同步规则
 
-新增 / 修改 BibiGPT 的 OpenAPI / MCP / CLI 能力，**必须**同步 `skills/bibi/SKILL.md` 或对应 `references/*.md`。流程：
+新增 / 修改 BibiGPT 的 OpenAPI / MCP / CLI 能力，**必须**同步对应 skill：
+
+- 总结 / 转写 / 章节 → `skills/bibi/`
+- 已保存视频、笔记、合集 → `skills/bibi-library/`
+- 订阅频道 / 动态 → `skills/bibi-feed/`
+- 画面 / 脑图 → `skills/bibi-vision/`
+
+不要把 library / feed / vision 再写回 `bibi` 当全能入口。流程：
 
 1. 改 `bibigpt-core` 的能力代码
 2. 改这个 submodule 里的对应文档（commit + push 子模块）

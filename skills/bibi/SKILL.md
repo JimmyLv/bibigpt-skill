@@ -5,8 +5,12 @@ description: >
   podcasts, TikTok, Twitter/X, Xiaohongshu, and any online video or audio,
   then optionally turn the takeaway into a TikTok-style vertical music video.
   Use when the user wants to summarize a video, extract transcripts/subtitles,
-  get chapter-by-chapter summaries, understand video content quickly, or
+  get chapter-by-chapter summaries, understand a new URL or local file, or
   remix a long-form video into a short vertical MV.
+  Do not use for searching already-saved videos (skill `bibi-library`),
+  channel subscriptions / latest feed (`bibi-feed`), or on-screen / slide /
+  mind-map analysis (`bibi-vision`). Those are sibling skills in this repo;
+  same `bibi` CLI, same account.
   Triggers: "summarize this video", "what's this video about", "extract subtitles",
   "总结这个视频", "帮我看看这个视频讲了什么", "video summary", "podcast notes",
   "YouTube summary", "B站总结", "get transcript", "video to notes",
@@ -15,11 +19,18 @@ description: >
 agent_created: true
 ---
 
-# BibiGPT — AI Video & Audio Summarizer
+# BibiGPT — watch the video (summarize / transcript / chapters)
 
 This file is a **discovery stub, not the usage guide**. It tells you which
 mode you are in and where the live docs are. The live sources always match
 the current product; anything copied into this file would go stale.
+
+This skill is **watch-video only**. Sibling skills in the same repo (same CLI,
+same account): `bibi-library` (saved videos / notes / collections),
+`bibi-feed` (subscribe / latest / mark seen), `bibi-vision` (frames / mind map).
+Landing: https://bibigpt.co/mcp · Human install: https://bibigpt.co/agent
+Quota: Plus 100/day, Pro 300/day on the agent-skill channel; extra calls use
+API balance; upgrade https://bibigpt.co/shop
 
 ## 1. Detect Mode
 
@@ -84,14 +95,14 @@ install via `bibi skill`), fetch it from the raw URL above instead.
 | Process multiple URLs, batch summarize | → `workflows/batch-process.md` |
 | Research a topic across multiple videos | → `workflows/research-compile.md` |
 | Save to Notion, Obsidian, export notes | → `workflows/export-notes.md` |
-| Analyze visual content, slides, on-screen text | → `workflows/visual-analysis.md` |
+| Analyze visual content, slides, on-screen text, mind map | → sibling skill `bibi-vision` (fallback: `workflows/visual-analysis.md` / `workflows/advanced-tools.md`) |
 | Check current account, plan, or remaining minutes | → `workflows/account-check.md` |
-| Browse / search saved videos, "what have I summarized" | → `workflows/library-browse.md` |
-| Manage channel subscriptions, list/sub/unsub, RSS preview | → `workflows/channels-manage.md` |
-| What's new across my subscriptions, latest feed, daily digest | → `workflows/feed-latest.md` |
-| Manage collections, list/create/share saved videos as a set | → `workflows/collections-manage.md` |
-| Manage personal notes on saved videos, edit summaries | → `workflows/notes-manage.md` |
-| Generate mindmap, visual analysis, custom-prompt summary, Notion export, collection chat | → `workflows/advanced-tools.md` |
+| Browse / search saved videos, "what have I summarized" | → sibling skill `bibi-library` (fallback: `workflows/library-browse.md`) |
+| Manage channel subscriptions, list/sub/unsub | → sibling skill `bibi-feed` (fallback: `workflows/channels-manage.md`) |
+| What's new across my subscriptions, latest feed, daily digest | → sibling skill `bibi-feed` (fallback: `workflows/feed-latest.md`) |
+| Manage collections, list/create/share saved videos as a set | → sibling skill `bibi-library` (fallback: `workflows/collections-manage.md`) |
+| Manage personal notes on saved videos, edit summaries | → sibling skill `bibi-library` (fallback: `workflows/notes-manage.md`) |
+| Custom-prompt re-summary of a **saved** item, collection chat | → sibling skill `bibi-library` (fallback: `workflows/advanced-tools.md`) |
 | **HTTP 402 / "需要付款" / Alipay AI 钱包 / no token + China user** | → `references/billing-aipay.md` |
 
 Disambiguation: intent matches more than one workflow → ask **one** clarifying

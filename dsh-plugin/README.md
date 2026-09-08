@@ -2,7 +2,7 @@
 
 Give [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) the ability to watch videos.
 
-Installing this bundle registers the `bibi` skill, so the agent can summarize YouTube, Bilibili, podcasts, TikTok, Twitter/X and Xiaohongshu links — or any local audio/video file — and pull out transcripts, chapter summaries and notes.
+Installing this bundle copies every `skills/*` directory (`bibi`, `bibi-library`, `bibi-feed`, `bibi-vision`) and registers `bibi` for summarize / transcript / chapter. Sibling skills share the same `bibi` CLI and account.
 
 ## Install
 

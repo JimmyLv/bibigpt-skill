@@ -1,8 +1,23 @@
 # bibigpt-skill
 
-AI Agent skill for summarizing videos, audio, and podcasts via [BibiGPT](https://bibigpt.co).
+AI Agent skills for [BibiGPT](https://bibigpt.co). **Multiple skills, one CLI (`bibi`), one account.**
 
-Hand-held per-host install pages: [bibigpt.co/agent](https://bibigpt.co/agent) (ChatGPT, Claude Code, OpenClaw, WorkBuddy, Doubao Work, QwenWork, DeepSeek Harness).
+| Skill | When to use |
+|-------|-------------|
+| `bibi` | Watch a video: summarize, transcript, chapters |
+| `bibi-library` | Already-saved videos, notes, collections, in-library search |
+| `bibi-feed` | Subscribe to channels, pull latest, mark seen |
+| `bibi-vision` | Frames / OCR / slides, mind map |
+
+`npx skills add JimmyLv/bibigpt-skill` still installs `bibi` (existing onboarding). Add a sibling with `--skill`:
+
+```bash
+npx skills add JimmyLv/bibigpt-skill --skill bibi-library
+npx skills add JimmyLv/bibigpt-skill --skill bibi-feed
+npx skills add JimmyLv/bibigpt-skill --skill bibi-vision
+```
+
+Agent landing: [bibigpt.co/mcp](https://bibigpt.co/mcp). Hand-held per-host install pages: [bibigpt.co/agent](https://bibigpt.co/agent) (ChatGPT, Claude Code, OpenClaw, WorkBuddy, Doubao Work, QwenWork, DeepSeek Harness).
 
 Four ways to use:
 1. **BibiGPT Desktop + CLI Skill** — install `bibi` CLI, works with Claude Code / OpenClaw / Codex / WorkBuddy / QwenWork / Doubao Work / DeepSeek Harness
@@ -30,13 +45,24 @@ to manage.
 ## Skill Structure
 
 ```
+skills/
+├── bibi/                 # Watch: summarize / subtitle / chapter
+├── bibi-library/         # Saved videos, notes, collections
+├── bibi-feed/            # Channel subscribe + latest feed
+└── bibi-vision/          # Frames, OCR, mind map
+```
+
+Each directory has `SKILL.md` (intent + triggers), `references/` (auth, CLI), and `workflows/` where a multi-step path exists. All four skills call the same `bibi` binary — there is no second npm package named `video-cli`.
+
+```
 skills/bibi/
-├── SKILL.md                        # Intent router — dispatches to workflows
+├── SKILL.md                        # Watch-video router — library/feed/vision go to siblings
 ├── scripts/
 │   └── bibi-check.sh              # Auto-detect CLI vs API mode
 ├── references/
 │   ├── cli.md                     # CLI command reference
-│   ├── api.md                     # OpenAPI endpoint reference (10 endpoints)
+│   ├── api.md                     # OpenAPI endpoint reference
+│   ├── endpoints.md               # Auto-generated OpenAPI dump
 │   ├── installation.md            # Setup & auth guide
 │   └── supported-platforms.md     # URL types & platform limits
 └── workflows/
@@ -47,10 +73,12 @@ skills/bibi/
     ├── batch-process.md           # Multi-URL batch processing
     ├── research-compile.md        # Multi-source topic synthesis
     ├── export-notes.md            # Save to Notion/Obsidian/local
-    └── visual-analysis.md         # Video frame visual analysis
+    └── visual-analysis.md         # Kept as fallback; prefer skill `bibi-vision`
 ```
 
 ## Workflows
+
+`bibi` (watch-video) workflows:
 
 | Workflow | What it does | Trigger examples |
 |----------|-------------|-----------------|
@@ -61,7 +89,8 @@ skills/bibi/
 | **Batch Process** | Multiple URLs at once | "batch summarize", "批量总结" |
 | **Research Compile** | Cross-source synthesis | "compare these videos", "综合分析" |
 | **Export Notes** | Save to Notion/Obsidian/file | "save to Notion", "导出笔记" |
-| **Visual Analysis** | Analyze slides & on-screen content | "画面分析", "what's on screen" |
+
+Sibling skills own the rest: `bibi-library` (saved library / notes / collections), `bibi-feed` (channels / latest), `bibi-vision` (frames / mind map).
 
 ---
 

@@ -1,8 +1,25 @@
 # bibigpt-skill
 
-让 AI Agent 拥有"看视频、听音频"的能力。
+让 AI Agent 拥有「看视频、听音频、管资料库、跟订阅、看画面」的能力。**多份 skill，同一条 `bibi` CLI，同一个 BibiGPT 账号。**
 
-[BibiGPT](https://bibigpt.co) 是国内 Top 1 的 AI 音视频助理，本仓库把 BibiGPT 的核心能力封装成 **Agent Native Skill**，可供 Claude Code、OpenClaw、Codex、Cursor、ChatGPT、扣子（Coze）等任意支持工具调用的 Agent / 智能体平台直接接入。
+[BibiGPT](https://bibigpt.co) 是国内 Top 1 的 AI 音视频助理。本仓库把已有 MCP / CLI 拆成 agent 能分别发现的 skill，不对标去发明我们没有的能力。
+
+| Skill | 何时用 |
+|---|---|
+| `bibi` | 看视频：总结、转写、章节 |
+| `bibi-library` | 已保存视频、笔记、合集、库内搜索 |
+| `bibi-feed` | 订阅频道、拉最新、标记已读 |
+| `bibi-vision` | 画面 / OCR / 幻灯片、思维导图 |
+
+`npx skills add JimmyLv/bibigpt-skill` **仍然安装 `bibi`**（不破坏旧 onboarding）。sibling 用 `--skill`：
+
+```bash
+npx skills add JimmyLv/bibigpt-skill --skill bibi-library
+npx skills add JimmyLv/bibigpt-skill --skill bibi-feed
+npx skills add JimmyLv/bibigpt-skill --skill bibi-vision
+```
+
+Agent 落地页：[bibigpt.co/mcp](https://bibigpt.co/mcp)。各助手安装页：[bibigpt.co/agent](https://bibigpt.co/agent)。
 
 > English version: see [README.md](./README.md)
 
@@ -23,18 +40,14 @@
 
 ## 功能说明｜What It Does
 
-本 Skill 把 BibiGPT 的能力拆成 **8 个原子工作流**，Agent 会根据用户意图自动路由到合适的工作流：
+本仓库把 BibiGPT 的能力拆成 **多份 skill**（同一 CLI）。`bibi` 只负责看视频；资料库 / 订阅 / 画面走 sibling。
 
-| 工作流 | 能做什么 | 典型触发语 |
+| Skill | 能做什么 | 典型触发语 |
 |---|---|---|
-| **快速总结**（quick-summary） | 粘贴一个链接 → 生成结构化 AI 总结 | "总结这个视频"、"summarize this" |
-| **深度分析**（deep-dive） | 分章节拆解 + 关键观点 + 追问 Q&A | "分章节总结"、"chapter breakdown" |
-| **字幕提取**（transcript-extract） | 拉取带时间戳的完整字幕 / 转写文本 | "获取字幕"、"extract subtitles" |
-| **图文改写**（article-rewrite） | 视频 → 公众号图文 / 小红书 / 博客 | "改写成文章"、"turn into article" |
-| **批量处理**（batch-process） | 一次处理多个 URL | "批量总结"、"batch summarize" |
-| **跨源研究**（research-compile） | 多个视频跨源综合、对比、汇编 | "综合分析"、"compare these videos" |
-| **导出笔记**（export-notes） | 直接保存到 Notion / Obsidian / 本地文件 | "导出到 Notion"、"save notes" |
-| **画面分析**（visual-analysis） | 解析视频画面内容、PPT、屏幕文字 | "画面分析"、"分析这一段画面" |
+| **bibi** | 粘贴链接 → 总结 / 字幕 / 章节 | "总结这个视频"、"summarize this" |
+| **bibi-library** | 已保存视频、笔记、合集 | "我之前总结过的"、"资料库" |
+| **bibi-feed** | 订阅频道、拉最新、标记已读 | "我的订阅有什么更新" |
+| **bibi-vision** | 画面 / 幻灯片 / 思维导图 | "画面分析"、"思维导图" |
 
 **支持的内容来源**：
 
