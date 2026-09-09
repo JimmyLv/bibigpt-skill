@@ -1,4 +1,6 @@
-# bibigpt-skill
+# bibigpt-skill — Video Summarizer Agent Skill
+
+给 **Claude Code / Codex / ChatGPT / OpenClaw / Cursor** 用的视频总结 Agent Skill。YouTube、B 站、播客、本地文件走同一条 `bibi` CLI，也可接托管 MCP。
 
 让 AI Agent 拥有「看视频、听音频、管资料库、跟订阅、看画面」的能力。**多份 skill，同一条 `bibi` CLI，同一个 BibiGPT 账号。**
 

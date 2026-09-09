@@ -1,4 +1,6 @@
-# bibigpt-skill
+# bibigpt-skill — Video Summarizer Agent Skill
+
+**Claude Code · Codex · ChatGPT · OpenClaw · Cursor.** Summarize YouTube, Bilibili, podcasts, and local files via the `bibi` CLI or hosted MCP.
 
 AI Agent skills for [BibiGPT](https://bibigpt.co). **Multiple skills, one CLI (`bibi`), one account.**
 

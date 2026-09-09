@@ -1,6 +1,7 @@
 ---
 name: bibi
 description: >
+  Video summarizer agent skill for Claude Code, Codex, ChatGPT, Cursor, and OpenClaw.
   AI video & audio summarizer + repackager. Summarize YouTube, Bilibili,
   podcasts, TikTok, Twitter/X, Xiaohongshu, and any online video or audio,
   then optionally turn the takeaway into a TikTok-style vertical music video.
@@ -14,12 +15,14 @@ description: >
   Triggers: "summarize this video", "what's this video about", "extract subtitles",
   "总结这个视频", "帮我看看这个视频讲了什么", "video summary", "podcast notes",
   "YouTube summary", "B站总结", "get transcript", "video to notes",
+  "video summarizer", "video summarizer agent skill",
+  "claude code video summarizer", "codex video summarizer",
   "video to TikTok MV", "把视频变成 TikTok", "video to song", "做一个 TikTok 视频".
   Works via bibi CLI (macOS/Windows) or OpenAPI (Linux / any platform without CLI).
 agent_created: true
 ---
 
-# BibiGPT — watch the video (summarize / transcript / chapters)
+# BibiGPT — video summarizer agent skill (summarize / transcript / chapters)
 
 This file is a **discovery stub, not the usage guide**. It tells you which
 mode you are in and where the live docs are. The live sources always match
