@@ -9,9 +9,9 @@
 | **Apple Podcasts** | `podcasts.apple.com/...` | Episode pages |
 | **Spotify** | `open.spotify.com/episode/...` | Episode pages |
 | **小宇宙** (Xiaoyuzhou) | `xiaoyuzhoufm.com/episode/...` | Chinese podcast platform |
-| **TikTok / Douyin** | `tiktok.com/@user/video/xxx`, `douyin.com/...` | Short-form video |
+| **TikTok / Douyin** | `tiktok.com/@user/video/xxx`, `douyin.com/...` | Short-form video; Douyin image notes (carousels) too |
 | **Twitter / X** | `twitter.com/.../status/xxx`, `x.com/.../status/xxx` | Video tweets |
-| **Xiaohongshu** (小红书) | `xiaohongshu.com/explore/xxx`, `xhslink.com/xxx` | Video notes |
+| **Xiaohongshu** (小红书) | `xiaohongshu.com/explore/xxx`, `xhslink.com/xxx` | Video notes and image notes (图文) |
 | **Generic audio/video** | Direct `.mp3`, `.mp4`, `.wav` URLs | Any publicly accessible media URL |
 
 ## Duration & Async Mode
@@ -67,6 +67,7 @@ If the user has a local file and no CLI installed, guide them to:
 
 - **Bilibili**: Short links (`b23.tv/xxx`) are auto-expanded. Use `expandUrl` API if you need the full URL first
 - **Twitter/X**: Only video tweets are supported; text-only tweets return an error
-- **Xiaohongshu**: Short links (`xhslink.com/xxx`) are auto-expanded
+- **Xiaohongshu**: Short links (`xhslink.com/xxx`) are auto-expanded. Image notes (图文, no video) are summarized from the pictures and caption, same as on the website. A small `costDuration` is quota, not proof the note is a one-second video.
+- **Douyin image notes** and **WeChat image posts** (小绿书): summarized the same way as Xiaohongshu image notes.
 - **Podcasts**: All three podcast platforms (Apple, Spotify, Xiaoyuzhou) extract audio transcripts
 - **YouTube Shorts**: Treated the same as regular YouTube videos

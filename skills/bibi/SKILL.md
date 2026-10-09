@@ -3,7 +3,7 @@ name: bibi
 description: >
   Video summarizer agent skill for Claude Code, Codex, ChatGPT, Cursor, and OpenClaw.
   AI video & audio summarizer + repackager. Summarize YouTube, Bilibili,
-  podcasts, TikTok, Twitter/X, Xiaohongshu, and any online video or audio,
+  podcasts, TikTok, Twitter/X, Xiaohongshu (video and image notes), and any online video or audio,
   then optionally turn the takeaway into a TikTok-style vertical music video.
   Use when the user wants to summarize a video, extract transcripts/subtitles,
   get chapter-by-chapter summaries, understand a new URL or local file, or

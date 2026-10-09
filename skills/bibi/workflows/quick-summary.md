@@ -77,7 +77,7 @@ Present the result to the user:
 - **Title**: Video/audio title
 - **Source**: Platform name + original URL
 - **Summary**: The AI-generated Markdown summary
-- **Duration/Quota**: Mention `costDuration` and `remainingTime` if relevant
+- **Duration/Quota**: Mention `costDuration` and `remainingTime` if relevant. For image notes, `costDuration` is quota, not the length of a video — do not tell the user the note is a one-second video just because the number is small.
 
 ### 6. Follow-up Options
 
