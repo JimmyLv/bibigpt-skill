@@ -95,6 +95,7 @@ install via `bibi skill`), fetch it from the raw URL above instead.
 | Get subtitles, extract transcript, raw text | → `workflows/transcript-extract.md` |
 | Turn into article, blog post, 公众号图文, 小红书 | → `workflows/article-rewrite.md` |
 | Turn into TikTok / Reels / Shorts-style music video | → `workflows/video-to-tiktok-mv.md` |
+| Check a SunoMV music video project: progress, who appears in which shots, failed shots, project JSON | → `workflows/mv-project-read.md` |
 | Process multiple URLs, batch summarize | → `workflows/batch-process.md` |
 | Research a topic across multiple videos | → `workflows/research-compile.md` |
 | Save to Notion, Obsidian, export notes | → `workflows/export-notes.md` |
