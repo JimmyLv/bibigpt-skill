@@ -21,11 +21,22 @@ npx skills add JimmyLv/bibigpt-skill --skill bibi-vision
 
 Agent landing: [bibigpt.co/mcp](https://bibigpt.co/mcp). Hand-held per-host install pages: [bibigpt.co/agent](https://bibigpt.co/agent) (ChatGPT, Claude Code, OpenClaw, WorkBuddy, Doubao Work, QwenWork, DeepSeek Harness).
 
-Four ways to use:
-1. **BibiGPT Desktop + CLI Skill** — install `bibi` CLI, works with Claude Code / OpenClaw / Codex / WorkBuddy / QwenWork / Doubao Work / DeepSeek Harness
-2. **Remote MCP Server** — zero install, works with any MCP client (Claude, ChatGPT, Cursor, etc.)
-3. **OpenAPI** — direct HTTP calls for containers, CI, or custom integrations
-4. **Codex Plugin** — this repo doubles as a Codex plugin (`.codex-plugin/` manifest + MCP + skills)
+Ways to use:
+1. **Agent plugin** — one install adds the hosted MCP server plus all 4 skills: Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot (see below)
+2. **BibiGPT Desktop + CLI Skill** — install `bibi` CLI, works with Claude Code / OpenClaw / Codex / WorkBuddy / QwenWork / Doubao Work / DeepSeek Harness
+3. **Remote MCP Server** — zero install, works with any MCP client (Claude, ChatGPT, Cursor, etc.): `https://bibigpt.co/api/mcp`
+4. **OpenAPI** — direct HTTP calls for containers, CI, or custom integrations
+
+Every plugin signs in with OAuth on first use — no API key to paste.
+
+### Install as a Claude Code plugin
+
+```
+/plugin marketplace add JimmyLv/bibigpt-skill
+/plugin install bibi@bibigpt
+```
+
+On Claude Code 2.1.275 or later, one line works: `/plugin install bibi --marketplace JimmyLv/bibigpt-skill`.
 
 ### Install as a Codex plugin
 
@@ -39,8 +50,27 @@ codex plugin add bibi@bibigpt
 Or inside a Codex session: `/plugin marketplace add JimmyLv/bibigpt-skill`,
 then install `bibi` from the marketplace tab in `/plugins`. Also works in the
 Codex IDE extension (Settings → Plugins) and the ChatGPT desktop app
-(Work / Codex). Authentication happens on first use via OAuth — no API keys
-to manage.
+(Work / Codex).
+
+### Install in Gemini CLI
+
+```bash
+gemini extensions install https://github.com/JimmyLv/bibigpt-skill
+```
+
+Then run `/mcp auth bibigpt` once.
+
+### Install in Cursor or GitHub Copilot
+
+The repo is also a Cursor plugin (`.cursor-plugin/plugin.json` + `.mcp.json`) and an
+[Agent Plugins](https://agent-plugins.org) package (`plugin.json` + `mcp.json`) for GitHub Copilot.
+Without a marketplace, add the MCP server directly:
+
+```json
+{ "mcpServers": { "bibigpt": { "url": "https://bibigpt.co/api/mcp" } } }
+```
+
+The server is also in the official MCP Registry as `io.github.JimmyLv/bibigpt`.
 
 ---
 

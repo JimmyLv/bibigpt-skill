@@ -1,24 +1,18 @@
 ---
 name: bibi
 description: >
-  Video summarizer agent skill for Claude Code, Codex, ChatGPT, Cursor, and OpenClaw.
-  AI video & audio summarizer + repackager. Summarize YouTube, Bilibili,
-  podcasts, TikTok, Twitter/X, Xiaohongshu (video and image notes), and any online video or audio,
-  then optionally turn the takeaway into a TikTok-style vertical music video.
-  Use when the user wants to summarize a video, extract transcripts/subtitles,
-  get chapter-by-chapter summaries, understand a new URL or local file, or
-  remix a long-form video into a short vertical MV.
-  Do not use for searching already-saved videos (skill `bibi-library`),
-  channel subscriptions / latest feed (`bibi-feed`), or on-screen / slide /
-  mind-map analysis (`bibi-vision`). Those are sibling skills in this repo;
-  same `bibi` CLI, same account.
-  Triggers: "summarize this video", "what's this video about", "extract subtitles",
-  "总结这个视频", "帮我看看这个视频讲了什么", "video summary", "podcast notes",
-  "YouTube summary", "B站总结", "get transcript", "video to notes",
-  "video summarizer", "video summarizer agent skill",
-  "claude code video summarizer", "codex video summarizer",
-  "video to TikTok MV", "把视频变成 TikTok", "video to song", "做一个 TikTok 视频".
-  Works via bibi CLI (macOS/Windows) or OpenAPI (Linux / any platform without CLI).
+  Video summarizer agent skill for Claude Code, Codex, ChatGPT, Cursor and OpenClaw.
+  Summarize YouTube, Bilibili, TikTok, Twitter/X, Xiaohongshu (video and image notes),
+  podcasts and any online or local video / audio; extract timestamped transcripts
+  and subtitles; chapter-by-chapter summaries; optionally remix the takeaway into
+  a TikTok-style vertical music video.
+  Not for already-saved videos (`bibi-library`), channel feeds (`bibi-feed`), or
+  slides / frames / mind maps (`bibi-vision`): sibling skills, same CLI and account.
+  Triggers: "summarize this video", "what's this video about", "get transcript",
+  "extract subtitles", "YouTube summary", "podcast notes", "video to notes",
+  "video summarizer", "总结这个视频", "帮我看看这个视频讲了什么", "B站总结",
+  "video to TikTok MV", "把视频变成 TikTok".
+  Works via the bibi CLI (macOS/Windows), the hosted MCP server, or OpenAPI (Linux / no CLI).
 agent_created: true
 ---
 

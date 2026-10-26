@@ -1,0 +1,29 @@
+{
+  "name": "bibi",
+  "displayName": "BibiGPT",
+  "version": "2.12.0",
+  "description": "Summarize, transcribe and search YouTube, Bilibili, TikTok, podcasts and local videos from your agent: timestamped transcripts, chapter summaries, saved-video library, channel feeds and on-screen vision via the hosted BibiGPT MCP server and 4 skills.",
+  "author": {
+    "name": "BibiGPT",
+    "email": "hi@bibigpt.co",
+    "url": "https://bibigpt.co"
+  },
+  "homepage": "https://bibigpt.co/mcp?utm_source=cursor-plugin&utm_medium=agent-plugin",
+  "repository": "https://github.com/JimmyLv/bibigpt-skill",
+  "license": "MIT",
+  "keywords": [
+    "video",
+    "video-summarizer",
+    "youtube-transcript",
+    "transcript",
+    "subtitles",
+    "podcast",
+    "youtube",
+    "bilibili",
+    "tiktok",
+    "summarize",
+    "agent-skill",
+    "mcp"
+  ],
+  "logo": "assets/logo.png"
+}

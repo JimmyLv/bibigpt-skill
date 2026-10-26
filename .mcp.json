@@ -1,11 +1,8 @@
 {
   "mcpServers": {
     "bibigpt": {
-      "url": "https://bibigpt.co/api/mcp",
-      "oauth_resource": "https://bibigpt.co/api/mcp",
-      "http_headers": {
-        "x-bibigpt-mcp-surface": "codex"
-      }
+      "type": "http",
+      "url": "https://bibigpt.co/api/mcp"
     }
   }
 }

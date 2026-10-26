@@ -23,6 +23,15 @@ npx skills add JimmyLv/bibigpt-skill --skill bibi-vision
 
 Agent 落地页：[bibigpt.co/mcp](https://bibigpt.co/mcp)。各助手安装页：[bibigpt.co/agent](https://bibigpt.co/agent)。
 
+### 一键装成插件（MCP + 4 份 skill，首次使用走 OAuth 登录）
+
+| 宿主 | 命令 |
+|---|---|
+| Claude Code | `/plugin marketplace add JimmyLv/bibigpt-skill` → `/plugin install bibi@bibigpt` |
+| Codex | `codex plugin marketplace add JimmyLv/bibigpt-skill` → `codex plugin add bibi@bibigpt` |
+| Gemini CLI | `gemini extensions install https://github.com/JimmyLv/bibigpt-skill`，再 `/mcp auth bibigpt` |
+| Cursor / GitHub Copilot | 仓库自带 `.cursor-plugin/` 与 Agent Plugins 清单（`plugin.json` + `mcp.json`）；也可直接加 MCP：`https://bibigpt.co/api/mcp` |
+
 > English version: see [README.md](./README.md)
 
 ---

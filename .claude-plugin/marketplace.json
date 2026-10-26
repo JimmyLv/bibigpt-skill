@@ -1,0 +1,20 @@
+{
+  "name": "bibigpt",
+  "owner": {
+    "name": "BibiGPT",
+    "email": "hi@bibigpt.co"
+  },
+  "metadata": {
+    "description": "BibiGPT's Claude plugin: the hosted BibiGPT video MCP server plus skills to summarize, transcribe and search videos and podcasts."
+  },
+  "plugins": [
+    {
+      "name": "bibi",
+      "source": "./",
+      "description": "Summarize and transcribe YouTube, Bilibili, TikTok and podcast videos with the hosted BibiGPT MCP server and 4 skills.",
+      "version": "2.12.0",
+      "category": "productivity",
+      "homepage": "https://bibigpt.co/mcp?utm_source=claude-plugin&utm_medium=agent-plugin"
+    }
+  ]
+}
