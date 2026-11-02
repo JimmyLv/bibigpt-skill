@@ -21,6 +21,26 @@ curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
   "https://api.bibigpt.co/api/v1/channel/health"
 ```
 
+### `POST /v1/channels/createFolder`
+
+> Create a folder for subscribed channels
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ ... }' \
+  "https://api.bibigpt.co/api/v1/channels/createFolder"
+```
+
+### `GET /v1/channels/folders`
+
+> List the folder tree of subscribed channels
+
+```bash
+curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  "https://api.bibigpt.co/api/v1/channels/folders"
+```
+
 ### `GET /v1/channels/list`
 
 > List subscribed channels
@@ -28,6 +48,28 @@ curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
 ```bash
 curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
   "https://api.bibigpt.co/api/v1/channels/list"
+```
+
+### `POST /v1/channels/moveFolder`
+
+> Move a channel folder under another folder or to root
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ ... }' \
+  "https://api.bibigpt.co/api/v1/channels/moveFolder"
+```
+
+### `POST /v1/channels/setFolder`
+
+> Put a subscribed channel into a folder
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ ... }' \
+  "https://api.bibigpt.co/api/v1/channels/setFolder"
 ```
 
 ### `POST /v1/channels/subscribe`
@@ -101,6 +143,28 @@ curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
   "https://api.bibigpt.co/api/v1/collections/create"
 ```
 
+### `GET /v1/collections/folders`
+
+> List the folder tree of owned collections
+
+```bash
+curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  "https://api.bibigpt.co/api/v1/collections/folders"
+```
+
+### `GET /v1/collections/forContent`
+
+> List the collections a saved video belongs to
+
+| Param | Type | Required | Description |
+|---|---|---|---|
+| `contentId` | string | yes |  |
+
+```bash
+curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  "https://api.bibigpt.co/api/v1/collections/forContent?contentId=<contentId>"
+```
+
 ### `GET /v1/collections/get`
 
 > Get a collection with its items
@@ -127,6 +191,50 @@ curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
 ```bash
 curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
   "https://api.bibigpt.co/api/v1/collections/list?limit=<limit>&cursor=<cursor>&scope=<scope>"
+```
+
+### `POST /v1/collections/move`
+
+> Move a collection folder under another folder or to root
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ ... }' \
+  "https://api.bibigpt.co/api/v1/collections/move"
+```
+
+### `POST /v1/collections/moveItems`
+
+> Move or copy items between collections
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ ... }' \
+  "https://api.bibigpt.co/api/v1/collections/moveItems"
+```
+
+### `POST /v1/collections/removeItems`
+
+> Remove items from a collection
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ ... }' \
+  "https://api.bibigpt.co/api/v1/collections/removeItems"
+```
+
+### `POST /v1/collections/update`
+
+> Rename a collection or change its description, emoji or visibility
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ ... }' \
+  "https://api.bibigpt.co/api/v1/collections/update"
 ```
 
 ### `GET /v1/feed`
@@ -347,13 +455,26 @@ curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
 
 > Generate or edit an image with AI (chatimg.ai)
 
-Transform a source image with an AI model and prompt (e.g. style transfer, editing). Requires an API token (Authorization: Bearer <token>). Billing: charged from your chatimg.ai credits per image — openai: 25 credits, gpt-image-2: 50 credits, mai-image-2.6-flash: 20 credits, flux: 12 credits, gemini: 10 credits, nanobanana-pro: 30 credits, nanobanana-2-lite: 12 credits, nanobanana-2: 20 credits, grok: 30 credits, seedream: 15 credits, qwen: 8 credits, z-image-turbo: 5 credits, flux-2-flex: 25 credits. See GET /v1/imagePricing for machine-readable pricing. Generation is asynchronous: poll GET /v1/imageStatus with the same imageUrl until status is completed. Failed generations are automatically refunded.
+Transform a source image with an AI model and prompt (e.g. style transfer, editing). Requires an API token (Authorization: Bearer <token>). Billing: charged from your chatimg.ai credits per image — openai: 25 credits, gpt-image-2: 50 credits, gpt-image-2.5-flare: 50 credits, gpt-image-2.5-sunburst: 50 credits, mai-image-2.6-flash: 20 credits, flux: 12 credits, gemini: 10 credits, nanobanana-pro: 30 credits, nanobanana-2-lite: 12 credits, nanobanana-2: 20 credits, nanobanana-2.1: 20 credits, grok: 30 credits, ideogram-4.5: 35 credits, seedream: 15 credits, seedream-5-flash: 12 credits, flux3: 18 credits, flux3-klein: 12 credits, krea-3: 15 credits, hy-image-3.5: 12 credits, qwen: 8 credits, qwen-image-2.1: 8 credits, qwen-image-2.1-turbo: 8 credits, qwen-image-2.1-pro: 15 credits, qwen-image-3.0: 18 credits, qwen-image-3.0-pro: 25 credits, z-image-turbo: 5 credits, flux-2-flex: 25 credits. See GET /v1/imagePricing for machine-readable pricing. Generation is asynchronous: poll GET /v1/imageStatus with the same imageUrl until status is completed. Failed generations are automatically refunded.
 
 ```bash
 curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{ ... }' \
   "https://api.bibigpt.co/api/v1/generateImage"
+```
+
+### `GET /v1/getMvProject`
+
+> Read one SunoMV music video project as structured JSON (progress, cast, shots, clips)
+
+| Param | Type | Required | Description |
+|---|---|---|---|
+| `contentId` | string | yes | Song ID (the <id> in https://suno.bi/song/<id>) |
+
+```bash
+curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  "https://api.bibigpt.co/api/v1/getMvProject?contentId=<contentId>"
 ```
 
 ### `GET /v1/getPolishedText`
