@@ -39,6 +39,7 @@ Run `scripts/bibi-check.sh` if present. Prefer CLI (`command -v bibi`), else `$B
 |-------------|---------|
 | List / subscribe / unsubscribe / channel videos | → `workflows/channels-manage.md` |
 | Group channels into folders | → `workflows/channels-manage.md` (section 5) |
+| Channel notes, special follow | → `workflows/channels-manage.md` (section 6) |
 | What's new, daily digest, latest feed | → `workflows/feed-latest.md` |
 
 ## 3. Minimum commands (CLI)
@@ -50,4 +51,4 @@ bibi feed --json
 bibi feed-mark-seen --json
 ```
 
-Full flags: `references/cli.md`. MCP names: `list_channels`, `subscribe_channel`, `unsubscribe_channel`, `get_channel_videos`, `get_latest_feed`, `get_channel_health`, `mark_feed_seen`, `list_channel_folders`, `create_channel_folder`, `move_channel_folder`, `set_channel_folder`.
+Full flags: `references/cli.md`. MCP names: `list_channels`, `subscribe_channel`, `unsubscribe_channel`, `get_channel_videos`, `get_latest_feed`, `get_channel_health`, `mark_feed_seen`, `list_channel_folders`, `create_channel_folder`, `move_channel_folder`, `set_channel_folder`, `delete_channel_folder`, `get_channel_note`, `set_channel_note`, `set_channel_starred`.

@@ -10,7 +10,7 @@ description: >
   Triggers: "what have I summarized", "search my library", "my saved videos",
   "my notes", "create a collection", "add to collection", "我之前总结过的",
   "资料库", "搜我的笔记", "合集", "列出最近的总结", "整理合集",
-  "move folder to root", "把文件夹移到根目录".
+  "move folder to root", "把文件夹移到根目录", "my highlights", "划线", "高光".
   Same `bibi` CLI binary and same BibiGPT account as the other skills.
 agent_created: true
 ---
@@ -27,7 +27,7 @@ Landing: https://bibigpt.co/mcp · Install: https://bibigpt.co/agent · Quota: s
 | Use this skill | Use a sibling instead |
 |----------------|------------------------|
 | List / search / get already-saved videos | New URL → `bibi` (`summarize` / `--subtitle` / `--chapter`) |
-| Read or edit notes on saved items | Channel subscribe / "what's new" → `bibi-feed` |
+| Read or edit notes / highlights on saved items | Channel subscribe / "what's new" → `bibi-feed` |
 | Collections (list / create / add / move / rename / folders / chat history) | Frames, slides, mind map → `bibi-vision` |
 | Re-summarize a **saved** item with a custom prompt | |
 
@@ -44,6 +44,8 @@ Run `scripts/bibi-check.sh` if present. Prefer CLI (`command -v bibi`), else `$B
 | Read or edit a personal note | → `workflows/notes-manage.md` |
 | Collections, playlists, add-to-set | → `workflows/collections-manage.md` |
 | Reorganize folders / move items between collections | → `workflows/collections-manage.md` (sections 5–8) |
+| Highlights, best moments, clips of a saved video | → `workflows/highlights-manage.md` |
+| Delete a collection / saved video / highlights | → confirm first, then the matching workflow |
 
 Bare "summarize this URL" is **not** this skill — hand off to `bibi`.
 
@@ -57,4 +59,4 @@ bibi notes list --limit 20 --json
 bibi collections list --scope all --json
 ```
 
-Full flags: `references/cli.md`. MCP names: `list_saved_videos`, `search_saved_videos`, `get_saved_video`, `list_notes`, `get_note`, `update_note`, `list_collections`, `get_collection`, `create_collection`, `add_to_collection`, `generate_summary_by_prompt`, `get_collection_chat_history`, `list_collection_folders`, `move_collection`, `update_collection`, `move_collection_items`, `remove_from_collection`, `get_video_collections`.
+Full flags: `references/cli.md`. MCP names: `list_saved_videos`, `search_saved_videos`, `get_saved_video`, `list_notes`, `get_note`, `update_note`, `list_collections`, `get_collection`, `create_collection`, `add_to_collection`, `generate_summary_by_prompt`, `get_collection_chat_history`, `list_collection_folders`, `move_collection`, `update_collection`, `move_collection_items`, `remove_from_collection`, `get_video_collections`, `delete_collection`, `update_collection_summary`, `delete_saved_video`, `list_highlighted_videos`, `get_video_highlights`, `add_highlight`, `set_highlight_comment`, `delete_highlights`.

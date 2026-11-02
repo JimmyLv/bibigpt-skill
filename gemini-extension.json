@@ -1,6 +1,6 @@
 {
   "name": "bibigpt",
-  "version": "2.13.0",
+  "version": "2.14.0",
   "description": "Summarize, transcribe and search YouTube, Bilibili, TikTok and podcast videos with the hosted BibiGPT MCP server.",
   "mcpServers": {
     "bibigpt": {

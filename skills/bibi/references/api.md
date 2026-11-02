@@ -293,6 +293,8 @@ curl -s "https://api.bibigpt.co/api/v1/library/search?keyword=AI%20agents&limit=
 # → { "results": [{ "contentId":..., "title":..., "snippet":..., "matchType":"note" }], "count": 7 }
 ```
 
+Delete: `POST /v1/library/remove` (`delete_saved_video`, write scope) removes the video with its note and highlights.
+
 MCP tool: `search_saved_videos`. Searches title + note (ILIKE) in parallel with subtitle full-text (Postgres `websearch_to_tsquery`). Subtitle hits include the matched segment's `timestamp` so the agent can deep-link into the moment.
 
 ### Advanced tools
@@ -352,6 +354,8 @@ curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
 | `/v1/collections/moveItems` | POST | `move_collection_items` | Move or copy items between collections (write scope) |
 | `/v1/collections/removeItems` | POST | `remove_from_collection` | Take items out of a collection; videos stay in the library (write scope) |
 | `/v1/collections/forContent` | GET | `get_video_collections` | Which collections hold a saved video |
+| `/v1/collections/remove` | POST | `delete_collection` | Delete a collection; sub-folders go too (write scope) |
+| `/v1/collections/updateSummary` | POST | `update_collection_summary` | Replace the aggregated summary (write scope) |
 
 `create` also takes an optional `parentId` to create a sub-folder.
 
@@ -383,6 +387,20 @@ curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
 | `/v1/channels/createFolder` | POST | `create_channel_folder` | Create a folder, optional `parentId` (write scope) |
 | `/v1/channels/moveFolder` | POST | `move_channel_folder` | Move a folder; `newParentId: null` = top level (write scope) |
 | `/v1/channels/setFolder` | POST | `set_channel_folder` | Put a channel into a folder; `folderId: null` = Uncategorized (write scope) |
+| `/v1/channels/deleteFolder` | POST | `delete_channel_folder` | Delete a folder and its sub-folders; channels go to Uncategorized (write scope) |
+| `/v1/channels/getNote` | GET | `get_channel_note` | The user's private note on a channel |
+| `/v1/channels/setNote` | POST | `set_channel_note` | Replace the note, max 500 chars (write scope) |
+| `/v1/channels/setStarred` | POST | `set_channel_starred` | Special follow on / off (write scope) |
+
+### Highlights
+
+| Endpoint | Method | MCP tool | Purpose |
+|---|---|---|---|
+| `/v1/highlights/videos` | GET | `list_highlighted_videos` | Videos with highlights (`source=topics` for AI topics) |
+| `/v1/highlights/get` | GET | `get_video_highlights` | Highlights + cached AI topics of one saved video |
+| `/v1/highlights/add` | POST | `add_highlight` | Highlight a moment by `timestamp` seconds (write scope) |
+| `/v1/highlights/setComment` | POST | `set_highlight_comment` | Change a highlight's comment (write scope) |
+| `/v1/highlights/remove` | POST | `delete_highlights` | Delete listed highlights, or `all: true` (write scope) |
 
 ### Feed
 

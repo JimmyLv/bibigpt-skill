@@ -11,6 +11,7 @@ Use when the user wants to organize saved videos into collections — think Pint
 - "把这个视频加进 X 合集"
 - "Open my purchased collections"
 - "Tidy up my collections" / "整理一下我的合集"
+- "Delete this collection" / "删掉这个合集"
 - "Move this folder to the top level" / "把这个文件夹移到根目录"
 - "Rename this collection" / "把这几条移到另一个合集"
 
@@ -103,7 +104,32 @@ bibi collections for-content --contentId <contentId> --json   # which collection
 2. Show the user the plan as a short before → after list (which folders move, which items go where).
 3. Apply only after the user agrees. Report what changed and anything that was skipped.
 
-Deleting a collection is not available to agents; send the user to the web app for that.
+### 9. Delete a collection
+
+```bash
+bibi collections remove --collectionId <id> --json
+```
+
+Sub-folders inside it are deleted with it (check `collections folders` first and name them to the user). The videos stay in the library.
+
+### 10. Write the collection summary yourself
+
+`aggregatedSummary` can be replaced with your own Markdown:
+
+```bash
+bibi collections update-summary --collectionId <id> --summary "## Themes ..." --json
+```
+
+### No one-click shortcuts — compose them
+
+The web app has buttons that spend credits on bulk jobs. Agents do the same with the tools above:
+
+- **Summarize a batch of links into a collection**: for each URL, `bibi summarize <URL> --json` (or `summarize_video`), then `collections add-item --contentId <id>`. Tell the user how many links you will summarize before you start; each summary uses their quota.
+- **Rebuild the collection summary**: `collections get`, then `library get` for each item to read its summary, write the cross-video summary yourself, and save it with `collections update-summary`.
+
+## Deleting
+
+Deletes cannot be undone. Before any delete, tell the user exactly what goes (names, how many items, sub-folders) and wait for an explicit yes. Never delete as a side effect of "tidy up" unless the user asked for deletion.
 
 ## Error handling
 
@@ -119,6 +145,6 @@ For lists, render a Markdown table with name + videoCount + ownership badge. For
 
 ## Notes
 
-- `create`, `add-item`, `move`, `update`, `move-items`, `remove-items` are **mutations** (write scope).
+- `create`, `add-item`, `move`, `update`, `move-items`, `remove-items`, `remove`, `update-summary` are **mutations** (write scope).
 - `list` is cursor-paginated by effective-created-at across owned + purchased collections.
 - `aggregatedSummary` is populated by a background job; `null` for newly-created collections.

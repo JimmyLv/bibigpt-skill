@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "bibi",
-  "version": "2.13.0",
+  "version": "2.14.0",
   "description": "Summarize, transcribe and search YouTube, Bilibili, TikTok, podcasts and local videos from your agent: timestamped transcripts, chapter summaries, saved-video library, channel feeds and on-screen vision via the hosted BibiGPT MCP server and 4 skills.",
   "author": {
     "name": "BibiGPT",

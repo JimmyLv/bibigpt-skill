@@ -12,7 +12,7 @@
       "name": "bibi",
       "source": "./",
       "description": "Summarize and transcribe YouTube, Bilibili, TikTok and podcast videos with the hosted BibiGPT MCP server and 4 skills.",
-      "version": "2.13.0",
+      "version": "2.14.0",
       "category": "productivity",
       "homepage": "https://bibigpt.co/mcp?utm_source=claude-plugin&utm_medium=agent-plugin"
     }

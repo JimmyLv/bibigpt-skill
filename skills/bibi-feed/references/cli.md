@@ -11,6 +11,10 @@ bibi channels folders --json
 bibi channels create-folder --name "AI" --json
 bibi channels move-folder --folderId <id> --newParentId null --json
 bibi channels set-folder --channelId <id> --folderId <folderId> --json
+bibi channels delete-folder --folderId <id> --json
+bibi channels get-note --channelUrl "https://..." --json
+bibi channels set-note --channelUrl "https://..." --note "..." --json
+bibi channels set-starred --channelId <id> --starred true --json
 
 bibi feed --json
 bibi feed --since 2026-05-01 --limit 50 --json
@@ -21,4 +25,4 @@ bibi feed-mark-seen --channelUrl "https://..." --json
 
 `subscribe` / `unsubscribe` / `feed-mark-seen` are writes. `list` / `videos` / `feed` are reads.
 
-MCP tools: `list_channels`, `subscribe_channel`, `unsubscribe_channel`, `get_channel_videos`, `get_latest_feed`, `get_channel_health`, `mark_feed_seen`, `list_channel_folders`, `create_channel_folder`, `move_channel_folder`, `set_channel_folder`.
+MCP tools: `list_channels`, `subscribe_channel`, `unsubscribe_channel`, `get_channel_videos`, `get_latest_feed`, `get_channel_health`, `mark_feed_seen`, `list_channel_folders`, `create_channel_folder`, `move_channel_folder`, `set_channel_folder`, `delete_channel_folder`, `get_channel_note`, `set_channel_note`, `set_channel_starred`.

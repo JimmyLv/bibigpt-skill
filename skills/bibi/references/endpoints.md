@@ -32,6 +32,17 @@ curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
   "https://api.bibigpt.co/api/v1/channels/createFolder"
 ```
 
+### `POST /v1/channels/deleteFolder`
+
+> Delete a channel folder
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ ... }' \
+  "https://api.bibigpt.co/api/v1/channels/deleteFolder"
+```
+
 ### `GET /v1/channels/folders`
 
 > List the folder tree of subscribed channels
@@ -39,6 +50,19 @@ curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
 ```bash
 curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
   "https://api.bibigpt.co/api/v1/channels/folders"
+```
+
+### `GET /v1/channels/getNote`
+
+> Read the user's note on a channel
+
+| Param | Type | Required | Description |
+|---|---|---|---|
+| `channelUrl` | string | yes |  |
+
+```bash
+curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  "https://api.bibigpt.co/api/v1/channels/getNote?channelUrl=<channelUrl>"
 ```
 
 ### `GET /v1/channels/list`
@@ -70,6 +94,28 @@ curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{ ... }' \
   "https://api.bibigpt.co/api/v1/channels/setFolder"
+```
+
+### `POST /v1/channels/setNote`
+
+> Write the user's note on a channel
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ ... }' \
+  "https://api.bibigpt.co/api/v1/channels/setNote"
+```
+
+### `POST /v1/channels/setStarred`
+
+> Mark a subscribed channel as special follow
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ ... }' \
+  "https://api.bibigpt.co/api/v1/channels/setStarred"
 ```
 
 ### `POST /v1/channels/subscribe`
@@ -215,6 +261,17 @@ curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
   "https://api.bibigpt.co/api/v1/collections/moveItems"
 ```
 
+### `POST /v1/collections/remove`
+
+> Delete a collection
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ ... }' \
+  "https://api.bibigpt.co/api/v1/collections/remove"
+```
+
 ### `POST /v1/collections/removeItems`
 
 > Remove items from a collection
@@ -235,6 +292,17 @@ curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{ ... }' \
   "https://api.bibigpt.co/api/v1/collections/update"
+```
+
+### `POST /v1/collections/updateSummary`
+
+> Replace a collection's aggregated summary
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ ... }' \
+  "https://api.bibigpt.co/api/v1/collections/updateSummary"
 ```
 
 ### `GET /v1/feed`
@@ -261,6 +329,66 @@ curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{ ... }' \
   "https://api.bibigpt.co/api/v1/feed/markSeen"
+```
+
+### `POST /v1/highlights/add`
+
+> Highlight a moment of a saved video
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ ... }' \
+  "https://api.bibigpt.co/api/v1/highlights/add"
+```
+
+### `GET /v1/highlights/get`
+
+> Read a saved video's highlights and AI highlight topics
+
+| Param | Type | Required | Description |
+|---|---|---|---|
+| `contentId` | string | yes | Saved video id (list_saved_videos / search_saved_videos `id`). |
+
+```bash
+curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  "https://api.bibigpt.co/api/v1/highlights/get?contentId=<contentId>"
+```
+
+### `POST /v1/highlights/remove`
+
+> Delete highlights of a saved video
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ ... }' \
+  "https://api.bibigpt.co/api/v1/highlights/remove"
+```
+
+### `POST /v1/highlights/setComment`
+
+> Change the comment on a highlight
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ ... }' \
+  "https://api.bibigpt.co/api/v1/highlights/setComment"
+```
+
+### `GET /v1/highlights/videos`
+
+> List saved videos that have highlights
+
+| Param | Type | Required | Description |
+|---|---|---|---|
+| `source` | string | no |  |
+| `limit` | integer | no |  |
+
+```bash
+curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  "https://api.bibigpt.co/api/v1/highlights/videos?source=<source>&limit=<limit>"
 ```
 
 ### `GET /v1/library/get`
@@ -291,6 +419,17 @@ curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
 ```bash
 curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
   "https://api.bibigpt.co/api/v1/library/list?limit=<limit>&cursor=<cursor>&channelId=<channelId>&sortBy=<sortBy>&sortOrder=<sortOrder>"
+```
+
+### `POST /v1/library/remove`
+
+> Delete a saved video from the library
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ ... }' \
+  "https://api.bibigpt.co/api/v1/library/remove"
 ```
 
 ### `GET /v1/library/search`

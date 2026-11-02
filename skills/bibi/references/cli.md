@@ -103,6 +103,10 @@ bibi channels folders --json
 bibi channels create-folder --name "AI" --json
 bibi channels move-folder --folderId <id> --newParentId null --json
 bibi channels set-folder --channelId <id> --folderId <folderId> --json
+bibi channels delete-folder --folderId <id> --json
+bibi channels get-note --channelUrl "https://..." --json
+bibi channels set-note --channelUrl "https://..." --note "..." --json
+bibi channels set-starred --channelId <id> --starred true --json
 ```
 
 `subscribe` / `unsubscribe` are mutations (write scope); `list` / `videos` are read-only.
@@ -132,6 +136,14 @@ bibi collections update --collectionId <id> --name "..." --json
 bibi collections move-items --sourceCollectionId <a> --targetCollectionId <b> --contentIds '["id1"]' --json
 bibi collections remove-items --collectionId <id> --contentIds '["id1"]' --json
 bibi collections for-content --contentId <contentId> --json
+bibi library remove --contentId <contentId> --json            # deletes video + note + highlights
+bibi collections remove --collectionId <id> --json             # sub-folders go too
+bibi collections update-summary --collectionId <id> --summary "..." --json
+bibi highlights videos --json
+bibi highlights get --contentId <contentId> --json
+bibi highlights add --contentId <contentId> --timestamp 754 --comment "..." --json
+bibi highlights set-comment --contentId <id> --scope <s> --sectionId <sec> --highlightId <h> --comment "..." --json
+bibi highlights remove --contentId <id> --all true --json
 ```
 
 ### Notes

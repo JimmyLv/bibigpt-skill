@@ -82,3 +82,11 @@ Stop when `nextCursor` is `null`.
 
 - User says "summarize this one again" → take `sourceUrl` from a list item, call `bibi summarize <URL>`
 - User says "what was that video about X" → `library.search --keyword X`, then `library.get --id <id>` on the most relevant hit
+
+## Delete a saved video
+
+```bash
+bibi library remove --contentId <contentId> --json
+```
+
+Removes the video together with its note, highlights and any uploaded file. Cannot be undone: name the video to the user and wait for a yes.

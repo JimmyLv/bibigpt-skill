@@ -100,6 +100,7 @@ install via `bibi skill`), fetch it from the raw URL above instead.
 | What's new across my subscriptions, latest feed, daily digest | → sibling skill `bibi-feed` (fallback: `workflows/feed-latest.md`) |
 | Manage collections, list/create/share saved videos as a set | → sibling skill `bibi-library` (fallback: `workflows/collections-manage.md`) |
 | Manage personal notes on saved videos, edit summaries | → sibling skill `bibi-library` (fallback: `workflows/notes-manage.md`) |
+| Highlights / best moments of a saved video | → sibling skill `bibi-library` (fallback: `workflows/highlights-manage.md`) |
 | Custom-prompt re-summary of a **saved** item, collection chat | → sibling skill `bibi-library` (fallback: `workflows/advanced-tools.md`) |
 | **HTTP 402 / "需要付款" / Alipay AI 钱包 / no token + China user** | → `references/billing-aipay.md` |
 
