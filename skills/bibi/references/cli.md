@@ -99,6 +99,10 @@ bibi channels list --json
 bibi channels subscribe --channelUrl "https://www.youtube.com/@..." --json
 bibi channels unsubscribe --channelUrl "https://www.youtube.com/@..." --json
 bibi channels videos --channelUrl "https://..." --limit 10 --json
+bibi channels folders --json
+bibi channels create-folder --name "AI" --json
+bibi channels move-folder --folderId <id> --newParentId null --json
+bibi channels set-folder --channelId <id> --folderId <folderId> --json
 ```
 
 `subscribe` / `unsubscribe` are mutations (write scope); `list` / `videos` are read-only.
@@ -121,6 +125,13 @@ bibi collections get --id <collectionId> --json
 bibi collections create --name "AI Agents 2026" --isPublic false --json     # write scope
 bibi collections add-item --collectionId <id> --contentId <contentId> --json # write scope
 bibi collections add-item --collectionId <id> --sourceUrl "https://..." --json
+bibi collections folders --json
+bibi collections create --name "Agents" --parentId <folderId> --json
+bibi collections move --collectionId <id> --newParentId null --json   # null = top level
+bibi collections update --collectionId <id> --name "..." --json
+bibi collections move-items --sourceCollectionId <a> --targetCollectionId <b> --contentIds '["id1"]' --json
+bibi collections remove-items --collectionId <id> --contentIds '["id1"]' --json
+bibi collections for-content --contentId <contentId> --json
 ```
 
 ### Notes

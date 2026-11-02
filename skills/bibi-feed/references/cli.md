@@ -7,6 +7,10 @@ bibi channels list --json
 bibi channels subscribe --channelUrl "https://www.youtube.com/@..." --json
 bibi channels unsubscribe --channelUrl "https://www.youtube.com/@..." --json
 bibi channels videos --channelUrl "https://..." --limit 10 --json
+bibi channels folders --json
+bibi channels create-folder --name "AI" --json
+bibi channels move-folder --folderId <id> --newParentId null --json
+bibi channels set-folder --channelId <id> --folderId <folderId> --json
 
 bibi feed --json
 bibi feed --since 2026-05-01 --limit 50 --json
@@ -17,4 +21,4 @@ bibi feed-mark-seen --channelUrl "https://..." --json
 
 `subscribe` / `unsubscribe` / `feed-mark-seen` are writes. `list` / `videos` / `feed` are reads.
 
-MCP tools: `list_channels`, `subscribe_channel`, `unsubscribe_channel`, `get_channel_videos`, `get_latest_feed`, `get_channel_health`, `mark_feed_seen`.
+MCP tools: `list_channels`, `subscribe_channel`, `unsubscribe_channel`, `get_channel_videos`, `get_latest_feed`, `get_channel_health`, `mark_feed_seen`, `list_channel_folders`, `create_channel_folder`, `move_channel_folder`, `set_channel_folder`.

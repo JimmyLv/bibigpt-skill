@@ -1,6 +1,6 @@
 {
   "name": "bibi",
-  "version": "2.12.0",
+  "version": "2.13.0",
   "description": "Video summarizer for Claude: summarize, transcribe and search YouTube, Bilibili, TikTok, podcasts and local videos through the hosted BibiGPT MCP server and 4 skills (bibi, bibi-library, bibi-feed, bibi-vision).",
   "author": {
     "name": "BibiGPT",

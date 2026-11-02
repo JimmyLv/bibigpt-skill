@@ -346,6 +346,14 @@ curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
 | `/v1/collections/get` | GET | `get_collection` | Detail incl. items + aggregatedSummary |
 | `/v1/collections/create` | POST | `create_collection` | Create new collection (write scope) |
 | `/v1/collections/addItem` | POST | `add_to_collection` | Add saved video to collection (write scope) |
+| `/v1/collections/folders` | GET | `list_collection_folders` | Folder tree of owned collections (`parentId` null = top level) |
+| `/v1/collections/move` | POST | `move_collection` | Move a folder under another, or `newParentId: null` for top level (write scope) |
+| `/v1/collections/update` | POST | `update_collection` | Rename / description / emoji / `isPublic` (write scope) |
+| `/v1/collections/moveItems` | POST | `move_collection_items` | Move or copy items between collections (write scope) |
+| `/v1/collections/removeItems` | POST | `remove_from_collection` | Take items out of a collection; videos stay in the library (write scope) |
+| `/v1/collections/forContent` | GET | `get_video_collections` | Which collections hold a saved video |
+
+`create` also takes an optional `parentId` to create a sub-folder.
 
 ```bash
 # List owned + purchased
@@ -358,7 +366,23 @@ curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
   -d '{"name":"AI Agents 2026","description":"Best of","isPublic":false}' \
   "https://api.bibigpt.co/api/v1/collections/create"
 # → { "id": "..." }
+
+# Move a sub-folder to the top level
+curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"collectionId":"...","newParentId":null}' \
+  "https://api.bibigpt.co/api/v1/collections/move"
+# → { "success": true }
 ```
+
+### Channel folders
+
+| Endpoint | Method | MCP tool | Purpose |
+|---|---|---|---|
+| `/v1/channels/folders` | GET | `list_channel_folders` | Folder tree for subscribed channels |
+| `/v1/channels/createFolder` | POST | `create_channel_folder` | Create a folder, optional `parentId` (write scope) |
+| `/v1/channels/moveFolder` | POST | `move_channel_folder` | Move a folder; `newParentId: null` = top level (write scope) |
+| `/v1/channels/setFolder` | POST | `set_channel_folder` | Put a channel into a folder; `folderId: null` = Uncategorized (write scope) |
 
 ### Feed
 

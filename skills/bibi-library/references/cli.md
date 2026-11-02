@@ -19,8 +19,15 @@ bibi collections get --id <collectionId> --json
 bibi collections create --name "AI Agents 2026" --isPublic false --json
 bibi collections add-item --collectionId <id> --contentId <contentId> --json
 bibi collections chat-history --collectionId <id> --json
+bibi collections folders --json
+bibi collections create --name "Agents" --parentId <folderId> --json
+bibi collections move --collectionId <id> --newParentId null --json   # null = top level
+bibi collections update --collectionId <id> --name "..." --json
+bibi collections move-items --sourceCollectionId <a> --targetCollectionId <b> --contentIds '["id1"]' --json
+bibi collections remove-items --collectionId <id> --contentIds '["id1"]' --json
+bibi collections for-content --contentId <contentId> --json
 
 bibi summary by-prompt --contentId <id> --customPrompt "..." --json
 ```
 
-MCP tools: `list_saved_videos`, `get_saved_video`, `search_saved_videos`, `list_notes`, `get_note`, `update_note`, `generate_summary_by_prompt`, `list_collections`, `get_collection`, `create_collection`, `add_to_collection`, `get_collection_chat_history`.
+MCP tools: `list_saved_videos`, `get_saved_video`, `search_saved_videos`, `list_notes`, `get_note`, `update_note`, `generate_summary_by_prompt`, `list_collections`, `get_collection`, `create_collection`, `add_to_collection`, `get_collection_chat_history`, `list_collection_folders`, `move_collection`, `update_collection`, `move_collection_items`, `remove_from_collection`, `get_video_collections`.
