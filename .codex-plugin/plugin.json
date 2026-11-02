@@ -1,6 +1,6 @@
 {
   "name": "bibi",
-  "version": "2.14.0",
+  "version": "2.14.1",
   "description": "Video summarizer agent skill / Codex plugin for YouTube, Bilibili, and podcasts via BibiGPT.",
   "author": {
     "name": "BibiGPT",

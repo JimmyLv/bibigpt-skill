@@ -1,7 +1,7 @@
 {
   "name": "bibi",
   "displayName": "BibiGPT",
-  "version": "2.14.0",
+  "version": "2.14.1",
   "description": "Summarize, transcribe and search YouTube, Bilibili, TikTok, podcasts and local videos from your agent: timestamped transcripts, chapter summaries, saved-video library, channel feeds and on-screen vision via the hosted BibiGPT MCP server and 4 skills.",
   "author": {
     "name": "BibiGPT",

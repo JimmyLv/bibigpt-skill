@@ -349,7 +349,7 @@ curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
 | `/v1/collections/create` | POST | `create_collection` | Create new collection (write scope) |
 | `/v1/collections/addItem` | POST | `add_to_collection` | Add saved video to collection (write scope) |
 | `/v1/collections/folders` | GET | `list_collection_folders` | Folder tree of owned collections (`parentId` null = top level) |
-| `/v1/collections/move` | POST | `move_collection` | Move a folder under another, or `newParentId: null` for top level (write scope) |
+| `/v1/collections/move` | POST | `move_collection` | Move a folder under another, or `newParentId: null` for top level; optional `position` among siblings (write scope) |
 | `/v1/collections/update` | POST | `update_collection` | Rename / description / emoji / `isPublic` (write scope) |
 | `/v1/collections/moveItems` | POST | `move_collection_items` | Move or copy items between collections (write scope) |
 | `/v1/collections/removeItems` | POST | `remove_from_collection` | Take items out of a collection; videos stay in the library (write scope) |

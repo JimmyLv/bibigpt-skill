@@ -74,6 +74,14 @@ bibi collections move --collectionId <id> --newParentId <folderId> --json
 bibi collections move --collectionId <id> --newParentId null --json     # move to the top level
 ```
 
+Add `--position <n>` to place it among its new siblings (0 = first; a number past the end = last). To only reorder, pass the folder's current `parentId` with `--position`:
+
+```bash
+bibi collections move --collectionId <id> --newParentId null --position 0 --json   # first at the top level
+```
+
+`collections folders` returns `sortOrder` (custom order among siblings; `null` = never reordered, shown after the others, newest first).
+
 A folder moves together with its sub-folders. The server rejects moving a folder into itself or one of its own sub-folders, and moves that would go deeper than 4 levels.
 
 ### 7. Rename or edit a collection
