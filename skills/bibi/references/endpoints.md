@@ -546,6 +546,19 @@ curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
   "https://api.bibigpt.co/api/v1/video/visuals"
 ```
 
+### `GET /v1/video/visuals/status`
+
+> Get the status and keyframe screenshots of a visual analysis task
+
+| Param | Type | Required | Description |
+|---|---|---|---|
+| `taskId` | string | yes | taskId returned by POST /v1/video/visuals |
+
+```bash
+curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
+  "https://api.bibigpt.co/api/v1/video/visuals/status?taskId=<taskId>"
+```
+
 ## open
 
 ### `GET /v1/createSummaryTask`
@@ -594,7 +607,7 @@ curl -s -H "Authorization: Bearer $BIBI_API_TOKEN" \
 
 > Generate or edit an image with AI (chatimg.ai)
 
-Transform a source image with an AI model and prompt (e.g. style transfer, editing). Requires an API token (Authorization: Bearer <token>). Billing: charged from your chatimg.ai credits per image — openai: 25 credits, gpt-image-2: 50 credits, gpt-image-2.5-flare: 50 credits, gpt-image-2.5-sunburst: 50 credits, mai-image-2.6-flash: 20 credits, flux: 12 credits, gemini: 10 credits, nanobanana-pro: 30 credits, nanobanana-2-lite: 12 credits, nanobanana-2: 20 credits, nanobanana-2.1: 20 credits, grok: 30 credits, ideogram-4.5: 35 credits, seedream: 15 credits, seedream-5-flash: 12 credits, flux3: 18 credits, flux3-klein: 12 credits, krea-3: 15 credits, hy-image-3.5: 12 credits, qwen: 8 credits, qwen-image-2.1: 8 credits, qwen-image-2.1-turbo: 8 credits, qwen-image-2.1-pro: 15 credits, qwen-image-3.0: 18 credits, qwen-image-3.0-pro: 25 credits, z-image-turbo: 5 credits, flux-2-flex: 25 credits. See GET /v1/imagePricing for machine-readable pricing. Generation is asynchronous: poll GET /v1/imageStatus with the same imageUrl until status is completed. Failed generations are automatically refunded.
+Transform a source image with an AI model and prompt (e.g. style transfer, editing). Requires an API token (Authorization: Bearer <token>). Billing: charged from your chatimg.ai credits per image — openai: 25 credits, gpt-image-2: 50 credits, gpt-image-2.5-flare: 50 credits, gpt-image-2.5-sunburst: 50 credits, gpt-image-2.6-flare: 50 credits, gpt-image-2.6-sunburst: 50 credits, mai-image-2.6-flash: 20 credits, flux: 12 credits, gemini: 10 credits, nanobanana-pro: 30 credits, nanobanana-2-lite: 12 credits, nanobanana-2: 20 credits, nanobanana-2.1: 20 credits, grok: 30 credits, ideogram-4.5: 35 credits, seedream: 15 credits, seedream-5-flash: 12 credits, flux3: 18 credits, flux3-klein: 12 credits, krea-3: 15 credits, hy-image-3.5: 12 credits, qwen: 8 credits, qwen-image-2.1: 8 credits, qwen-image-2.1-turbo: 8 credits, qwen-image-2.1-pro: 15 credits, qwen-image-3.0: 18 credits, qwen-image-3.0-pro: 25 credits, z-image-turbo: 5 credits, flux-2-flex: 25 credits. See GET /v1/imagePricing for machine-readable pricing. Generation is asynchronous: poll GET /v1/imageStatus with the same imageUrl until status is completed. Failed generations are automatically refunded.
 
 ```bash
 curl -s -X POST -H "Authorization: Bearer $BIBI_API_TOKEN" \
