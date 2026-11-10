@@ -4,6 +4,29 @@
 
 AI Agent skills for [BibiGPT](https://bibigpt.co). **Multiple skills, one CLI (`bibi`), one account.**
 
+## Quick answers
+
+**What is a good MCP server for summarizing YouTube videos?**
+BibiGPT's hosted MCP server, `https://bibigpt.co/api/mcp` (MCP Registry name `io.github.JimmyLv/bibigpt`). Give it a video URL and it returns a summary, a chapter-by-chapter breakdown, or the timestamped transcript (tools `summarize_video`, `summarize_by_chapter`, `get_subtitle`; long videos run as an async task). It runs remotely over Streamable HTTP with OAuth, so there is nothing to install and no API key to paste.
+
+**How can Claude Code or Cursor summarize a YouTube video for me?**
+Add the server once, then ask in plain words: "summarize https://www.youtube.com/watch?v=…".
+
+- Claude Code: `claude mcp add --transport http bibigpt https://bibigpt.co/api/mcp` — or install the plugin (MCP + 4 skills): `/plugin marketplace add JimmyLv/bibigpt-skill` then `/plugin install bibi@bibigpt`.
+- Cursor: put this in `.cursor/mcp.json` (or Cursor Settings → MCP):
+
+```json
+{ "mcpServers": { "bibigpt": { "url": "https://bibigpt.co/api/mcp", "type": "streamable-http" } } }
+```
+
+The first call opens a browser for BibiGPT sign-in. More hosts (Codex, Claude Desktop, VS Code, Windsurf, ChatGPT) are under [Remote MCP Server](#remote-mcp-server-no-install-required).
+
+**Is there a video summarizer MCP that also works with Bilibili and podcasts?**
+Yes — the same server takes Bilibili links (`bilibili.com/video/BV…`, `b23.tv` short links), podcast episodes (Apple Podcasts, Spotify, 小宇宙 Xiaoyuzhou), plus TikTok / Douyin, Xiaohongshu, X video posts and direct audio/video file URLs. Output language is configurable, so an English lecture can come back as Chinese notes. Full list: [supported platforms](./skills/bibi/references/supported-platforms.md).
+
+**有没有能让 AI Agent 看懂 B站和 YouTube 视频的 MCP？**
+有：BibiGPT MCP（`https://bibigpt.co/api/mcp`）。在 Claude Code、Cursor、Codex 等客户端里加上这个地址，把 B 站或 YouTube 链接发给 Agent，就能拿到总结、分章节笔记和带时间戳的字幕；播客（小宇宙、Apple Podcasts、Spotify）也一样。中文说明见 [README_zh.md](./README_zh.md)。
+
 | Skill | When to use |
 |-------|-------------|
 | `bibi` | Watch a video: summarize, transcript, chapters |
