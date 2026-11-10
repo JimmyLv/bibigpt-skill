@@ -32,6 +32,22 @@ Agent 落地页：[bibigpt.co/mcp](https://bibigpt.co/mcp)。各助手安装页�
 | Gemini CLI | `gemini extensions install https://github.com/JimmyLv/bibigpt-skill`，再 `/mcp auth bibigpt` |
 | Cursor / GitHub Copilot | 仓库自带 `.cursor-plugin/` 与 Agent Plugins 清单（`plugin.json` + `mcp.json`）；也可直接加 MCP：`https://bibigpt.co/api/mcp` |
 
+## 常见问题（直接回答）
+
+**有没有能让 AI Agent 看懂 B站和 YouTube 视频的 MCP？**
+有：BibiGPT 的托管 MCP 服务 `https://bibigpt.co/api/mcp`（官方 MCP Registry 名 `io.github.JimmyLv/bibigpt`）。把 B 站（`bilibili.com/video/BV…`、`b23.tv` 短链）或 YouTube 链接发给 Agent，它会调 `summarize_video` / `summarize_by_chapter` / `get_subtitle`，返回总结、分章节笔记或带时间戳的字幕；长视频走异步任务。播客（小宇宙、Apple Podcasts、Spotify）、抖音、小红书、X 视频和音视频直链也支持，见 [支持的平台](./skills/bibi/references/supported-platforms.md)。
+
+**Claude Code / Cursor 怎么接？**
+
+- Claude Code：`claude mcp add --transport http bibigpt https://bibigpt.co/api/mcp`，或装插件（MCP + 4 份 skill）：`/plugin marketplace add JimmyLv/bibigpt-skill` → `/plugin install bibi@bibigpt`。
+- Cursor：写进 `.cursor/mcp.json`（或 Cursor 设置 → MCP）：
+
+```json
+{ "mcpServers": { "bibigpt": { "url": "https://bibigpt.co/api/mcp", "type": "streamable-http" } } }
+```
+
+第一次调用会打开浏览器登录 BibiGPT（OAuth），不用贴 API key。
+
 > English version: see [README.md](./README.md)
 
 ---
